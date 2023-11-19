@@ -1,3 +1,25 @@
+$themes: (
+ light: (
+   text: #180202,
+   background: #b4dbf8,
+   primary: #4d5eff,
+   secondary: #e6e6e5,
+   accent: #eeff00,
+ ),
+ dark: (
+   text: #fde7e7,
+   background: #072d4b,
+   primary: #0012b3,
+   secondary: #1a1a19,
+   accent: #eeff00,
+ ),
+);
+
 html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.articlePost {
+  border: 1px solid black;
+  padding: 0.5em;
 }

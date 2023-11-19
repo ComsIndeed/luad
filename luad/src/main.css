@@ -1,3 +1,8 @@
 html {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.articlePost {
+  border: 1px solid black;
+  padding: 0.5em;
 }/*# sourceMappingURL=main.css.map */
