@@ -11,7 +11,7 @@ export default function App() {
   return (
     <>
     {/* <NavigationBar /> */}
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.DEV ? '/' : '/react-vite-gh-pages/'}>
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/GetStarted" element={<LandingPage />} />
