@@ -40,6 +40,18 @@ html {
   align-items: center;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 .header {
   width: 95vw;
   height: 24em;
@@ -63,7 +75,7 @@ html {
     height: 24em;
     background-color: rgba(15, 0, 31, 0.7);
   }
-  
+
   & * {
     z-index: 1;
   }
@@ -74,17 +86,20 @@ html {
     background-image: url("./assets/luad.png");
     background-size: cover;
   }
+
   h1 {
     font-size: 3.5em;
     font-family: "Playfair Display SC";
     color: gold;
   }
+
   p {
     font-size: 1.25em;
     width: 25%;
     text-align: center;
     font-family: "Playfair Display SC";
   }
+
   button {
     background-color: rgba(15, 0, 31, 0.4);
     border: none;
@@ -103,10 +118,82 @@ html {
   }
 }
 
-.articlePost {
-  border: 1px solid black;
-  padding: 0.5em;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.contents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+
+  .categoryPanel {
+    height: 2em;
+
+    button {
+      background: none;
+      border: none;
+      font-size: 1.25em;
+      margin: 0 0.5em;
+      padding: 2px;
+      cursor: pointer;
+      transition: border-bottom 0.1s ease-in;
+      border-bottom: 1px solid rgba(0,0,0, 0.5);
+
+      &.isSelected {
+        border-bottom: 3px solid rgba(0,0,0, 1);
+      }
+    }
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // =========================
 // AI CODE

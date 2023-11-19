@@ -10,7 +10,7 @@ import { NavigationBar } from "./Components";
 export default function App() {
   return (
     <>
-    <NavigationBar />
+    {/* <NavigationBar /> */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Homepage />} />

@@ -19,6 +19,11 @@ function Header() {
 
 function HomepageContent() {
   const [articlePosts, setArticlePosts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("Home");
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event);
+  };
 
   const getArticlePosts = async () => {
     try {
@@ -38,11 +43,55 @@ function HomepageContent() {
   }, []);
 
   return (
-    <>
-      <div className="content">
+    <div className="contents">
+      <div className="categoryPanel">
+        <button
+          onClick={() => handleCategoryChange("Home")}
+          className={selectedCategory === "Home" ? "isSelected" : ""}
+        >
+          Home
+        </button>
+
+        <button
+          onClick={() => handleCategoryChange("Articles")}
+          className={selectedCategory === "Articles" ? "isSelected" : ""}
+        >
+          Articles
+        </button>
+
+        <button
+          onClick={() => handleCategoryChange("Editorials")}
+          className={selectedCategory === "Editorials" ? "isSelected" : ""}
+        >
+          Editorials
+        </button>
+
+        <button
+          onClick={() => handleCategoryChange("Sports")}
+          className={selectedCategory === "Sports" ? "isSelected" : ""}
+        >
+          Sports
+        </button>
+
+        <button
+          onClick={() => handleCategoryChange("Events")}
+          className={selectedCategory === "Events" ? "isSelected" : ""}
+        >
+          Events
+        </button>
+
+        <button
+          onClick={() => handleCategoryChange("Others")}
+          className={selectedCategory === "Others" ? "isSelected" : ""}
+        >
+          Others
+        </button>
+      </div>
+
+      <div className="contentList">
         {articlePosts.map((item) => {
           return (
-            <div className="articlePost">
+            <div className="content">
               <h1> {item.title} </h1>
               <blockquote> {item.author} </blockquote>
               <p> {item.content} </p>
@@ -50,7 +99,7 @@ function HomepageContent() {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
 

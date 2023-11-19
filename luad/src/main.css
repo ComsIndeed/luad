@@ -78,9 +78,27 @@ html p {
   background-color: rgba(180, 164, 198, 0.4);
 }
 
-.articlePost {
-  border: 1px solid black;
-  padding: 0.5em;
+.contents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+.contents .categoryPanel {
+  height: 2em;
+}
+.contents .categoryPanel button {
+  background: none;
+  border: none;
+  font-size: 1.25em;
+  margin: 0 0.5em;
+  padding: 2px;
+  cursor: pointer;
+  transition: border-bottom 0.1s ease-in;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+.contents .categoryPanel button.isSelected {
+  border-bottom: 3px solid rgb(0, 0, 0);
 }
 
 /* For WebKit Browsers (Chrome, Safari) */
