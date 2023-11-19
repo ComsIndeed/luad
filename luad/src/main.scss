@@ -167,6 +167,17 @@ html {
       }
     }
   }
+
+  .contentList {
+    margin-top: 1em;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1em;
+
+    .content {
+      border: 1px solid black;
+    }
+  }
 }
 
 

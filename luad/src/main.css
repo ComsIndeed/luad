@@ -100,6 +100,15 @@ html p {
 .contents .categoryPanel button.isSelected {
   border-bottom: 3px solid rgb(0, 0, 0);
 }
+.contents .contentList {
+  margin-top: 1em;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1em;
+}
+.contents .contentList .content {
+  border: 1px solid black;
+}
 
 /* For WebKit Browsers (Chrome, Safari) */
 .header::-webkit-scrollbar {
