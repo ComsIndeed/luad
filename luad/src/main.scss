@@ -1,25 +1,129 @@
 $themes: (
- light: (
-   text: #180202,
-   background: #b4dbf8,
-   primary: #4d5eff,
-   secondary: #e6e6e5,
-   accent: #eeff00,
- ),
- dark: (
-   text: #fde7e7,
-   background: #072d4b,
-   primary: #0012b3,
-   secondary: #1a1a19,
-   accent: #eeff00,
- ),
+  light: (text: #180202,
+    background: #b4dbf8,
+    primary: #4d5eff,
+    secondary: #e6e6e5,
+    accent: #eeff00,
+  ),
+  dark: (text: #fde7e7,
+    background: #072d4b,
+    primary: #0012b3,
+    secondary: #1a1a19,
+    accent: #eeff00,
+  ),
 );
+
+@font-face {
+  font-family: "Playfair Displace SC";
+  src: url('./assets/fonts/playfairDisplaySC/PlayfairDisplaySC-Regular.ttf');
+}
 
 html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  width: 95vw;
+  height: 24em;
+  margin: 1em;
+  border-radius: 0.5em;
+
+  background-image: url('./assets/header_placeholder.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 95vw;
+    height: 24em;
+    background-color: rgba(15, 0, 31, 0.7);
+  }
+  
+  & * {
+    z-index: 1;
+  }
+
+  .icon {
+    height: 40%;
+    aspect-ratio: 1/1;
+    background-image: url("./assets/luad.png");
+    background-size: cover;
+  }
+  h1 {
+    font-size: 3.5em;
+    font-family: "Playfair Display SC";
+    color: gold;
+  }
+  p {
+    font-size: 1.25em;
+    width: 25%;
+    text-align: center;
+    font-family: "Playfair Display SC";
+  }
+  button {
+    background-color: rgba(15, 0, 31, 0.4);
+    border: none;
+    color: white;
+    padding: 0.75em;
+    transition: background-color 0.025s ease-in-out;
+    margin-right: 2em;
+    position: relative;
+    top: 2em;
+
+    align-self: flex-end;
+
+    &:active {
+      background-color: rgba(180, 164, 198, 0.4);
+    }
+  }
 }
 
 .articlePost {
   border: 1px solid black;
   padding: 0.5em;
+}
+
+// =========================
+// AI CODE
+// =========================
+
+/* For WebKit Browsers (Chrome, Safari) */
+.header::-webkit-scrollbar {
+  width: 0.5em;
+  /* adjust as needed */
+}
+
+.header::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+/* For Firefox */
+.header {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
 }
