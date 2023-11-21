@@ -1,16 +1,23 @@
 
 import { ReactDOM } from "react-dom/client";
-// import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-// import { Homepage } from "./Pages/Homepage";
-// import { LandingPage } from "./Pages/LandingPage";
+import { Homepage } from "./Pages/Homepage";
+import { LandingPage } from "./Pages/LandingPage";
 // import { NavigationBar } from "./Components";
 
+// basename={import.meta.env.DEV ? '/' : '/react-vite-gh-pages/'}
 
 export default function App() {
   return (
     <>
-      <h1>Just some basic HTML</h1>
+    {/* <NavigationBar /> */}
+      <BrowserRouter >
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/GetStarted" element={<LandingPage />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
