@@ -14,7 +14,7 @@ export default function App() {
     {/* <NavigationBar /> */}
       <BrowserRouter >
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route path="/luad" element={<Homepage />} />
           <Route path="/GetStarted" element={<LandingPage />} />
         </Routes>
       </BrowserRouter>
