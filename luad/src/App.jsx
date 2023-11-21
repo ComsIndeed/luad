@@ -1,21 +1,23 @@
-
 import { ReactDOM } from "react-dom/client";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-import { Homepage } from "./Pages/Homepage";
-import { LandingPage } from "./Pages/LandingPage";
+import { Homepage } from "./pages/Homepage";
+import { AboutPage } from "./pages/AboutPage";
 import { NavigationBar } from "./Components";
-
 
 export default function App() {
   return (
     <>
-    {/* <NavigationBar /> */}
-      <BrowserRouter >
+      <BrowserRouter>
+
+        {/* Insert components that use links here */}
+        <NavigationBar />
+
         <Routes>
           <Route path="/luad" element={<Homepage />} />
-          <Route path="/GetStarted" element={<LandingPage />} />
+          <Route path="/luad/about" element={<AboutPage />} />
         </Routes>
+
       </BrowserRouter>
     </>
   );

@@ -18,8 +18,28 @@ $themes: (
   src: url('./assets/fonts/playfairDisplaySC/PlayfairDisplaySC-Regular.ttf');
 }
 
+// ===============================================
+
+// GLOBAL CLASSES THINGIES
+html {
+  .hologramLink {
+    color: black;
+    font-style: normal;
+    padding: 0.25em;
+    border-bottom: 1px black;
+    margin: 0.25em;
+  }
+}
+
+// GENERAL STUFF
 html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  #root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   body {
     padding: 0;
@@ -34,172 +54,129 @@ html {
   }
 }
 
-#root {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+// FOR TOP NAVIGATION BAR
+html {
+  .topNav {
+    width: 100%;
+    padding: 0.3em 0em;
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
+    -webkit-box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
+    -moz-box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
+  }
 }
 
+// HEADER IMAGE THINGY
+html {
 
-
-
-
-
-
-
-
-
-
-
-
-.header {
-  width: 95vw;
-  height: 24em;
-  margin: 1em;
-  border-radius: 0.5em;
-
-  background-image: url('./assets/header_placeholder.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  &::after {
-    content: "";
-    position: absolute;
-    width: 95vw;
+  .header {
+    width: 100%;
     height: 24em;
-    background-color: rgba(15, 0, 31, 0.7);
-  }
+    margin: 0.25em 0em 2em 0em;
+    border-radius: 0em 0em 0.5em 0.5em;
 
-  & * {
-    z-index: 1;
-  }
-
-  .icon {
-    height: 40%;
-    aspect-ratio: 1/1;
-    background-image: url("./assets/luad.png");
+    background-image: url('./assets/header_placeholder.jpg');
     background-size: cover;
-  }
+    background-repeat: no-repeat;
 
-  h1 {
-    font-size: 3.5em;
-    font-family: "Playfair Display SC";
-    color: gold;
-  }
-
-  p {
-    font-size: 1.25em;
-    width: 25%;
-    text-align: center;
-    font-family: "Playfair Display SC";
-  }
-
-  button {
-    background-color: rgba(15, 0, 31, 0.4);
-    border: none;
     color: white;
-    padding: 0.75em;
-    transition: background-color 0.025s ease-in-out;
-    margin-right: 2em;
-    position: relative;
-    top: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-    align-self: flex-end;
-
-    &:active {
-      background-color: rgba(180, 164, 198, 0.4);
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 24em;
+      background-color: rgba(13, 0, 54, 0.8);
+      border-radius: 0em 0em 0.5em 0.5em;
     }
-  }
-}
 
+    & * {
+      z-index: 1;
+    }
 
+    .icon {
+      height: 40%;
+      aspect-ratio: 1/1;
+      background-image: url("./assets/luad.png");
+      background-size: cover;
+    }
 
+    h1 {
+      font-size: 3.5em;
+      font-family: "Playfair Display SC";
+      color: gold;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.contents {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 80%;
-
-  .categoryPanel {
-    height: 2em;
+    p {
+      font-size: 1.25em;
+      width: 25%;
+      text-align: center;
+      font-family: "Playfair Display SC";
+    }
 
     button {
-      background: none;
+      background-color: rgba(15, 0, 31, 0.4);
       border: none;
-      font-size: 1.25em;
-      margin: 0 0.5em;
-      padding: 2px;
-      cursor: pointer;
-      transition: border-bottom 0.1s ease-in;
-      border-bottom: 1px solid rgba(0,0,0, 0.5);
+      color: white;
+      padding: 0.75em;
+      transition: background-color 0.025s ease-in-out;
+      margin-right: 2em;
+      position: relative;
+      top: 2em;
 
-      &.isSelected {
-        border-bottom: 3px solid rgba(0,0,0, 1);
+      align-self: flex-end;
+
+      &:active {
+        background-color: rgba(180, 164, 198, 0.4);
       }
     }
   }
 
-  .contentList {
-    margin-top: 1em;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1em;
 
-    .content {
-      border: 1px solid black;
+}
+
+// HOMEPAGE CONTENT CARDS STUFF
+html {
+  .contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+
+    .categoryPanel {
+      height: 2em;
+
+      button {
+        background: none;
+        border: none;
+        font-size: 1.25em;
+        margin: 0 0.5em;
+        padding: 2px;
+        cursor: pointer;
+        transition: border-bottom 0.1s ease-in;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+
+        &.isSelected {
+          border-bottom: 3px solid rgba(0, 0, 0, 1);
+        }
+      }
+    }
+
+    .contentList {
+      margin-top: 1em;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1em;
+
+      .content {
+        border: 1px solid black;
+      }
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -210,18 +187,22 @@ html {
 // AI CODE
 // =========================
 
-/* For WebKit Browsers (Chrome, Safari) */
-.header::-webkit-scrollbar {
-  width: 0.5em;
-  /* adjust as needed */
-}
+// FOR HEADER IMAGE SCROLLBAR
+html {
 
-.header::-webkit-scrollbar-thumb {
-  background-color: transparent;
-}
+  /* For WebKit Browsers (Chrome, Safari) */
+  .header::-webkit-scrollbar {
+    width: 0.5em;
+    /* adjust as needed */
+  }
 
-/* For Firefox */
-.header {
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
+  .header::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+
+  /* For Firefox */
+  .header {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
 }
