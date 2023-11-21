@@ -4,10 +4,13 @@ import { useEffect, useState } from "react";
 import { db } from "../config/firebase";
 import { collection, getDocs, doc } from "firebase/firestore";
 
+import header_placeholder from "../assets/header_placeholder.mp4"
+
 function Header() {
   return (
     <>
       <div className="header">
+        <video autoPlay loop muted playsInline className="header-video" src={header_placeholder} />
         <div className="icon" />
         <h1>Luad</h1>
         <p>The collection of Potterians' talents, one click at a time</p>
@@ -90,17 +93,26 @@ function HomepageContent() {
 
       <div className="contentList">
         {articlePosts.map((item) => {
+          const image = undefined;
           return (
-            <div className="content">
-              <h1> {item.title} </h1>
-              <blockquote> {item.author} </blockquote>
-              <p> {item.content} </p>
-            </div>
+            <CardContent title={item.title} author={item.author} content={item.content} />
           );
         })}
       </div>
     </div>
   );
+}
+
+function CardContent(props) {
+  return (
+    <>
+      <div className="content" style={{backgroundColor: "red" }} >
+        <h1 className="content-title"> {props.title} </h1>
+        <p className="content-author"> {props.author} </p>
+        <p className="content-content"> {props.content} </p>
+      </div>
+    </>
+  )
 }
 
 export function Homepage() {
