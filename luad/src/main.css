@@ -135,6 +135,13 @@ html .contents .contentList .content {
   background-size: cover;
   aspect-ratio: 1.25;
 }
+html .contents .contentList .content .content-content {
+  max-height: 9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-inline-box;
+  -webkit-line-clamp: 4; /* Adjust this value to the desired number of lines */
+}
 
 html {
   /* Hide scrollbars for all browsers */

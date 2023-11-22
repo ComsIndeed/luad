@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { importCollection } from "../lib/grabData";
 
+import Markdown from "markdown-to-jsx";
+
 export function CardContent(props) {
   const link = "/luad/post/" + props.entry.id;
 
@@ -34,11 +36,7 @@ export default function ContentPage() {
 
   return (
     <>
-      <h1>Content Page ID - {id}</h1>
-      <br />
-      <h2>Page Data: <pre>{TEMP.split(',').join('\n')}</pre></h2>
-      <br />
-      <br />
+      <h1>Content Page ID - {id}</h1> <br/>
       <h1> {contentData.title} </h1>
       <p>By: {contentData.author} </p>
       <p> {contentData.content} </p>
