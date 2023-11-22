@@ -3,7 +3,7 @@ import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 
 export const importCollection = async (method, path, docId) => {
   let rawData;
-  let filteredData = [];
+  let filteredData;
 
   if (docId) {
     // Fetching a single document
@@ -12,7 +12,7 @@ export const importCollection = async (method, path, docId) => {
 
     if (docSnap.exists()) {
       rawData = docSnap.data();
-      filteredData.push({ ...rawData, id: docId }); // Add ID to the document data
+      filteredData = rawData; // Directly assign the document data to filteredData
     } else {
       console.log("Document not found:", docId);
       return;

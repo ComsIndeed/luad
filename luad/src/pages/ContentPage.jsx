@@ -37,6 +37,11 @@ export default function ContentPage() {
       <h1>Content Page ID - {id}</h1>
       <br />
       <h2>Page Data: <pre>{TEMP.split(',').join('\n')}</pre></h2>
+      <br />
+      <br />
+      <h1> {contentData.title} </h1>
+      <p>By: {contentData.author} </p>
+      <p> {contentData.content} </p>
       <Link to="/luad">Home</Link>
     </>
   );
