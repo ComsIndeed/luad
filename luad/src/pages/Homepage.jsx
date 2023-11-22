@@ -27,8 +27,57 @@ function HomepageContent() {
 
   const [articlePosts, setArticlePosts] = useState([]);
   useEffect(() => {
-    importCollection(setArticlePosts, "posts-article")
+    importCollection(setArticlePosts, "posts-article");
   }, []);
+
+  const renderContent = () => {
+    switch (selectedCategory) {
+      case "Home":
+        return (
+          <div className="contentList">
+            {articlePosts.map((item) => {
+              return (
+                <div className="content" key={item.id}>
+                  <CardContent entry={item} />
+                </div>
+              );
+            })}
+          </div>
+        );
+
+      case "Articles":
+        // Render articles content
+        // You can add a separate component for articles
+        return (
+          <div className="contentList">
+            Articles go here
+          </div>
+        );
+
+      case "Editorials":
+        // Render editorials content
+        // You can add a separate component for editorials
+        return <div className="contentList">Editorials content</div>;
+
+      case "Sports":
+        // Render sports content
+        // You can add a separate component for sports
+        return <div className="contentList">Sports content</div>;
+
+      case "Events":
+        // Render events content
+        // You can add a separate component for events
+        return <div className="contentList">Events content</div>;
+
+      case "Others":
+        // Render others content
+        // You can add a separate component for others
+        return <div className="contentList">Others content</div>;
+
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="contents">
@@ -76,14 +125,7 @@ function HomepageContent() {
         </button>
       </div>
 
-      <div className="contentList">
-        {articlePosts.map((item) => {
-          const image = undefined;
-          return (
-            <CardContent entry={item} />
-          );
-        })}
-      </div>
+      {renderContent()}
     </div>
   );
 }

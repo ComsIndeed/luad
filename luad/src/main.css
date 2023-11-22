@@ -129,10 +129,25 @@ html .contents .contentList {
   gap: 0.5em;
 }
 html .contents .contentList .content {
+  padding: 1em;
+  border: 1px solid black;
   border-radius: 0.5em;
   background-size: cover;
-  border: 1px black solid;
   aspect-ratio: 1.25;
+}
+
+html {
+  /* Hide scrollbars for all browsers */
+}
+html ::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  visibility: hidden !important;
+}
+html ::-moz-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  visibility: hidden !important;
 }
 
 html {
