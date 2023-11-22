@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { db } from "../config/firebase";
-import { collection, getDocs, doc } from "firebase/firestore";
+import { CardContent } from "./ContentPage";
 
 import header_placeholder from "../assets/header_placeholder.mp4"
-import { CardContent } from "./ContentPage";
+import { importCollection } from "../lib/grabData";
 
 function Header() {
   return (
@@ -21,30 +20,16 @@ function Header() {
 }
 
 function HomepageContent() {
-  const [articlePosts, setArticlePosts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Home");
   const handleCategoryChange = (event) => {
     setSelectedCategory(event);
   };
 
-  const getArticlePosts = async () => {
-    try {
-      const data = await getDocs(collection(db, "posts-article"));
-      const filteredData = data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setArticlePosts(filteredData);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+  const [articlePosts, setArticlePosts] = useState([]);
   useEffect(() => {
-    getArticlePosts();
+    importCollection(setArticlePosts, "posts-article")
   }, []);
 
-  
   return (
     <div className="contents">
       <div className="categoryPanel">
@@ -102,8 +87,6 @@ function HomepageContent() {
     </div>
   );
 }
-
-
 
 export function Homepage() {
   return (
