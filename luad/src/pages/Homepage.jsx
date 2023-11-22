@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { db } from "../config/firebase";
 import { collection, getDocs, doc } from "firebase/firestore";
 
 import header_placeholder from "../assets/header_placeholder.mp4"
+import { CardContent } from "./ContentPage";
 
 function Header() {
   return (
@@ -23,7 +23,6 @@ function Header() {
 function HomepageContent() {
   const [articlePosts, setArticlePosts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Home");
-
   const handleCategoryChange = (event) => {
     setSelectedCategory(event);
   };
@@ -45,6 +44,7 @@ function HomepageContent() {
     getArticlePosts();
   }, []);
 
+  
   return (
     <div className="contents">
       <div className="categoryPanel">
@@ -95,7 +95,7 @@ function HomepageContent() {
         {articlePosts.map((item) => {
           const image = undefined;
           return (
-            <CardContent title={item.title} author={item.author} content={item.content} />
+            <CardContent entry={item} />
           );
         })}
       </div>
@@ -103,17 +103,7 @@ function HomepageContent() {
   );
 }
 
-function CardContent(props) {
-  return (
-    <>
-      <div className="content" style={{backgroundColor: "red" }} >
-        <h1 className="content-title"> {props.title} </h1>
-        <p className="content-author"> {props.author} </p>
-        <p className="content-content"> {props.content} </p>
-      </div>
-    </>
-  )
-}
+
 
 export function Homepage() {
   return (
