@@ -2,14 +2,24 @@ import { useEffect, useState } from "react";
 
 import { CardContent } from "./ContentPage";
 
-import header_placeholder from "../assets/header_placeholder.mp4"
+import header_placeholder from "../assets/header_placeholder.mp4";
 import { importCollection } from "../lib/grabData";
+import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 function Header() {
   return (
     <>
       <div className="header">
-        <video autoPlay loop muted playsInline className="header-video" src={header_placeholder} />
+        <LazyLoadComponent>
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="header-video"
+            src={header_placeholder}
+          />
+        </LazyLoadComponent>
         <div className="icon" />
         <h1>Luad</h1>
         <p>The collection of Potterians' talents, one click at a time</p>
@@ -48,11 +58,7 @@ function HomepageContent() {
       case "Articles":
         // Render articles content
         // You can add a separate component for articles
-        return (
-          <div className="contentList">
-            Articles go here
-          </div>
-        );
+        return <div className="contentList">Articles go here</div>;
 
       case "Editorials":
         // Render editorials content

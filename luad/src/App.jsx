@@ -4,9 +4,12 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { Homepage } from "./pages/Homepage";
 import { AboutPage } from "./pages/AboutPage";
 import { NavigationBar } from "./Components";
+import { LoadingScreen } from "./pages/LoadingScreen";
 import ContentPage from "./pages/ContentPage";
 
 export default function App() {
+
+
   return (
     <>
       <BrowserRouter>
