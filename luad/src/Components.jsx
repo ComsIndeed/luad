@@ -23,10 +23,11 @@ export function NavigationBar() {
     <>
       <nav className="topNav">
         <div className="topNav-left">
-          <button>Profile</button>
+          <Link to="/luad/profile">Profile</Link>
           <HologramLink to="/luad">Home</HologramLink>
           <HologramLink to="/luad/about">About</HologramLink>
           <HologramLink to="/luad/timeline">Timeline</HologramLink>
+          <HologramLink to="/luad/boardmembers">Board Members</HologramLink>
         </div>
         <div className="topNav-right">
           <form>
