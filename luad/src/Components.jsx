@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { BrowserRouter, Link } from "react-router-dom";
+import { paths } from "./App";
 
 function HologramButton(props) {
   return (
@@ -19,20 +21,33 @@ function HologramLink(props) {
 }
 
 export function NavigationBar() {
+  const [isDarkMode, setDarkMode] = useState(false);
+  const toggleDarkMode = () => {
+    setDarkMode(!isDarkMode);
+
+    const htmlElement = document.documentElement;
+    if (isDarkMode) {
+      htmlElement.classList.remove("darkmode");
+    } else {
+      htmlElement.classList.add("darkmode");
+    }
+  };
+
   return (
     <>
       <nav className="topNav">
         <div className="topNav-left">
-          <Link to="/luad/profile">Profile</Link>
-          <HologramLink to="/luad">Home</HologramLink>
-          <HologramLink to="/luad/about">About</HologramLink>
-          <HologramLink to="/luad/timeline">Timeline</HologramLink>
-          <HologramLink to="/luad/boardmembers">Board Members</HologramLink>
+          <Link to={paths.profilePage}>Profile</Link>
+          <HologramLink to={paths.homepage}>Home</HologramLink>
+          <HologramLink to={paths.aboutPage}>About</HologramLink>
+          <HologramLink to={paths.timelinePage}>Timeline</HologramLink>
+          <HologramLink to={paths.boardMembersPage}>Board Members</HologramLink>
         </div>
         <div className="topNav-right">
+          <button onClick={toggleDarkMode}>Toggle Dark Mode</button>
           <form>
             <input type="text" placeholder=" Search" />
-            <button type="submit"> {'>'} </button>
+            <button type="submit"> {">"} </button>
           </form>
           <button>Menu</button>
         </div>

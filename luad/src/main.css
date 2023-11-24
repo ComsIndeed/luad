@@ -2,14 +2,10 @@
   font-family: "Playfair Displace SC";
   src: url("./assets/fonts/playfairDisplaySC/PlayfairDisplaySC-Regular.ttf");
 }
-html .hologramLink {
-  color: black;
-  font-style: normal;
-  padding: 0.25em;
-  border-bottom: 1px black;
-  margin: 0.25em;
+@font-face {
+  font-family: "ChunkFive";
+  src: url("./assets/fonts/chunkfive/ChunkFivePrint.ttf");
 }
-
 html {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -22,11 +18,22 @@ html body {
   padding: 0;
   margin: 0;
 }
-html h1,
-html h2,
-html h3,
-html p {
+html h1, html h2, html h3, html p {
   margin: 0;
+}
+html .hologramLink {
+  color: black;
+  font-style: normal;
+  padding: 0.25em;
+  border-bottom: 1px black;
+  margin: 0.25em;
+}
+html .content-content {
+  max-height: 9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-inline-box;
+  -webkit-line-clamp: 4;
 }
 
 html .topNav {
@@ -54,18 +61,26 @@ html .header {
   margin: 0.25em 0em 2em 0em;
   border-radius: 0em 0em 0.5em 0.5em;
   position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
   color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+html .header::-webkit-scrollbar {
+  width: 0.5em;
+}
+html .header::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
 html .header .header-video {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-  z-index: -1;
+  z-index: -2;
   position: absolute;
 }
 html .header::after {
@@ -75,9 +90,7 @@ html .header::after {
   height: 100%;
   background-color: rgba(13, 0, 54, 0.8);
   border-radius: 0em 0em 0.5em 0.5em;
-}
-html .header * {
-  z-index: 1;
+  z-index: -1;
 }
 html .header .icon {
   height: 40%;
@@ -85,18 +98,18 @@ html .header .icon {
   background-image: url("./assets/luad.png");
   background-size: cover;
 }
-html .header h1 {
+html .header .homepage-headerTitle {
   font-size: 3.5em;
-  font-family: "Playfair Display SC";
+  font-family: "Chunkfive";
   color: gold;
 }
-html .header p {
+html .header .homepage.subtitle {
   font-size: 1.25em;
   width: 25%;
   text-align: center;
   font-family: "Playfair Display SC";
 }
-html .header button {
+html .header #homepage-learnMoreButton {
   background-color: rgba(15, 0, 31, 0.4);
   border: none;
   color: white;
@@ -107,10 +120,9 @@ html .header button {
   top: 2em;
   align-self: flex-end;
 }
-html .header button:active {
+html .header #homepage-learnMoreButton:active {
   background-color: rgba(180, 164, 198, 0.4);
 }
-
 html .contents {
   display: flex;
   flex-direction: column;
@@ -146,40 +158,23 @@ html .contents .contentList .content {
   background-size: cover;
   aspect-ratio: 1.25;
 }
-html .contents .contentList .content .content-content {
-  max-height: 9em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-inline-box;
-  -webkit-line-clamp: 4; /* Adjust this value to the desired number of lines */
-}
 
-html {
-  /* Hide scrollbars for all browsers */
+html .profilePage {
+  display: grid;
+  place-items: center;
+  margin-top: 2em;
 }
-html ::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0 !important;
-  visibility: hidden !important;
+html .profilePage * {
+  margin: 0.25em;
 }
-html ::-moz-scrollbar {
-  width: 0 !important;
-  height: 0 !important;
-  visibility: hidden !important;
+html .profilePage button {
+  padding: 0.5em;
 }
-
-html {
-  /* For WebKit Browsers (Chrome, Safari) */
-  /* For Firefox */
-}
-html .header::-webkit-scrollbar {
-  width: 0.5em;
-  /* adjust as needed */
-}
-html .header::-webkit-scrollbar-thumb {
-  background-color: transparent;
-}
-html .header {
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
+html .infoDiv {
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
+  margin: 1em;
+  width: 90vw;
+  height: 40vh;
+  border-radius: 0.5em;
+  padding: 1em;
 }/*# sourceMappingURL=main.css.map */

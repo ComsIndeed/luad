@@ -8,11 +8,9 @@ import Markdown from "markdown-to-jsx";
 export function CardContent(props) {
   const link = "/luad/post/" + props.entry.id;
 
-  console.log(props.entry);
-
   return (
     <>
-      <Link to={link} className="contentLink">
+      <Link to={link} className="content">
         <p>Document ID: {props.entry.id}</p>
         {/* CODE FOR IMAGES HERE */}
         <h1 className="content-title">{props.entry.title}</h1>
@@ -27,16 +25,20 @@ export default function ContentPage() {
   const [contentData, setContentData] = useState({});
   const { id } = useParams();
   useEffect(() => {
-    importCollection((fetchedData) => {
-      setContentData(fetchedData);
-    }, "posts-article", id);
+    importCollection(
+      (fetchedData) => {
+        setContentData(fetchedData);
+      },
+      "posts-article",
+      id
+    );
   }, []);
 
   const TEMP = JSON.stringify(contentData);
 
   return (
     <>
-      <h1>Content Page ID - {id}</h1> <br/>
+      <h1>Content Page ID - {id}</h1> <br />
       <h1> {contentData.title} </h1>
       <p>By: {contentData.author} </p>
       <p> {contentData.content} </p>

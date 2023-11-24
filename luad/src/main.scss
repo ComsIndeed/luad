@@ -1,12 +1,54 @@
+// Themes
+$themes: (
+  light: (
+    text: #180202,
+    background: #b4dbf8,
+    primary: #4d5eff,
+    secondary: #e6e6e5,
+    accent: #eeff00,
+  ),
+  dark: (
+    text: #fde7e7,
+    background: #072d4b,
+    primary: #0012b3,
+    secondary: #1a1a19,
+    accent: #eeff00,
+  ),
+);
+
+// Fonts
 @font-face {
   font-family: "Playfair Displace SC";
   src: url('./assets/fonts/playfairDisplaySC/PlayfairDisplaySC-Regular.ttf');
 }
+@font-face {
+  font-family: "ChunkFive";
+  src: url('./assets/fonts/chunkfive/ChunkFivePrint.ttf');
+}
 
-// ===============================================
+$shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
 
-// GLOBAL CLASSES THINGIES
+// Global Classes
 html {
+  & {
+    #root {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    
+    h1, h2, h3, p {
+      margin: 0;
+    }
+    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
   .hologramLink {
     color: black;
     font-style: normal;
@@ -14,39 +56,24 @@ html {
     border-bottom: 1px black;
     margin: 0.25em;
   }
+  .content-content {
+    max-height: 9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-inline-box;
+    -webkit-line-clamp: 4;
+  }
+
 }
 
-// GENERAL STUFF
-html {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-  #root {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  body {
-    padding: 0;
-    margin: 0;
-  }
-
-  h1,
-  h2,
-  h3,
-  p {
-    margin: 0;
-  }
-}
-
-// FOR TOP NAVIGATION BAR
+// Top Navigation Bar
 html {
   .topNav {
     width: 100%;
     padding: 0.3em 0em;
-    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
-    -webkit-box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
-    -moz-box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
+    box-shadow: $shadow;
+    -webkit-box-shadow: $shadow;
+    -moz-box-shadow: $shadow;
     display: flex;
 
     .topNav-left {
@@ -63,34 +90,38 @@ html {
   }
 }
 
-// HEADER IMAGE THINGY
+// Homepage
 html {
-
   .header {
     width: 100%;
     height: 24em;
     margin: 0.25em 0em 2em 0em;
     border-radius: 0em 0em 0.5em 0.5em;
     position: relative;
-
-    // background-image: url('./assets/header_placeholder.jpg');
-    // background-size: cover;
-    // background-repeat: no-repeat;
-
-    .header-video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      position: absolute;
-    }
-
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    
     color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
+    &::-webkit-scrollbar {
+      width: 0.5em;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+
+    .header-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      position: absolute;
+
+    }
     &::after {
       content: "";
       position: absolute;
@@ -98,10 +129,7 @@ html {
       height: 100%;
       background-color: rgba(13, 0, 54, 0.8);
       border-radius: 0em 0em 0.5em 0.5em;
-    }
-
-    & * {
-      z-index: 1;
+      z-index: -1;
     }
 
     .icon {
@@ -110,21 +138,21 @@ html {
       background-image: url("./assets/luad.png");
       background-size: cover;
     }
-
-    h1 {
+    
+    .homepage-headerTitle {
       font-size: 3.5em;
-      font-family: "Playfair Display SC";
+      font-family: "Chunkfive";
       color: gold;
     }
 
-    p {
+    .homepage.subtitle {
       font-size: 1.25em;
       width: 25%;
       text-align: center;
       font-family: "Playfair Display SC";
     }
 
-    button {
+    #homepage-learnMoreButton {
       background-color: rgba(15, 0, 31, 0.4);
       border: none;
       color: white;
@@ -141,21 +169,15 @@ html {
       }
     }
   }
-
-
-}
-
-// HOMEPAGE CONTENT CARDS STUFF
-html {
   .contents {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 80%;
-
+  
     .categoryPanel {
       height: 2em;
-
+  
       button {
         background: none;
         border: none;
@@ -165,80 +187,52 @@ html {
         cursor: pointer;
         transition: border-bottom 0.1s ease-in;
         border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-
+  
         &.isSelected {
           border-bottom: 3px solid rgba(0, 0, 0, 1);
         }
       }
     }
-
+  
     .contentList {
       margin-top: 1em;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0.5em;
-
+  
       .content {
         padding: 1em;
         border: 1px solid black;
         border-radius: 0.5em;
         background-size: cover;
         aspect-ratio: 1.25;
-
-        .content-content {
-          max-height: 9em;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-inline-box;
-          -webkit-line-clamp: 4; /* Adjust this value to the desired number of lines */
-        }
       }
     }
   }
 }
 
-
-
-
-
-// =========================
-// AI CODE
-// =========================
-
-// FOR UNIVERSAL SCROLLBARS
+// Profile Page (Temporary)
 html {
+  .profilePage {
+    display: grid;
+    place-items: center;
+    margin-top: 2em;
+    
+    & * {
+      margin: 0.25em;
+    }
 
-  /* Hide scrollbars for all browsers */
-  ::-webkit-scrollbar {
-    width: 0 !important;
-    height: 0 !important;
-    visibility: hidden !important;
+    button {
+      padding: 0.5em;
+    }
   }
 
-  ::-moz-scrollbar {
-    width: 0 !important;
-    height: 0 !important;
-    visibility: hidden !important;
-  }
-
-}
-
-// FOR HEADER IMAGE SCROLLBAR
-html {
-
-  /* For WebKit Browsers (Chrome, Safari) */
-  .header::-webkit-scrollbar {
-    width: 0.5em;
-    /* adjust as needed */
-  }
-
-  .header::-webkit-scrollbar-thumb {
-    background-color: transparent;
-  }
-
-  /* For Firefox */
-  .header {
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
+  .infoDiv {
+    box-shadow: $shadow;
+    margin: 1em;
+    width: 90vw;
+    height: 40vh;
+    border-radius: 0.5em;
+    padding: 1em;
   }
 }

@@ -1,5 +1,11 @@
 import { ReactDOM } from "react-dom/client";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  HashRouter,
+} from "react-router-dom";
 
 import { Homepage } from "./pages/Homepage";
 import { AboutPage } from "./pages/AboutPage";
@@ -9,24 +15,30 @@ import { ProfilePage } from "./pages/ProfilePage";
 import { TimelinePage } from "./pages/TimelinePage";
 import { BoardMembersPage } from "./pages/BoardMembersPage";
 
+export const paths = {
+  homepage: "/",
+  contentPage: "post/:id",
+  aboutPage: "/about",
+  profilePage: "/profile",
+  timelinePage: "/timeline",
+  boardMembersPage: "/boardmembers",
+};
+
 export default function App() {
-
-
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <NavigationBar />
 
         <Routes>
-          <Route path="/luad" element={<Homepage />} />
-          <Route path="/luad/post/:id" element={<ContentPage />} />
-          <Route path="/luad/about" element={<AboutPage />} />
-          <Route path="/luad/profile" element={ <ProfilePage /> } />
-          <Route path="/luad/timeline" element={ <TimelinePage /> } />
-          <Route path="/luad/boardmembers" element={ <BoardMembersPage /> } />
+          <Route path={paths.homepage} element={<Homepage />} />
+          <Route path={paths.contentPage} element={<ContentPage />} />
+          <Route path={paths.aboutPage} element={<AboutPage />} />
+          <Route path={paths.profilePage} element={<ProfilePage />} />
+          <Route path={paths.timelinePage} element={<TimelinePage />} />
+          <Route path={paths.boardMembersPage} element={<BoardMembersPage />} />
         </Routes>
-
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 }

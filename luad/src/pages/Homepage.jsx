@@ -21,9 +21,11 @@ function Header() {
           />
         </LazyLoadComponent>
         <div className="icon" />
-        <h1>Luad</h1>
-        <p>The collection of Potterians' talents, one click at a time</p>
-        <button>Learn More</button>
+        <h1 className="homepage-headerTitle">Luad</h1>
+        <p className="homepage-subtitle">
+          The collection of Potterians' talents, one click at a time
+        </p>
+        <button id="homepage-learnMoreButton">Learn More</button>
       </div>
     </>
   );
@@ -46,11 +48,7 @@ function HomepageContent() {
         return (
           <div className="contentList">
             {articlePosts.map((item) => {
-              return (
-                <div className="content" key={item.id}>
-                  <CardContent entry={item} />
-                </div>
-              );
+              return <CardContent key={item.id} entry={item} />;
             })}
           </div>
         );
