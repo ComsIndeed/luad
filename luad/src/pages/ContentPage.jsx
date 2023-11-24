@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { importCollection } from "../lib/grabData";
+import { paths } from "../App";
 
 import Markdown from "markdown-to-jsx";
 
 export function CardContent(props) {
-  const link = "/luad/post/" + props.entry.id;
+  const link = paths.contentPage + props.entry.id;
 
   return (
     <>
@@ -42,7 +43,7 @@ export default function ContentPage() {
       <h1> {contentData.title} </h1>
       <p>By: {contentData.author} </p>
       <p> {contentData.content} </p>
-      <Link to="/luad">Home</Link>
+      <Link to={paths.homepage}>Home</Link>
     </>
   );
 }
