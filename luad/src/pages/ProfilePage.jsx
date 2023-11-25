@@ -2,6 +2,8 @@ import { signInWithPopup, signOut } from "firebase/auth";
 import { auth, provider, signInWithGoogle } from "../config/firebase";
 import { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { Link } from "react-router-dom";
+import { paths } from "../App";
 
 function Pages(props) {
   if (props.entry.error) {
@@ -24,6 +26,7 @@ function Pages(props) {
       <>
         <img src={user.photoURL} />
         <h2> {user.displayName} </h2>
+        <p> {user.email} </p>
         <button
           onClick={() => {
             signOut(auth);

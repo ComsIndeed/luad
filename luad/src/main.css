@@ -18,15 +18,28 @@ html body {
   padding: 0;
   margin: 0;
 }
-html h1, html h2, html h3, html p {
+html h1,
+html h2,
+html h3,
+html p {
   margin: 0;
 }
 html .hologramLink {
   color: black;
   font-style: normal;
-  padding: 0.25em;
   border-bottom: 1px black;
   margin: 0.25em;
+  vertical-align: middle;
+}
+html .hologramLink.accountIconLink {
+  margin: 0em 1em;
+  height: 2em;
+  aspect-ratio: 1/1;
+}
+html .hologramLink.accountIconLink .accountIcon {
+  height: 100%;
+  width: 100%;
+  border-radius: 100em;
 }
 html .content-content {
   max-height: 9em;
@@ -38,17 +51,20 @@ html .content-content {
 
 html .topNav {
   width: 100%;
-  padding: 0.3em 0em;
+  padding: 0.2em 0em;
   box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
   -webkit-box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
   -moz-box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
   display: flex;
+  align-items: center;
 }
 html .topNav .topNav-left {
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
 }
-html .topNav .topNav-right {
+html .topNav-right {
   display: flex;
   width: 100%;
   height: 100%;

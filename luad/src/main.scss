@@ -1,14 +1,12 @@
 // Themes
 $themes: (
-  light: (
-    text: #180202,
+  light: (text: #180202,
     background: #b4dbf8,
     primary: #4d5eff,
     secondary: #e6e6e5,
     accent: #eeff00,
   ),
-  dark: (
-    text: #fde7e7,
+  dark: (text: #fde7e7,
     background: #072d4b,
     primary: #0012b3,
     secondary: #1a1a19,
@@ -21,6 +19,7 @@ $themes: (
   font-family: "Playfair Displace SC";
   src: url('./assets/fonts/playfairDisplaySC/PlayfairDisplaySC-Regular.ttf');
 }
+
 @font-face {
   font-family: "ChunkFive";
   src: url('./assets/fonts/chunkfive/Chunk.ttf');
@@ -36,26 +35,47 @@ html {
       flex-direction: column;
       align-items: center;
     }
-  
+
     body {
       padding: 0;
       margin: 0;
     }
-    
-    h1, h2, h3, p {
+
+    h1,
+    h2,
+    h3,
+    p {
       margin: 0;
     }
-    
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    font-family: 'Segoe UI',
+    Tahoma,
+    Geneva,
+    Verdana,
+    sans-serif;
   }
 
   .hologramLink {
     color: black;
     font-style: normal;
-    padding: 0.25em;
     border-bottom: 1px black;
     margin: 0.25em;
+    vertical-align: middle;
+
+    &.accountIconLink {
+      margin: 0em 1em;
+      height: 2em;
+      aspect-ratio: 1/1;
+
+      .accountIcon {
+        height: 100%;
+        width: 100%;
+        border-radius: 100em;
+      }
+    }
+    
   }
+
   .content-content {
     max-height: 9em;
     overflow: hidden;
@@ -70,23 +90,26 @@ html {
 html {
   .topNav {
     width: 100%;
-    padding: 0.3em 0em;
+    padding: 0.2em 0em;
     box-shadow: $shadow;
     -webkit-box-shadow: $shadow;
     -moz-box-shadow: $shadow;
     display: flex;
+    align-items: center;
 
     .topNav-left {
       width: 100%;
       height: 100%;
-    }
-
-    .topNav-right {
       display: flex;
-      width: 100%;
-      height: 100%;
-      justify-content: right;
+      align-items: center;
     }
+  }
+
+  .topNav-right {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: right;
   }
 }
 
@@ -100,7 +123,7 @@ html {
     position: relative;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
-    
+
     color: white;
     display: flex;
     flex-direction: column;
@@ -110,6 +133,7 @@ html {
     &::-webkit-scrollbar {
       width: 0.5em;
     }
+
     &::-webkit-scrollbar-thumb {
       background-color: transparent;
     }
@@ -122,6 +146,7 @@ html {
       position: absolute;
 
     }
+
     &::after {
       content: "";
       position: absolute;
@@ -138,7 +163,7 @@ html {
       background-image: url("./assets/luad.png");
       background-size: cover;
     }
-    
+
     .homepage-headerTitle {
       font-size: 3.5em;
       font-family: "Chunkfive";
@@ -171,15 +196,16 @@ html {
       }
     }
   }
+
   .contents {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 80%;
-  
+
     .categoryPanel {
       height: 2em;
-  
+
       button {
         background: none;
         border: none;
@@ -189,26 +215,26 @@ html {
         cursor: pointer;
         transition: border-bottom 0.1s ease-in;
         border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  
+
         &.isSelected {
           border-bottom: 3px solid rgba(0, 0, 0, 1);
         }
       }
     }
-  
+
     .contentList {
       margin-top: 1em;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0.5em;
-    
+
       .content {
         position: relative; // Add this to establish a positioning context
         padding: 1em;
         border: 1px solid black;
         border-radius: 0.5em;
         overflow: hidden; // Add this to hide the overflow of the image
-    
+
         .content-thumbnail {
           width: 100%;
           height: auto; // Set height to auto to maintain the image's aspect ratio
@@ -225,7 +251,7 @@ html {
     display: grid;
     place-items: center;
     margin-top: 2em;
-    
+
     & * {
       margin: 0.25em;
     }
