@@ -21,24 +21,6 @@ export const db = new getFirestore(app);
 // Authentication
 export const auth = new getAuth(app);
 export const provider = new GoogleAuthProvider();
-export const signInWithGoogle = () => {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      sessionStorage.setItem(
-        "loginSession",
-        JSON.stringify({
-          uid: result.user.uid,
-          photoURL: result.user.photoURL,
-          displayName: result.user.displayName,
-          userEmail: result.user.email,
-        })
-      );
-      console.log(sessionStorage.getItem("loginSession"));
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
 
 // Storage
 export const storage = getStorage(app);

@@ -1,5 +1,5 @@
-import { signInWithPopup, signOut } from "firebase/auth";
-import { auth, provider, signInWithGoogle } from "../config/firebase";
+import { signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
+import { auth, provider } from "../config/firebase";
 import { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
@@ -44,7 +44,14 @@ function Pages(props) {
           signInWithPopup(auth, provider);
         }}
       >
-        Login
+        Sign-in with popup
+      </button>
+      <button
+        onClick={() => {
+          signInWithRedirect(auth, provider);
+        }}
+      >
+        Sign-in with redirect
       </button>
     </>
   );

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { importCollection } from "../lib/grabData";
 import { paths } from "../App";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import { ref } from "firebase/storage";
 
@@ -14,8 +15,11 @@ export function CardContent(props) {
   return (
     <>
       <Link to={link} className="content">
-        <img className="content-thumbnail" src={props.entry.thumbnail} />
-        {/* Help with making it so that the image is the same size as the parent */}
+        <LazyLoadImage
+          className="content-thumbnail"
+          src={props.entry.thumbnail}
+          effect="blur"
+        />
         <h1 className="content-title">{props.entry.title}</h1>
         <p className="content-author">{props.entry.author}</p>
         <p className="content-content">{props.entry.content}</p>
@@ -41,11 +45,15 @@ export default function ContentPage() {
 
   return (
     <>
-      <h1>Content Page ID - {id}</h1> <br />
-      <h1> {contentData.title} </h1>
-      <p>By: {contentData.author} </p>
-      <p> {contentData.content} </p>
-      <Link to={paths.homepage}>Home</Link>
+      <div className="contentPage">
+        <h1 className="contentPage-title"> {contentData.title} </h1>
+        <p className="contentPage-author">By: {contentData.author} </p>
+        <LazyLoadImage
+          className="contentPage-thumbnail"
+          src={contentData.thumbnail}
+        />
+        <p className="contentPage-content"> {contentData.content} </p>
+      </div>
     </>
   );
 }

@@ -30,6 +30,8 @@ $shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
 // Global Classes
 html {
   & {
+    padding-top: 2em;
+
     #root {
       display: flex;
       flex-direction: column;
@@ -96,6 +98,17 @@ html {
     -moz-box-shadow: $shadow;
     display: flex;
     align-items: center;
+    z-index: 5;
+    
+    background-color: white; /* Adjust as needed */
+    position: fixed;
+    top: 0;
+    transition: top 0.3s; /* Add smooth transition effect */
+
+    &.scrolled {
+      background-color: #333; /* Adjust as needed */
+      transition: background-color 0.3s; /* Add smooth transition effect */
+    }
 
     .topNav-left {
       width: 100%;
@@ -116,6 +129,7 @@ html {
 // Homepage
 html {
   .header {
+    margin-top: 1em;
     width: 100%;
     height: 24em;
     margin: 0.25em 0em 2em 0em;
@@ -241,6 +255,20 @@ html {
           object-fit: cover;
         }
       }
+    }
+  }
+}
+
+// Content Pages
+html {
+  .contentPage {
+    padding: 2em 1em;
+
+    .contentPage-thumbnail {
+      width: 60%;
+      margin: 1em 0em;
+      height: auto;
+      border-radius: 0.5em;
     }
   }
 }

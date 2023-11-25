@@ -4,22 +4,19 @@ import { CardContent } from "./ContentPage";
 
 import header_placeholder from "../assets/header_placeholder.mp4";
 import { importCollection } from "../lib/grabData";
-import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 function Header() {
   return (
     <>
       <div className="header">
-        <LazyLoadComponent>
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="header-video"
-            src={header_placeholder}
-          />
-        </LazyLoadComponent>
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="header-video"
+          src={header_placeholder}
+        />
         <div className="icon" />
         <h1 className="homepage-headerTitle">Luad</h1>
         <p className="homepage-subtitle">
