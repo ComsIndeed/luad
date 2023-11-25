@@ -4,7 +4,7 @@
 }
 @font-face {
   font-family: "ChunkFive";
-  src: url("./assets/fonts/chunkfive/ChunkFivePrint.ttf");
+  src: url("./assets/fonts/chunkfive/Chunk.ttf");
 }
 html {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -101,6 +101,8 @@ html .header .icon {
 html .header .homepage-headerTitle {
   font-size: 3.5em;
   font-family: "Chunkfive";
+  font-weight: 100;
+  -webkit-text-stroke: 0.025em black;
   color: gold;
 }
 html .header .homepage.subtitle {
@@ -152,11 +154,17 @@ html .contents .contentList {
   gap: 0.5em;
 }
 html .contents .contentList .content {
+  position: relative;
   padding: 1em;
   border: 1px solid black;
   border-radius: 0.5em;
-  background-size: cover;
-  aspect-ratio: 1.25;
+  overflow: hidden;
+}
+html .contents .contentList .content .content-thumbnail {
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 html .profilePage {

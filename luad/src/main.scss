@@ -23,7 +23,7 @@ $themes: (
 }
 @font-face {
   font-family: "ChunkFive";
-  src: url('./assets/fonts/chunkfive/ChunkFivePrint.ttf');
+  src: url('./assets/fonts/chunkfive/Chunk.ttf');
 }
 
 $shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
@@ -142,6 +142,8 @@ html {
     .homepage-headerTitle {
       font-size: 3.5em;
       font-family: "Chunkfive";
+      font-weight: 100;
+      -webkit-text-stroke: 0.025em black;
       color: gold;
     }
 
@@ -199,13 +201,19 @@ html {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0.5em;
-  
+    
       .content {
+        position: relative; // Add this to establish a positioning context
         padding: 1em;
         border: 1px solid black;
         border-radius: 0.5em;
-        background-size: cover;
-        aspect-ratio: 1.25;
+        overflow: hidden; // Add this to hide the overflow of the image
+    
+        .content-thumbnail {
+          width: 100%;
+          height: auto; // Set height to auto to maintain the image's aspect ratio
+          object-fit: cover;
+        }
       }
     }
   }

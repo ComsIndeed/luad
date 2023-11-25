@@ -18,6 +18,7 @@ import { BoardMembersPage } from "./pages/BoardMembersPage";
 export const paths = {
   homepage: "/",
   contentPage: "post/:id",
+  contentPageBlank: "post/",
   aboutPage: "/about",
   profilePage: "/profile",
   timelinePage: "/timeline",
