@@ -1,13 +1,13 @@
 // Themes
 $themes: (
   light: (text: #180202,
-    background: #b4dbf8,
+    background: #f8f8f8,
     primary: #4d5eff,
     secondary: #e6e6e5,
     accent: #eeff00,
   ),
   dark: (text: #fde7e7,
-    background: #072d4b,
+    background: #1a1a1a,
     primary: #0012b3,
     secondary: #1a1a19,
     accent: #eeff00,
@@ -27,10 +27,12 @@ $themes: (
 
 $shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
 
-// Global Classes
+// Light Mode
 html {
+
+  // Globals
   & {
-    padding-top: 2em;
+    padding-top: 2.5em;
 
     #root {
       display: flex;
@@ -41,6 +43,7 @@ html {
     body {
       padding: 0;
       margin: 0;
+      background-color: #f8f8f8;
     }
 
     h1,
@@ -57,101 +60,97 @@ html {
     sans-serif;
   }
 
-  .hologramLink {
-    color: black;
-    font-style: normal;
-    border-bottom: 1px black;
-    margin: 0.25em;
-    vertical-align: middle;
+  // Classed
+  & {
+    .hologramLink {
+      color: black;
+      font-style: normal;
+      text-decoration: none;
+      margin: 0.25em;
+      vertical-align: middle;
 
-    &.accountIconLink {
-      margin: 0em 1em;
-      height: 2em;
-      aspect-ratio: 1/1;
+      &.accountIconLink {
+        margin: 0em 1em;
+        height: 2em;
+        aspect-ratio: 1/1;
 
-      .accountIcon {
-        height: 100%;
-        width: 100%;
-        border-radius: 100em;
+        .accountIcon {
+          height: 100%;
+          width: 100%;
+          border-radius: 100em;
+        }
       }
-    }
-    
-  }
 
-  .content-content {
-    max-height: 9em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-inline-box;
-    -webkit-line-clamp: 4;
-  }
-
-}
-
-// Top Navigation Bar
-html {
-  .topNav {
-    width: 100%;
-    padding: 0.2em 0em;
-    box-shadow: $shadow;
-    -webkit-box-shadow: $shadow;
-    -moz-box-shadow: $shadow;
-    display: flex;
-    align-items: center;
-    z-index: 5;
-    
-    background-color: white; /* Adjust as needed */
-    position: fixed;
-    top: 0;
-    transition: top 0.3s; /* Add smooth transition effect */
-
-    &.scrolled {
-      background-color: #333; /* Adjust as needed */
-      transition: background-color 0.3s; /* Add smooth transition effect */
     }
 
-    .topNav-left {
+    .content-content {
+      max-height: 9em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-inline-box;
+      -webkit-line-clamp: 4;
+    }
+  }
+
+  // Top NAvigation Bar
+  & {
+
+    .topNav {
       width: 100%;
-      height: 100%;
+      padding: 0.2em 0em;
+      border-bottom: 1px solid rgb(215, 215, 215);
       display: flex;
       align-items: center;
-    }
-  }
+      z-index: 5;
 
-  .topNav-right {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    justify-content: right;
+      background-color: white;
+      /* Adjust as needed */
+      position: fixed;
+      top: 0;
+
+      .topNav-left {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        .hologramLink:not(.accountIconLink) {
+          margin: 0em 0.75em;
+          transition: transform 0.1s ease-in-out;
+
+          &:hover {
+            transform: scale(1.05);
+            color: blueviolet;
+          }
+        }
+      }
+    }
+
+    .topNav-right {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      justify-content: right;
+    }
   }
 }
 
 // Homepage
 html {
+  // Header styling
   .header {
-    margin-top: 1em;
     width: 100%;
     height: 24em;
     margin: 0.25em 0em 2em 0em;
     border-radius: 0em 0em 0.5em 0.5em;
     position: relative;
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
-
     color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    &::-webkit-scrollbar {
-      width: 0.5em;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: transparent;
-    }
-
+    // FOr styling the header video
     .header-video {
       width: 100%;
       height: 100%;
@@ -161,6 +160,7 @@ html {
 
     }
 
+    // For styling the blue overlay
     &::after {
       content: "";
       position: absolute;

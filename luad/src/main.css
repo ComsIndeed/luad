@@ -7,7 +7,7 @@
   src: url("./assets/fonts/chunkfive/Chunk.ttf");
 }
 html {
-  padding-top: 2em;
+  padding-top: 2.5em;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 html #root {
@@ -18,6 +18,7 @@ html #root {
 html body {
   padding: 0;
   margin: 0;
+  background-color: #f8f8f8;
 }
 html h1,
 html h2,
@@ -28,7 +29,7 @@ html p {
 html .hologramLink {
   color: black;
   font-style: normal;
-  border-bottom: 1px black;
+  text-decoration: none;
   margin: 0.25em;
   vertical-align: middle;
 }
@@ -49,30 +50,31 @@ html .content-content {
   display: -webkit-inline-box;
   -webkit-line-clamp: 4;
 }
-
 html .topNav {
   width: 100%;
   padding: 0.2em 0em;
-  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
-  -webkit-box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
-  -moz-box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
+  border-bottom: 1px solid rgb(215, 215, 215);
   display: flex;
   align-items: center;
   z-index: 5;
-  background-color: white; /* Adjust as needed */
+  background-color: white;
+  /* Adjust as needed */
   position: fixed;
   top: 0;
-  transition: top 0.3s; /* Add smooth transition effect */
-}
-html .topNav.scrolled {
-  background-color: #333; /* Adjust as needed */
-  transition: background-color 0.3s; /* Add smooth transition effect */
 }
 html .topNav .topNav-left {
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
+}
+html .topNav .topNav-left .hologramLink:not(.accountIconLink) {
+  margin: 0em 0.75em;
+  transition: transform 0.1s ease-in-out;
+}
+html .topNav .topNav-left .hologramLink:not(.accountIconLink):hover {
+  transform: scale(1.05);
+  color: blueviolet;
 }
 html .topNav-right {
   display: flex;
@@ -82,25 +84,16 @@ html .topNav-right {
 }
 
 html .header {
-  margin-top: 1em;
   width: 100%;
   height: 24em;
   margin: 0.25em 0em 2em 0em;
   border-radius: 0em 0em 0.5em 0.5em;
   position: relative;
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
   color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-html .header::-webkit-scrollbar {
-  width: 0.5em;
-}
-html .header::-webkit-scrollbar-thumb {
-  background-color: transparent;
 }
 html .header .header-video {
   width: 100%;
