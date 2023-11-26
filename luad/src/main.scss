@@ -298,3 +298,23 @@ html {
     padding: 1em;
   }
 }
+
+// For Universal Scrollbars
+html {
+  overflow: overlay; // Use overlay to make the scrollbar an overlay
+  padding-right: 0.5em; // Add padding to compensate for scrollbar width
+
+  /* Hide scrollbars for all browsers */
+  ::-webkit-scrollbar {
+    width: 0em; // Adjust the width as needed
+    height: 0.5em; // Adjust the height as needed
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5); // Adjust the color as needed
+  }
+
+  /* For Firefox */
+  scrollbar-width: thin; // Adjust the width as needed
+  scrollbar-color: rgba(0, 0, 0, 0.5) transparent; // Adjust the color as needed
+}

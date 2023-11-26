@@ -222,4 +222,20 @@ html .infoDiv {
   height: 40vh;
   border-radius: 0.5em;
   padding: 1em;
+}
+
+html {
+  overflow: overlay;
+  padding-right: 0.5em;
+  /* Hide scrollbars for all browsers */
+  /* For Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.5) transparent;
+}
+html ::-webkit-scrollbar {
+  width: 0em;
+  height: 0.5em;
+}
+html ::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5);
 }/*# sourceMappingURL=main.css.map */
