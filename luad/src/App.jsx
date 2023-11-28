@@ -14,6 +14,9 @@ import ContentPage from "./pages/ContentPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { TimelinePage } from "./pages/TimelinePage";
 import { BoardMembersPage } from "./pages/BoardMembersPage";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, provider } from "./config/firebase";
+import { signInWithRedirect } from "firebase/auth";
 
 export const paths = {
   homepage: "/",
@@ -23,12 +26,29 @@ export const paths = {
   profilePage: "/profile",
   timelinePage: "/timeline",
   boardMembersPage: "/boardmembers",
+  redirectPage: "/signInWithRedirect",
 };
+
+function Redirect() {
+  const [user, loading, error] = useAuthState(auth);
+
+  return (
+    <>
+      <div className="redirectPage">
+        <div className="icon" />
+        <h1>Redirecting</h1>
+        <p>Please wait</p>
+        {loading ? "" : user ? "" : signInWithRedirect(auth, provider)}
+        {user ? window.close() : ""}
+      </div>
+    </>
+  );
+}
 
 export default function App() {
   return (
     <>
-      <HashRouter>
+      <BrowserRouter>
         <NavigationBar />
 
         <Routes>
@@ -38,8 +58,9 @@ export default function App() {
           <Route path={paths.profilePage} element={<ProfilePage />} />
           <Route path={paths.timelinePage} element={<TimelinePage />} />
           <Route path={paths.boardMembersPage} element={<BoardMembersPage />} />
+          <Route path={paths.redirectPage} element={<Redirect />} />
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </>
   );
 }

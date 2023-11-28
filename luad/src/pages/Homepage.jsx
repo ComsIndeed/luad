@@ -37,6 +37,7 @@ function HomepageContent() {
   const [articlePosts, setArticlePosts] = useState([]);
   useEffect(() => {
     importCollection(setArticlePosts, "posts-article");
+    console.log("Imported collection");
   }, []);
 
   const renderContent = () => {

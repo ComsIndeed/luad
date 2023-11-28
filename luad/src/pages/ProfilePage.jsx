@@ -48,7 +48,11 @@ function Pages(props) {
       </button>
       <button
         onClick={() => {
-          signInWithRedirect(auth, provider);
+          window.open(
+            window.location.href.split("/")[0].toString() +
+              "/signInWithRedirect",
+            "_blank"
+          );
         }}
       >
         Sign-in with redirect

@@ -15,14 +15,15 @@ export function CardContent(props) {
   return (
     <>
       <Link to={link} className="content">
-        <LazyLoadImage
+        <img
           className="content-thumbnail"
           src={props.entry.thumbnail}
-          effect="blur"
+          // effect="blur"
+          loading="lazy"
         />
         <h1 className="content-title">{props.entry.title}</h1>
-        <p className="content-author">{props.entry.author}</p>
-        <p className="content-content">{props.entry.content}</p>
+        <p className="content-author">By: {props.entry.author}</p>
+        {/* <p className="content-content">{props.entry.content}</p> */}
       </Link>
     </>
   );
