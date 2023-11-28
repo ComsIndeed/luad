@@ -9,7 +9,7 @@ import {
 
 import { Homepage } from "./pages/Homepage";
 import { AboutPage } from "./pages/AboutPage";
-import { NavigationBar } from "./Components";
+import { Footer, NavigationBar } from "./Components";
 import ContentPage from "./pages/ContentPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { TimelinePage } from "./pages/TimelinePage";
@@ -60,6 +60,8 @@ export default function App() {
           <Route path={paths.boardMembersPage} element={<BoardMembersPage />} />
           <Route path={paths.redirectPage} element={<Redirect />} />
         </Routes>
+
+        {/* <Footer /> */}
       </BrowserRouter>
     </>
   );

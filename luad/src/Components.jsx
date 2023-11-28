@@ -28,6 +28,18 @@ function HologramLink(props) {
   );
 }
 
+export function Footer() {
+  return (
+    <>
+      <footer>
+        <div className="footer">
+          <h1>Suggest nalang po kung anong ilalagay dito sa footer</h1>
+        </div>
+      </footer>
+    </>
+  );
+}
+
 export function NavigationBar() {
   const [isDarkMode, setDarkMode] = useState(false);
   const toggleDarkMode = () => {

@@ -32,6 +32,8 @@ html {
 
   // Globals
   & {
+    padding-top: 2.5em;
+    // overflow-y: hidden;
 
     * {
       transition-property: color, background-color, border-bottom, border;
@@ -39,7 +41,6 @@ html {
       transition-timing-function: ease;
     }
 
-    padding-top: 2.5em;
 
     #root {
       display: flex;
@@ -248,23 +249,34 @@ html {
       flex-direction: column;
       align-items: center;
       width: 90%;
+      margin-bottom: 5em;
 
-      .categoryPanel {
-        height: 2em;
-
-        button {
-          background: none;
-          border: none;
-          font-size: 1.25em;
-          margin: 0 0.5em;
-          padding: 2px;
-          cursor: pointer;
-          transition: border-bottom 0.1s ease-in;
-          border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-
-          &.isSelected {
-            border-bottom: 3px solid rgba(0, 0, 0, 1);
+      .contents-parameter {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        width: 90vw;
+        .categoryPanel {
+          height: 2em;
+  
+          button {
+            background: none;
+            border: none;
+            font-size: 1.25em;
+            margin: 0 0.5em;
+            padding: 2px;
+            cursor: pointer;
+            transition: border-bottom 0.1s ease-in;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  
+            &.isSelected {
+              border-bottom: 3px solid rgba(0, 0, 0, 1);
+            }
           }
+        }
+        .refreshButton {
+          position: absolute;
+          right: 0%;
         }
       }
 
@@ -275,7 +287,6 @@ html {
         gap: 0.5em;
 
         .content {
-          aspect-ratio: 1/1;
           padding: 0.5em;
           padding-bottom: 2em;
           position: relative;
@@ -288,13 +299,17 @@ html {
           justify-content: flex-end;
           font-style: normal;
           text-decoration: none;
+          // outline: solid red;
 
-          &:hover {
-            &::before {
-              background: linear-gradient(0deg, rgba(2,0,36,0.6558998599439776) 5%, rgba(0,0,50,0.5494572829131652) 45%, rgba(0,47,57,0) 100%);
-            }
+          &:not(.large) {
+            aspect-ratio: 1/1;
           }
 
+          &.large {
+            grid-column: span 2;
+          }
+
+          
           .content-thumbnail {
             z-index: -2;
             position: absolute;
@@ -303,6 +318,7 @@ html {
             height: calc(100% + 1em);
             width: 100%;
             object-fit: cover;
+            transition: transform 1.05s ease-out;
           }
           &::before {
             content: '';
@@ -319,12 +335,24 @@ html {
             font-weight: 625;
             font-size: 1.5em;
           }
-
+          
           .content-author {
             outline: red;
             opacity: 0.75;
+            transition: margin 0.15s;
           }
-
+          
+          &:hover {
+            &::before {
+              background: linear-gradient(0deg, rgba(2,0,36,0.6558998599439776) 5%, rgba(0,0,50,0.5494572829131652) 45%, rgba(0,47,57,0) 100%);
+            }
+            .content-author {
+              margin-bottom: 0.25em;
+            }
+            .content-thumbnail {
+              transform: scale(1.05);
+            }
+          }
           // .content-content {
           //   max-height: 9em;
           //   overflow: hidden;
@@ -349,6 +377,18 @@ html {
         height: auto;
         border-radius: 0.5em;
       }
+    }
+  }
+
+  // Footer
+  & {
+    .footer {
+      margin-top: 16em;
+      height: 12em;
+      width: calc(100vw - 4em);
+      background-color: #1a1a1a;
+      padding: 2em;
+      color: white;
     }
   }
 }
@@ -408,9 +448,16 @@ html.darkmode {
 
       .contentList {
         .content {
-          border: 1px solid white;
+          outline: red;
         }
       }
+    }
+  }
+
+  // Footer
+  & {
+    .footer {
+      background-color: #000319;
     }
   }
 }

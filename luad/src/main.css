@@ -174,11 +174,18 @@ html .contents {
   flex-direction: column;
   align-items: center;
   width: 90%;
+  margin-bottom: 5em;
 }
-html .contents .categoryPanel {
+html .contents .contents-parameter {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 90vw;
+}
+html .contents .contents-parameter .categoryPanel {
   height: 2em;
 }
-html .contents .categoryPanel button {
+html .contents .contents-parameter .categoryPanel button {
   background: none;
   border: none;
   font-size: 1.25em;
@@ -188,8 +195,12 @@ html .contents .categoryPanel button {
   transition: border-bottom 0.1s ease-in;
   border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 }
-html .contents .categoryPanel button.isSelected {
+html .contents .contents-parameter .categoryPanel button.isSelected {
   border-bottom: 3px solid rgb(0, 0, 0);
+}
+html .contents .contents-parameter .refreshButton {
+  position: absolute;
+  right: 0%;
 }
 html .contents .contentList {
   margin-top: 1em;
@@ -198,7 +209,6 @@ html .contents .contentList {
   gap: 0.5em;
 }
 html .contents .contentList .content {
-  aspect-ratio: 1/1;
   padding: 0.5em;
   padding-bottom: 2em;
   position: relative;
@@ -211,8 +221,11 @@ html .contents .contentList .content {
   font-style: normal;
   text-decoration: none;
 }
-html .contents .contentList .content:hover::before {
-  background: linear-gradient(0deg, rgba(2, 0, 36, 0.6558998599) 5%, rgba(0, 0, 50, 0.5494572829) 45%, rgba(0, 47, 57, 0) 100%);
+html .contents .contentList .content:not(.large) {
+  aspect-ratio: 1/1;
+}
+html .contents .contentList .content.large {
+  grid-column: span 2;
 }
 html .contents .contentList .content .content-thumbnail {
   z-index: -2;
@@ -223,6 +236,7 @@ html .contents .contentList .content .content-thumbnail {
   width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  transition: transform 1.05s ease-out;
 }
 html .contents .contentList .content::before {
   content: "";
@@ -241,6 +255,16 @@ html .contents .contentList .content .content-title {
 html .contents .contentList .content .content-author {
   outline: red;
   opacity: 0.75;
+  transition: margin 0.15s;
+}
+html .contents .contentList .content:hover::before {
+  background: linear-gradient(0deg, rgba(2, 0, 36, 0.6558998599) 5%, rgba(0, 0, 50, 0.5494572829) 45%, rgba(0, 47, 57, 0) 100%);
+}
+html .contents .contentList .content:hover .content-author {
+  margin-bottom: 0.25em;
+}
+html .contents .contentList .content:hover .content-thumbnail {
+  transform: scale(1.05);
 }
 html .contentPage {
   padding: 2em 1em;
@@ -250,6 +274,14 @@ html .contentPage .contentPage-thumbnail {
   margin: 1em 0em;
   height: auto;
   border-radius: 0.5em;
+}
+html .footer {
+  margin-top: 16em;
+  height: 12em;
+  width: calc(100vw - 4em);
+  background-color: #1a1a1a;
+  padding: 2em;
+  color: white;
 }
 
 html.darkmode body {
@@ -281,7 +313,10 @@ html.darkmode .contents .categoryPanel button.isSelected {
   border-bottom: 3px solid rgba(255, 255, 255, 0.9);
 }
 html.darkmode .contents .contentList .content {
-  border: 1px solid white;
+  outline: red;
+}
+html.darkmode .footer {
+  background-color: #000319;
 }
 
 html .profilePage {

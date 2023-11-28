@@ -36,8 +36,7 @@ function HomepageContent() {
 
   const [articlePosts, setArticlePosts] = useState([]);
   useEffect(() => {
-    importCollection(setArticlePosts, "posts-article");
-    console.log("Imported collection");
+    importCollection(setArticlePosts, "posts-article", undefined, true);
   }, []);
 
   const renderContent = () => {
@@ -83,47 +82,63 @@ function HomepageContent() {
 
   return (
     <div className="contents">
-      <div className="categoryPanel">
-        <button
-          onClick={() => handleCategoryChange("Home")}
-          className={selectedCategory === "Home" ? "isSelected" : ""}
-        >
-          Home
-        </button>
+      <div className="contents-parameter">
+        <div className="categoryPanel">
+          <button
+            onClick={() => handleCategoryChange("Home")}
+            className={selectedCategory === "Home" ? "isSelected" : ""}
+          >
+            Home
+          </button>
 
-        <button
-          onClick={() => handleCategoryChange("Articles")}
-          className={selectedCategory === "Articles" ? "isSelected" : ""}
-        >
-          Articles
-        </button>
+          <button
+            onClick={() => handleCategoryChange("Articles")}
+            className={selectedCategory === "Articles" ? "isSelected" : ""}
+          >
+            Articles
+          </button>
 
-        <button
-          onClick={() => handleCategoryChange("Editorials")}
-          className={selectedCategory === "Editorials" ? "isSelected" : ""}
-        >
-          Editorials
-        </button>
+          <button
+            onClick={() => handleCategoryChange("Editorials")}
+            className={selectedCategory === "Editorials" ? "isSelected" : ""}
+          >
+            Editorials
+          </button>
 
-        <button
-          onClick={() => handleCategoryChange("Sports")}
-          className={selectedCategory === "Sports" ? "isSelected" : ""}
-        >
-          Sports
-        </button>
+          <button
+            onClick={() => handleCategoryChange("Sports")}
+            className={selectedCategory === "Sports" ? "isSelected" : ""}
+          >
+            Sports
+          </button>
 
-        <button
-          onClick={() => handleCategoryChange("Events")}
-          className={selectedCategory === "Events" ? "isSelected" : ""}
-        >
-          Events
-        </button>
+          <button
+            onClick={() => handleCategoryChange("Events")}
+            className={selectedCategory === "Events" ? "isSelected" : ""}
+          >
+            Events
+          </button>
 
+          <button
+            onClick={() => handleCategoryChange("Others")}
+            className={selectedCategory === "Others" ? "isSelected" : ""}
+          >
+            Others
+          </button>
+        </div>
         <button
-          onClick={() => handleCategoryChange("Others")}
-          className={selectedCategory === "Others" ? "isSelected" : ""}
+          onClick={() => {
+            importCollection(
+              setArticlePosts,
+              "posts-article",
+              undefined,
+              true,
+              true
+            );
+          }}
+          className="refreshButton"
         >
-          Others
+          Refresh
         </button>
       </div>
 
