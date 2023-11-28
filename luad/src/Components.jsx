@@ -59,7 +59,8 @@ export function RefreshButton(props) {
         }}
         className="refreshButton"
       >
-        Refresh
+        <Icon icon="material-symbols:refresh" />
+        {props.children}
       </button>
     </>
   );

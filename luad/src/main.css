@@ -63,6 +63,19 @@ html .hologramLink.accountIconLink .accountIcon {
   width: 100%;
   border-radius: 100em;
 }
+html .refreshButton {
+  aspect-ratio: 1/1 !important;
+  padding: 0em;
+  transform: scale(2);
+  background: none;
+  border: none;
+}
+html .refreshButton:hover {
+  background-color: rgb(227, 227, 227);
+}
+html .refreshButton:active {
+  background-color: lightgreen;
+}
 html .redirectPage {
   display: flex;
   flex-direction: column;
@@ -199,8 +212,8 @@ html .contents .contents-parameter .categoryPanel button.isSelected {
   border-bottom: 3px solid rgb(0, 0, 0);
 }
 html .contents .contents-parameter .refreshButton {
-  position: absolute;
-  right: 0%;
+  outline: red;
+  justify-content: flex-end;
 }
 html .contents .contentList {
   margin-top: 1em;

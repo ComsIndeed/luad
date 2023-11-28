@@ -110,6 +110,20 @@ html {
       }
 
     }
+    .refreshButton {
+      aspect-ratio: 1/1 !important;
+      padding: 0em;
+      transform: scale(2);
+      background: none;
+      border: none;
+
+      &:hover {
+        background-color: rgb(227, 227, 227) ;
+      }
+      &:active {
+        background-color: lightgreen;
+      }
+    }
   }
 
   // Redirect Page
@@ -257,6 +271,7 @@ html {
         justify-content: center;
         width: 90vw;
         .categoryPanel {
+          // justify-self: center;
           height: 2em;
   
           button {
@@ -275,8 +290,8 @@ html {
           }
         }
         .refreshButton {
-          position: absolute;
-          right: 0%;
+          outline: red;
+          justify-content: flex-end;
         }
       }
 
