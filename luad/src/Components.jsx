@@ -4,6 +4,7 @@ import { paths } from "./App";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./config/firebase";
 import { Icon } from "@iconify/react";
+import { importCollection } from "./lib/grabData";
 
 function HologramButton(props) {
   return (
@@ -24,6 +25,42 @@ function HologramLink(props) {
         {" "}
         {props.children}{" "}
       </Link>
+    </>
+  );
+}
+
+export function RefreshButton(props) {
+  const isVerbose = () => {
+    if (props.verbose) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const postID = () => {
+    if (props.id) {
+      return props.id;
+    } else {
+      return undefined;
+    }
+  };
+
+  return (
+    <>
+      <button
+        onClick={() => {
+          importCollection(
+            props.method,
+            props.collectionID,
+            postID(),
+            isVerbose(),
+            true
+          );
+        }}
+        className="refreshButton"
+      >
+        Refresh
+      </button>
     </>
   );
 }

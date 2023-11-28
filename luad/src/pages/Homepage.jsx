@@ -4,6 +4,7 @@ import { CardContent } from "./ContentPage";
 
 import header_placeholder from "../assets/header_placeholder.mp4";
 import { importCollection } from "../lib/grabData";
+import { RefreshButton } from "../Components";
 
 function Header() {
   return (
@@ -126,20 +127,11 @@ function HomepageContent() {
             Others
           </button>
         </div>
-        <button
-          onClick={() => {
-            importCollection(
-              setArticlePosts,
-              "posts-article",
-              undefined,
-              true,
-              true
-            );
-          }}
-          className="refreshButton"
-        >
-          Refresh
-        </button>
+        <RefreshButton
+          collectionID="posts-article"
+          method={setArticlePosts}
+          verbose
+        />
       </div>
 
       {renderContent()}
