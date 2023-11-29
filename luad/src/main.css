@@ -1,3 +1,11 @@
+@keyframes squeezeAndStretch {
+  0%, 100% {
+    transform: scaleX(1) scaleY(1);
+  }
+  50% {
+    transform: scaleX(0.8) scaleY(1.2);
+  }
+}
 @font-face {
   font-family: "Playfair Displace SC";
   src: url("./assets/fonts/playfairDisplaySC/PlayfairDisplaySC-Regular.ttf");
@@ -76,6 +84,13 @@ html .refreshButton:hover {
 html .refreshButton:active {
   background-color: lightgreen;
 }
+html .Pot {
+  display: inline-block;
+  transform-origin: center bottom;
+  animation: squeezeAndStretch 2.5s infinite alternate;
+  aspect-ratio: 1/1;
+  flex-grow: 0;
+}
 html .redirectPage {
   display: flex;
   flex-direction: column;
@@ -105,14 +120,26 @@ html .topNav .topNav-left {
   height: 100%;
   display: flex;
   align-items: center;
+  position: relative;
 }
 html .topNav .topNav-left .hologramLink:not(.accountIconLink) {
-  margin: 0em 0.75em;
+  padding: 0em 0.75em;
+  margin: 0.2em;
   transition: transform 0.1s ease-in-out;
 }
 html .topNav .topNav-left .hologramLink:not(.accountIconLink):hover {
   transform: scale(1.05);
   color: blueviolet;
+}
+html .topNav .topNav-left .hologramLink:not(.accountIconLink):hover::after {
+  content: "";
+  position: absolute;
+  top: calc(0% - 1em);
+  left: 0%;
+  height: 3em;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.149);
+  z-index: -4;
 }
 html .topNav .topNav-right {
   display: flex;
@@ -309,6 +336,15 @@ html .contentPage .contentPage-thumbnail {
   margin: 1em 0em;
   height: auto;
   border-radius: 0.5em;
+}
+html .loadingScreen {
+  display: flex;
+  flex-direction: column;
+}
+html .loadingScreen .Pot {
+  height: 18em;
+  width: 18em;
+  align-self: center;
 }
 html .footer {
   margin-top: 16em;

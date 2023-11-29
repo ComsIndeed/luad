@@ -4,35 +4,7 @@ import { Link } from "react-router-dom";
 import { importCollection } from "../lib/grabData";
 import { paths } from "../App";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-
-import { ref } from "firebase/storage";
-
-import Markdown from "markdown-to-jsx";
-
-// export function CardContent(props) {
-//   const link = paths.contentPageBlank + props.entry.id;
-
-//   let componentClass = "content";
-//   if (props.entry.isLargeCard) {
-//     componentClass = "content large";
-//   }
-
-//   return (
-//     <>
-//       <Link to={link} className={componentClass}>
-//         <img
-//           className="content-thumbnail"
-//           src={props.entry.thumbnail}
-//           // effect="blur"
-//           loading="lazy"
-//         />
-//         <h1 className="content-title">{props.entry.title}</h1>
-//         <p className="content-author">By: {props.entry.author}</p>
-//         {/* <p className="content-content">{props.entry.content}</p> */}
-//       </Link>
-//     </>
-//   );
-// }
+import LoadingScreen from "./LoadingScreen";
 
 export function CardContent(props) {
   const link = paths.contentPageBlank + props.entry.id;
@@ -67,8 +39,12 @@ export default function ContentPage() {
   return (
     <>
       <div className="contentPage">
+        {contentData ? "" : <LoadingScreen />}
         <h1 className="contentPage-title"> {contentData.title} </h1>
-        <p className="contentPage-author">By: {contentData.author} </p>
+        <p className="contentPage-author">
+          {" "}
+          {contentData.author ? "By:" : ""} {contentData.author}{" "}
+        </p>
         <LazyLoadImage
           className="contentPage-thumbnail"
           src={contentData.thumbnail}

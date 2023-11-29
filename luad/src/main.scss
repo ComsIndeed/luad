@@ -14,6 +14,15 @@ $themes: (
   ),
 );
 
+@keyframes squeezeAndStretch {
+  0%, 100% {
+    transform: scaleX(1) scaleY(1);
+  }
+  50% {
+    transform: scaleX(0.8) scaleY(1.2);
+  }
+}
+
 // Fonts
 @font-face {
   font-family: "Playfair Displace SC";
@@ -124,6 +133,13 @@ html {
         background-color: lightgreen;
       }
     }
+    .Pot {
+      display: inline-block;
+      transform-origin: center bottom;
+      animation: squeezeAndStretch 2.5s infinite alternate;
+      aspect-ratio: 1/1;
+      flex-grow: 0;
+    }
   }
 
   // Redirect Page
@@ -165,14 +181,28 @@ html {
         height: 100%;
         display: flex;
         align-items: center;
-
+        position: relative;
+        
         .hologramLink:not(.accountIconLink) {
-          margin: 0em 0.75em;
+          padding: 0em 0.75em;
+          margin: 0.2em;
           transition: transform 0.1s ease-in-out;
 
           &:hover {
             transform: scale(1.05);
             color: blueviolet;
+            // background-color: rgba(0, 0, 0, 0.16);
+
+            &::after {
+              content: "";
+              position: absolute;
+              top: calc(0% - 1em);
+              left: 0%;
+              height: 3em;
+              width: 100%;
+              background-color: rgba(0, 0, 0, 0.149);
+              z-index: -4;
+            }
           }
         }
       }
@@ -417,6 +447,20 @@ html {
         margin: 1em 0em;
         height: auto;
         border-radius: 0.5em;
+      }
+    }
+  }
+
+  // Loading Page
+  & {
+    .loadingScreen {
+      display: flex;
+      flex-direction: column;
+
+      .Pot {
+        height: 18em;
+        width: 18em;
+        align-self: center;
       }
     }
   }
