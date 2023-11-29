@@ -44,6 +44,20 @@ import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 //   method(filteredData);
 // };
 
+// {id: "id goes here"}
+// Array.prototype.searchThoseWith = function (query) {
+//   let bucket = this;
+//   const queryKeys = Object.keys(query)
+//   queryKeys.forEach((queryKey) => {
+//     bucket.forEach((object) => {
+//       if(object[queryKey] == undefined) {}
+//       if(object[queryKey] != query[queryKey]) {
+//         bucket = bucket.filter()
+//       }
+//     })
+//   })
+// };
+
 export const importCollection = async (
   method,
   path,
@@ -81,9 +95,28 @@ export const importCollection = async (
     // Use cached data if available and forceRevalidate is false
     if (docId) {
       // Fetching a single document
-      if (cachedData[path][docId]) {
-        rawData = cachedData[path][docId];
-        filteredData = rawData;
+      // console.log(
+      //   cachedData[path].filter((obj) => {
+      //     return Object.entries({ id: "A2bG9h31jDQAeKlZvPqx" }).every(
+      //       ([key, value]) => obj[key] === value
+      //     );
+      //   })
+      // );
+
+      if (
+        cachedData[path].filter((obj) => {
+          return Object.entries({ id: "A2bG9h31jDQAeKlZvPqx" }).every(
+            ([key, value]) => obj[key] === value
+          );
+        })
+      ) {
+        rawData = cachedData[path].filter((obj) => {
+          return Object.entries({ id: "A2bG9h31jDQAeKlZvPqx" }).every(
+            ([key, value]) => obj[key] === value
+          );
+        });
+        filteredData = rawData[0];
+        console.log(filteredData);
         if (verbose) {
           console.log("> Read 1 document from cache");
         }
@@ -129,7 +162,6 @@ export const importCollection = async (
       filteredData = rawData;
 
       // Update cache with fetched data
-      cachedData[path] = rawData;
       sessionStorage.setItem("cachedCollections", JSON.stringify(cachedData));
 
       // Update the timestamp of the last revalidation

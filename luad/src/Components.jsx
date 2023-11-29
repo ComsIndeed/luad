@@ -112,11 +112,30 @@ export function NavigationBar() {
           <HologramLink to={paths.boardMembersPage}>Board Members</HologramLink>
         </div>
         <div className="topNav-right">
-          <button onClick={toggleDarkMode}>Toggle Dark Mode</button>
-          <form>
-            <input type="text" placeholder=" Search" />
+          <button className="toggleDarkMode" onClick={toggleDarkMode}>
+            {isDarkMode ? (
+              <Icon
+                className="toggleDarkMode-icon"
+                id="icon-darkMode"
+                icon="material-symbols:dark-mode"
+              />
+            ) : (
+              <Icon
+                className="toggleDarkMode-icon"
+                id="icon-lightMode"
+                icon="material-symbols:light-mode"
+              />
+            )}
+          </button>
+          <search>
+            <input
+              type="search"
+              id="searchDocs"
+              name="searchDocs"
+              placeholder="Search"
+            />
             <button type="submit"> {">"} </button>
-          </form>
+          </search>
           <button>Menu</button>
         </div>
       </nav>

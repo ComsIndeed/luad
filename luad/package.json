@@ -13,6 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@iconify/react": "^4.1.1",
     "firebase": "^10.6.0",
     "markdown-to-jsx": "^7.3.2",
     "primereact": "^10.1.1",

@@ -61,13 +61,7 @@ export default function ContentPage() {
 
   // On load, get all the posts and display it
   useEffect(() => {
-    importCollection(
-      (fetchedData) => {
-        setContentData(fetchedData);
-      },
-      "posts-article",
-      id
-    );
+    importCollection(setContentData, "posts-article", id, true);
   }, []);
 
   return (

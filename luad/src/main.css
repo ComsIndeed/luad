@@ -90,7 +90,7 @@ html .redirectPage .icon {
 }
 html .topNav {
   width: 100%;
-  padding: 0.4em 0em;
+  height: 3em;
   border-bottom: 1px solid rgb(215, 215, 215);
   display: flex;
   align-items: center;
@@ -119,6 +119,28 @@ html .topNav .topNav-right {
   width: 100%;
   height: 100%;
   justify-content: right;
+  align-items: center;
+}
+html .topNav .topNav-right .toggleDarkMode {
+  aspect-ratio: 1/1;
+  height: 2em;
+  background-color: transparent;
+  padding: 0em;
+  border: none;
+  margin: 0em 0.5em;
+}
+html .topNav .topNav-right .toggleDarkMode svg {
+  aspect-ratio: 1/1;
+  height: 2em;
+  width: 2em;
+}
+html .topNav .topNav-right .toggleDarkMode:hover #icon-lightMode {
+  color: #8e99ff;
+  transform: scale(1.2);
+}
+html .topNav .topNav-right .toggleDarkMode:hover #icon-darkMode {
+  color: rgb(255, 255, 161);
+  transform: scale(1.2);
 }
 html .header {
   width: 100%;
