@@ -4,7 +4,7 @@ import { paths } from "./App";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./config/firebase";
 import { Icon } from "@iconify/react";
-import { importCollection } from "./lib/grabData";
+import { fetchFromFirestore } from "./lib/firestoreControls";
 
 function HologramButton(props) {
   return (
@@ -49,13 +49,9 @@ export function RefreshButton(props) {
     <>
       <button
         onClick={() => {
-          importCollection(
-            props.method,
-            props.collectionID,
-            postID(),
-            isVerbose(),
-            true
-          );
+          fetchFromFirestore("/content", undefined, true).then((returned) => {
+            props.method(returned);
+          });
         }}
         className="refreshButton"
       >

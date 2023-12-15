@@ -238,32 +238,6 @@ html .contents {
   width: 90%;
   margin-bottom: 5em;
 }
-html .contents .contents-parameter {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  width: 90vw;
-}
-html .contents .contents-parameter .categoryPanel {
-  height: 2em;
-}
-html .contents .contents-parameter .categoryPanel button {
-  background: none;
-  border: none;
-  font-size: 1.25em;
-  margin: 0 0.5em;
-  padding: 2px;
-  cursor: pointer;
-  transition: border-bottom 0.1s ease-in;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-}
-html .contents .contents-parameter .categoryPanel button.isSelected {
-  border-bottom: 3px solid rgb(0, 0, 0);
-}
-html .contents .contents-parameter .refreshButton {
-  outline: red;
-  justify-content: flex-end;
-}
 html .contents .contentList {
   margin-top: 1em;
   display: grid;

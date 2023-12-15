@@ -321,36 +321,6 @@ html {
       width: 90%;
       margin-bottom: 5em;
 
-      .contents-parameter {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        width: 90vw;
-        .categoryPanel {
-          // justify-self: center;
-          height: 2em;
-  
-          button {
-            background: none;
-            border: none;
-            font-size: 1.25em;
-            margin: 0 0.5em;
-            padding: 2px;
-            cursor: pointer;
-            transition: border-bottom 0.1s ease-in;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  
-            &.isSelected {
-              border-bottom: 3px solid rgba(0, 0, 0, 1);
-            }
-          }
-        }
-        .refreshButton {
-          outline: red;
-          justify-content: flex-end;
-        }
-      }
-
       .contentList {
         margin-top: 1em;
         display: grid;
