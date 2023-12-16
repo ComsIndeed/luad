@@ -6,6 +6,7 @@ import headerImage from "../assets/header.jpg";
 import { RefreshButton } from "../Components";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { fetchFromFirestore } from "../lib/firestoreControls";
+import { Helmet } from "react-helmet-async";
 
 function Header() {
   return (
@@ -39,7 +40,7 @@ function HomepageContent() {
           {content.map((doc) => {
             return (
               <>
-                <CardContent entry={doc} />
+                <CardContent entry={doc} key={doc.id} />
               </>
             );
           })}
@@ -52,6 +53,19 @@ function HomepageContent() {
 export function Homepage() {
   return (
     <>
+      <Helmet>
+        <title>Homepage | Luad Publications</title>
+        <meta property="og:title" content="Welcome to Luad Publications!" />
+        <meta property="og:site_name" content="Luad Publications" />
+        <meta property="og:url" content="luad.web.app" />
+        <meta
+          property="og:description"
+          content="The collection of Potterians' talents, one click at a time"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="gdfgd" />
+      </Helmet>
+
       <Header />
 
       <HomepageContent />

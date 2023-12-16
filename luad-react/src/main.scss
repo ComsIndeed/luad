@@ -322,6 +322,7 @@ html {
       margin-bottom: 5em;
 
       .contentList {
+        width: 80vw;
         margin-top: 1em;
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -411,6 +412,7 @@ html {
   & {
     .contentPage {
       padding: 2em 1em;
+      font-size: larger;
 
       .contentPage-thumbnail {
         width: 60%;

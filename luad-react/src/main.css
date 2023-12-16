@@ -239,6 +239,7 @@ html .contents {
   margin-bottom: 5em;
 }
 html .contents .contentList {
+  width: 80vw;
   margin-top: 1em;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -304,6 +305,7 @@ html .contents .contentList .content:hover .content-thumbnail {
 }
 html .contentPage {
   padding: 2em 1em;
+  font-size: larger;
 }
 html .contentPage .contentPage-thumbnail {
   width: 60%;

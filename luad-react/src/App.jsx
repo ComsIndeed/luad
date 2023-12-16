@@ -17,6 +17,7 @@ import { BoardMembersPage } from "./pages/BoardMembersPage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, provider } from "./config/firebase";
 import { signInWithRedirect } from "firebase/auth";
+import { HelmetProvider } from "react-helmet-async";
 
 export const paths = {
   homepage: "/",
@@ -48,21 +49,26 @@ function Redirect() {
 export default function App() {
   return (
     <>
-      <BrowserRouter>
-        <NavigationBar />
+      <HelmetProvider>
+        <BrowserRouter>
+          <NavigationBar />
 
-        <Routes>
-          <Route path={paths.homepage} element={<Homepage />} />
-          <Route path={paths.contentPage} element={<ContentPage />} />
-          <Route path={paths.aboutPage} element={<AboutPage />} />
-          <Route path={paths.profilePage} element={<ProfilePage />} />
-          <Route path={paths.timelinePage} element={<TimelinePage />} />
-          <Route path={paths.boardMembersPage} element={<BoardMembersPage />} />
-          <Route path={paths.redirectPage} element={<Redirect />} />
-        </Routes>
+          <Routes>
+            <Route path={paths.homepage} element={<Homepage />} />
+            <Route path={paths.contentPage} element={<ContentPage />} />
+            <Route path={paths.aboutPage} element={<AboutPage />} />
+            <Route path={paths.profilePage} element={<ProfilePage />} />
+            <Route path={paths.timelinePage} element={<TimelinePage />} />
+            <Route
+              path={paths.boardMembersPage}
+              element={<BoardMembersPage />}
+            />
+            <Route path={paths.redirectPage} element={<Redirect />} />
+          </Routes>
 
-        {/* <Footer /> */}
-      </BrowserRouter>
+          {/* <Footer /> */}
+        </BrowserRouter>
+      </HelmetProvider>
     </>
   );
 }

@@ -5,6 +5,7 @@ import { fetchFromFirestore } from "../lib/firestoreControls";
 import { paths } from "../App";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import LoadingScreen from "./LoadingScreen";
+import Markdown from "markdown-to-jsx";
 
 export function CardContent({ entry }) {
   const link = paths.contentPageBlank + entry.id;
@@ -15,7 +16,7 @@ export function CardContent({ entry }) {
     <Link to={link} className={componentClass}>
       <img
         className="content-thumbnail"
-        src={entry.thumbnail}
+        src={entry.headerImage}
         alt={entry.title}
         loading="lazy"
       />
@@ -29,10 +30,13 @@ export default function ContentPage() {
   const [contentData, setContentData] = useState({});
   const { id } = useParams();
 
+  const [text, setText] = useState("");
+
   // On load, get all the posts and display it
   useEffect(() => {
     fetchFromFirestore("/content", id).then((returned) => {
       setContentData(returned);
+      setText(returned.content);
     });
   }, []);
 
@@ -47,9 +51,9 @@ export default function ContentPage() {
         </p>
         <LazyLoadImage
           className="contentPage-thumbnail"
-          src={contentData.thumbnail}
+          src={contentData.headerImage}
         />
-        <p className="contentPage-content"> {contentData.content} </p>
+        <Markdown children={text} className="contentPage-content" />
       </div>
     </>
   );
