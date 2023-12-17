@@ -15,9 +15,12 @@ $themes: (
 );
 
 @keyframes squeezeAndStretch {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scaleX(1) scaleY(1);
   }
+
   50% {
     transform: scaleX(0.8) scaleY(1.2);
   }
@@ -78,27 +81,43 @@ html {
 
     // Scrollbars for all
     & {
-      overflow: overlay; // Use overlay to make the scrollbar an overlay
-      padding-right: 0.5em; // Add padding to compensate for scrollbar width
-
-      /* Hide scrollbars for all browsers */
       ::-webkit-scrollbar {
-        width: 0em; // Adjust the width as needed
-        height: 0.5em; // Adjust the height as needed
+        width: 9px;
       }
-
+      
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      
       ::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0.5); // Adjust the color as needed
-      }
-
-      /* For Firefox */
-      scrollbar-width: thin; // Adjust the width as needed
-      scrollbar-color: rgba(0, 0, 0, 0.5) transparent; // Adjust the color as needed
+        background-color: rgba(155, 155, 155, 0.5);
+        border-radius: 20px;
+        border: transparent;
+      }      
     }
   }
 
   // Classed
   & {
+    .hologramButton {
+      color: map-get(map-get($themes, light), text);
+      font-style: normal;
+      text-decoration: none;
+      margin: 0.25em;
+      vertical-align: middle;
+      font-size: 1.05em;
+
+      border: none;
+      border-bottom: 1px solid black;
+      transition: all 0.25s;
+      background-color: transparent;
+
+      &.selected {
+        font-weight: bold;
+        border-bottom: 2px solid black;
+      }
+    }
+
     .hologramLink {
       color: map-get(map-get($themes, light), text);
       font-style: normal;
@@ -119,26 +138,49 @@ html {
       }
 
     }
+
     .refreshButton {
       aspect-ratio: 1/1 !important;
-      padding: 0em;
+      padding: 0.1em;
       transform: scale(2);
       background: none;
       border: none;
 
       &:hover {
-        background-color: rgb(227, 227, 227) ;
+        background-color: rgb(227, 227, 227);
       }
+
       &:active {
         background-color: lightgreen;
       }
     }
+
     .Pot {
       display: inline-block;
       transform-origin: center bottom;
       animation: squeezeAndStretch 2.5s infinite alternate;
       aspect-ratio: 1/1;
       flex-grow: 0;
+    }
+    .form {
+      position: relative;
+      display: flex;
+      align-items: center;
+      border: 1px solid gray;
+      border-radius: 2em;
+      svg {
+        aspect-ratio: 1/1;
+      }
+      &:focus-within {
+        border: 1px solid black;
+      }
+      input, button {
+        border: none;
+        padding: 0.5em;
+        &:focus {
+          outline: none;
+        }
+      }
     }
   }
 
@@ -182,9 +224,9 @@ html {
         display: flex;
         align-items: center;
         position: relative;
-        
+
         .hologramLink:not(.accountIconLink) {
-          padding: 0em 0.75em;
+          padding: 0em 1em;
           margin: 0.2em;
           transition: transform 0.1s ease-in-out;
 
@@ -221,16 +263,19 @@ html {
           padding: 0em;
           border: none;
           margin: 0em 0.5em;
+
           svg {
             aspect-ratio: 1/1;
             height: 2em;
             width: 2em;
           }
+
           &:hover {
             #icon-lightMode {
               color: #8e99ff;
               transform: scale(1.2);
             }
+
             #icon-darkMode {
               color: rgb(255, 255, 161);
               transform: scale(1.2);
@@ -255,6 +300,34 @@ html {
       align-items: center;
       justify-content: center;
       color: white;
+      transition: all 0.5s;
+      
+      .learnMoreScreen {
+        filter: opacity(0);
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        scroll-snap-type: y mandatory;
+
+        .screen {
+          width: 100%;
+          height: 100%;
+          flex: 0 0 auto;
+          scroll-snap-align: start;
+        }
+
+        .screen1 {
+          height: 90%;
+        }
+      }
+
+      * {
+        transition: all 0.5s;
+      }
 
       .header-video {
         width: 100%;
@@ -272,13 +345,11 @@ html {
         background-color: rgba(13, 0, 54, 0.8);
         border-radius: 0em 0em 0.5em 0.5em;
         z-index: -1;
+        transition: background-color 2s;
       }
 
       .icon {
-        height: 40%;
         aspect-ratio: 1/1;
-        background-image: url("./assets/luad.png");
-        background-size: cover;
       }
 
       .homepage-headerTitle {
@@ -300,16 +371,92 @@ html {
         background-color: rgba(15, 0, 31, 0.4);
         border: none;
         color: white;
-        padding: 0.75em;
         transition: background-color 0.025s ease-in-out;
+        padding: 0.75em;
+        
         margin-right: 2em;
-        position: relative;
-        top: 2em;
-
-        align-self: flex-end;
+        position: absolute;
+        bottom: 2em;
+        right: 1em;
 
         &:active {
           background-color: rgba(180, 164, 198, 0.4);
+        }
+      }
+
+      &.showLearnMoreScreen {
+        height: 95vh;
+
+        & {
+          .screen0 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .icons {
+              margin-top: 2em;
+            }
+
+            .imageCarousel {
+              border-radius: 2em;
+              display: flex;
+              width: 90%;
+              overflow: scroll;
+              margin-top: 5em;
+              scroll-snap-type: x mandatory;
+              * {
+                scroll-snap-align: start;
+                flex: 0 0 auto;
+              }
+            }
+          }
+
+          .screen1 {
+            padding: 2em;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            .boardMembers {
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr 1fr;
+              gap: 1em;
+              margin: 0em 0em 0em 16em;
+              
+              .boardMember {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 1em;
+
+                img, svg {
+                  width: 5em;
+                  height: 5em;
+                }
+              }
+            }
+          }
+        }
+
+        .learnMoreScreen {
+          filter: opacity(1);
+        }
+
+        .header-video {
+          filter: blur(2em);
+        }
+
+        &::after {
+          background-color: rgba(9, 1, 35, 0.95);
+        }
+
+        .icon {
+          filter: opacity(0);
+        }
+        .homepage-headerTitle {
+          filter: opacity(0);
+        }
+        .homepage-subtitle {
+          filter: opacity(0);
         }
       }
     }
@@ -320,6 +467,15 @@ html {
       align-items: center;
       width: 90%;
       margin-bottom: 5em;
+
+      .contentPanel {
+        display: flex;
+        align-items: center;
+        * {
+          margin: 0.25em;
+          background-color: transparent;
+        }
+      }
 
       .contentList {
         width: 80vw;
@@ -351,7 +507,7 @@ html {
             grid-column: span 2;
           }
 
-          
+
           .content-thumbnail {
             z-index: -2;
             position: absolute;
@@ -362,6 +518,7 @@ html {
             object-fit: cover;
             transition: transform 1.05s ease-out;
           }
+
           &::before {
             content: '';
             position: absolute;
@@ -369,7 +526,7 @@ html {
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(0deg, rgba(2,0,36,0.6558998599439776) 0%, rgba(0,0,50,0.5494572829131652) 35%, rgba(0,47,57,0) 100%);
+            background: linear-gradient(0deg, rgba(2, 0, 36, 0.6558998599439776) 0%, rgba(0, 0, 50, 0.5494572829131652) 35%, rgba(0, 47, 57, 0) 100%);
             z-index: -1;
           }
 
@@ -377,24 +534,27 @@ html {
             font-weight: 625;
             font-size: 1.5em;
           }
-          
+
           .content-author {
             outline: red;
             opacity: 0.75;
             transition: margin 0.15s;
           }
-          
+
           &:hover {
             &::before {
-              background: linear-gradient(0deg, rgba(2,0,36,0.6558998599439776) 5%, rgba(0,0,50,0.5494572829131652) 45%, rgba(0,47,57,0) 100%);
+              background: linear-gradient(0deg, rgba(2, 0, 36, 0.6558998599439776) 5%, rgba(0, 0, 50, 0.5494572829131652) 45%, rgba(0, 47, 57, 0) 100%);
             }
+
             .content-author {
               margin-bottom: 0.25em;
             }
+
             .content-thumbnail {
               transform: scale(1.05);
             }
           }
+
           // .content-content {
           //   max-height: 9em;
           //   overflow: hidden;
@@ -427,7 +587,10 @@ html {
   & {
     .loadingScreen {
       display: flex;
+      width: 100%;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
       .Pot {
         height: 18em;
@@ -493,13 +656,9 @@ html.darkmode {
   // Homepage
   & {
     .contents {
-      .categoryPanel {
-        button {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.75);
-
-          &.isSelected {
-            border-bottom: 3px solid rgba(255, 255, 255, 0.9);
-          }
+      .contentPanel {
+        * {
+          color: white;
         }
       }
 

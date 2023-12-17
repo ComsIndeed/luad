@@ -6,6 +6,7 @@ import { paths } from "../App";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import LoadingScreen from "./LoadingScreen";
 import Markdown from "markdown-to-jsx";
+import "animate.css";
 
 export function CardContent({ entry }) {
   const link = paths.contentPageBlank + entry.id;
@@ -44,16 +45,20 @@ export default function ContentPage() {
     <>
       <div className="contentPage">
         {contentData ? "" : <LoadingScreen />}
-        <h1 className="contentPage-title"> {contentData.title} </h1>
+        <h1 className="contentPage-title animate__animated animate__fadeIn">
+          {contentData.title}
+        </h1>
         <p className="contentPage-author">
-          {" "}
-          {contentData.author ? "By:" : ""} {contentData.author}{" "}
+          {contentData.author ? "By:" : ""} {contentData.author}
         </p>
         <LazyLoadImage
-          className="contentPage-thumbnail"
+          className="contentPage-thumbnail animate__animated animate__fadeIn"
           src={contentData.headerImage}
         />
-        <Markdown children={text} className="contentPage-content" />
+        <Markdown
+          children={text}
+          className="contentPage-content animate__animated animate__fadeIn"
+        />
       </div>
     </>
   );

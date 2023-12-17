@@ -6,10 +6,14 @@ import { auth } from "./config/firebase";
 import { Icon } from "@iconify/react";
 import { fetchFromFirestore } from "./lib/firestoreControls";
 
-function HologramButton(props) {
+function HologramButton({ children, classes, onClick }) {
+  const outputClass = "hologramButton " + classes;
+
   return (
     <>
-      <button className="hologramButton">{props.children}</button>
+      <button onClick={onClick} className={outputClass}>
+        {children}
+      </button>
     </>
   );
 }
@@ -29,17 +33,17 @@ function HologramLink(props) {
   );
 }
 
-export function RefreshButton(props) {
+export function RefreshButton({ id, verbose, children, method }) {
   const isVerbose = () => {
-    if (props.verbose) {
+    if (verbose) {
       return true;
     } else {
       return false;
     }
   };
   const postID = () => {
-    if (props.id) {
-      return props.id;
+    if (id) {
+      return id;
     } else {
       return undefined;
     }
@@ -49,14 +53,16 @@ export function RefreshButton(props) {
     <>
       <button
         onClick={() => {
-          fetchFromFirestore("/content", undefined, true).then((returned) => {
-            props.method(returned);
-          });
+          fetchFromFirestore("/content", postID(), true, isVerbose()).then(
+            (returned) => {
+              method(returned);
+            }
+          );
         }}
         className="refreshButton"
       >
-        <Icon icon="material-symbols:refresh" />
-        {props.children}
+        <Icon icon="material-symbols:refresh" height={15} />
+        {children}
       </button>
     </>
   );
@@ -104,8 +110,7 @@ export function NavigationBar() {
           </HologramLink>
           <HologramLink to={paths.homepage}>Home</HologramLink>
           <HologramLink to={paths.aboutPage}>About</HologramLink>
-          <HologramLink to={paths.timelinePage}>Timeline</HologramLink>
-          <HologramLink to={paths.boardMembersPage}>Board Members</HologramLink>
+          <HologramLink to={paths.apply}>Apply for LUAD</HologramLink>
         </div>
         <div className="topNav-right">
           <button className="toggleDarkMode" onClick={toggleDarkMode}>
@@ -123,18 +128,64 @@ export function NavigationBar() {
               />
             )}
           </button>
-          <search>
-            <input
-              type="search"
-              id="searchDocs"
-              name="searchDocs"
-              placeholder="Search"
-            />
-            <button type="submit"> {">"} </button>
-          </search>
-          <button>Menu</button>
         </div>
       </nav>
+    </>
+  );
+}
+
+function SearchBar() {
+  return (
+    <>
+      <div className="search form">
+        <Icon icon="material-symbols:search" height={25} />
+        <input
+          type="search"
+          id="searchDocs"
+          name="searchDocs"
+          placeholder="Search"
+        />
+      </div>
+    </>
+  );
+}
+
+function CategorySelection({ entry }) {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const isSelected = (target1, target2) => {
+    return target1 === target2 ? "selected" : "";
+  };
+
+  return (
+    <>
+      {entry.map((category) => {
+        return (
+          <HologramButton
+            onClick={() => {
+              setSelectedCategory(category);
+            }}
+            classes={isSelected(category, selectedCategory)}
+          >
+            {" "}
+            {category}{" "}
+          </HologramButton>
+        );
+      })}
+    </>
+  );
+}
+
+export function ContentPanel({ method }) {
+  const cagetories = ["All", "Articles", "Editorials", "Literature"];
+
+  return (
+    <>
+      <div className="contentPanel">
+        <CategorySelection entry={cagetories} />
+        <SearchBar />
+        <RefreshButton method={method} />
+      </div>
     </>
   );
 }

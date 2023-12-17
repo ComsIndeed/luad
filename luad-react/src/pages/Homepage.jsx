@@ -1,27 +1,56 @@
-import { useEffect, useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
 import { CardContent } from "./ContentPage";
-
-import headerImage from "../assets/header.jpg";
-import { RefreshButton } from "../Components";
+import headerImage from "../assets/header.webp";
+import LuadWebp from "../assets/luad.webp";
+import { ContentPanel } from "../Components";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { fetchFromFirestore } from "../lib/firestoreControls";
-import { Helmet } from "react-helmet-async";
+import LoadingScreen from "./LoadingScreen";
+import { LearnMoreScreen } from "./LearnMoreScreen";
 
-function Header() {
+function Header({ setShowLearnMoreScreen, showLearnMoreScreen }) {
+  const componentClass = showLearnMoreScreen
+    ? "header showLearnMoreScreen"
+    : "header";
+
   return (
     <>
-      <div className="header">
+      <div className={componentClass}>
         <LazyLoadImage className="header-video" src={headerImage} />
-        <div className="icon" />
+        <LazyLoadImage
+          className="icon"
+          src={LuadWebp}
+          alt="Luad Icon"
+          width={150}
+          height={150}
+        />
         <h1 className="homepage-headerTitle">Luad</h1>
         <p className="homepage-subtitle">
           The collection of Potterians' talents, one click at a time
         </p>
-        <button id="homepage-learnMoreButton">Learn More</button>
+
+        <LearnMoreScreen />
+
+        <button
+          onClick={() => {
+            setShowLearnMoreScreen(!showLearnMoreScreen);
+          }}
+          id="homepage-learnMoreButton"
+        >
+          Learn More
+        </button>
       </div>
     </>
   );
+}
+
+function ContentList({ content }) {
+  const renderContent = () =>
+    content.map((doc) => {
+      return <CardContent entry={doc} key={doc.id} />;
+    });
+
+  return <>{renderContent()}</>;
 }
 
 function HomepageContent() {
@@ -34,39 +63,38 @@ function HomepageContent() {
 
   return (
     <>
-      <RefreshButton />
       <div className="contents">
-        <div className="contentList">
-          {content.map((doc) => {
-            return (
-              <>
-                <CardContent entry={doc} key={doc.id} />
-              </>
-            );
-          })}
-        </div>
+        <ContentPanel method={setContent} />
+        {content.length != 0 ? (
+          <div className="contentList">
+            <ContentList content={content} />
+          </div>
+        ) : (
+          <LoadingScreen />
+        )}
       </div>
     </>
   );
 }
 
 export function Homepage() {
+  const [showLearnMoreScreen, setShowLearnMoreScreen] = useState(false);
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    if (showLearnMoreScreen) {
+      scrollToTop();
+    }
+  }, [showLearnMoreScreen]);
+
   return (
     <>
-      <Helmet>
-        <title>Homepage | Luad Publications</title>
-        <meta property="og:title" content="Welcome to Luad Publications!" />
-        <meta property="og:site_name" content="Luad Publications" />
-        <meta property="og:url" content="luad.web.app" />
-        <meta
-          property="og:description"
-          content="The collection of Potterians' talents, one click at a time"
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="gdfgd" />
-      </Helmet>
-
-      <Header />
+      <Header
+        setShowLearnMoreScreen={setShowLearnMoreScreen}
+        showLearnMoreScreen={showLearnMoreScreen}
+      />
 
       <HomepageContent />
     </>

@@ -39,20 +39,32 @@ html h3,
 html p {
   margin: 0;
 }
-html {
-  overflow: overlay;
-  padding-right: 0.5em;
-  /* Hide scrollbars for all browsers */
-  /* For Firefox */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.5) transparent;
-}
 html ::-webkit-scrollbar {
-  width: 0em;
-  height: 0.5em;
+  width: 9px;
+}
+html ::-webkit-scrollbar-track {
+  background: transparent;
 }
 html ::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+  border: transparent;
+}
+html .hologramButton {
+  color: #180202;
+  font-style: normal;
+  text-decoration: none;
+  margin: 0.25em;
+  vertical-align: middle;
+  font-size: 1.05em;
+  border: none;
+  border-bottom: 1px solid black;
+  transition: all 0.25s;
+  background-color: transparent;
+}
+html .hologramButton.selected {
+  font-weight: bold;
+  border-bottom: 2px solid black;
 }
 html .hologramLink {
   color: #180202;
@@ -73,7 +85,7 @@ html .hologramLink.accountIconLink .accountIcon {
 }
 html .refreshButton {
   aspect-ratio: 1/1 !important;
-  padding: 0em;
+  padding: 0.1em;
   transform: scale(2);
   background: none;
   border: none;
@@ -90,6 +102,26 @@ html .Pot {
   animation: squeezeAndStretch 2.5s infinite alternate;
   aspect-ratio: 1/1;
   flex-grow: 0;
+}
+html .form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid gray;
+  border-radius: 2em;
+}
+html .form svg {
+  aspect-ratio: 1/1;
+}
+html .form:focus-within {
+  border: 1px solid black;
+}
+html .form input, html .form button {
+  border: none;
+  padding: 0.5em;
+}
+html .form input:focus, html .form button:focus {
+  outline: none;
 }
 html .redirectPage {
   display: flex;
@@ -123,7 +155,7 @@ html .topNav .topNav-left {
   position: relative;
 }
 html .topNav .topNav-left .hologramLink:not(.accountIconLink) {
-  padding: 0em 0.75em;
+  padding: 0em 1em;
   margin: 0.2em;
   transition: transform 0.1s ease-in-out;
 }
@@ -180,6 +212,30 @@ html .header {
   align-items: center;
   justify-content: center;
   color: white;
+  transition: all 0.5s;
+}
+html .header .learnMoreScreen {
+  filter: opacity(0);
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+html .header .learnMoreScreen .screen {
+  width: 100%;
+  height: 100%;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+html .header .learnMoreScreen .screen1 {
+  height: 90%;
+}
+html .header * {
+  transition: all 0.5s;
 }
 html .header .header-video {
   width: 100%;
@@ -197,12 +253,10 @@ html .header::after {
   background-color: rgba(13, 0, 54, 0.8);
   border-radius: 0em 0em 0.5em 0.5em;
   z-index: -1;
+  transition: background-color 2s;
 }
 html .header .icon {
-  height: 40%;
   aspect-ratio: 1/1;
-  background-image: url("./assets/luad.png");
-  background-size: cover;
 }
 html .header .homepage-headerTitle {
   font-size: 3.5em;
@@ -221,15 +275,78 @@ html .header #homepage-learnMoreButton {
   background-color: rgba(15, 0, 31, 0.4);
   border: none;
   color: white;
-  padding: 0.75em;
   transition: background-color 0.025s ease-in-out;
+  padding: 0.75em;
   margin-right: 2em;
-  position: relative;
-  top: 2em;
-  align-self: flex-end;
+  position: absolute;
+  bottom: 2em;
+  right: 1em;
 }
 html .header #homepage-learnMoreButton:active {
   background-color: rgba(180, 164, 198, 0.4);
+}
+html .header.showLearnMoreScreen {
+  height: 95vh;
+}
+html .header.showLearnMoreScreen .screen0 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+html .header.showLearnMoreScreen .screen0 .icons {
+  margin-top: 2em;
+}
+html .header.showLearnMoreScreen .screen0 .imageCarousel {
+  border-radius: 2em;
+  display: flex;
+  width: 90%;
+  overflow: scroll;
+  margin-top: 5em;
+  scroll-snap-type: x mandatory;
+}
+html .header.showLearnMoreScreen .screen0 .imageCarousel * {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+}
+html .header.showLearnMoreScreen .screen1 {
+  padding: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+html .header.showLearnMoreScreen .screen1 .boardMembers {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1em;
+  margin: 0em 0em 0em 16em;
+}
+html .header.showLearnMoreScreen .screen1 .boardMembers .boardMember {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+}
+html .header.showLearnMoreScreen .screen1 .boardMembers .boardMember img, html .header.showLearnMoreScreen .screen1 .boardMembers .boardMember svg {
+  width: 5em;
+  height: 5em;
+}
+html .header.showLearnMoreScreen .learnMoreScreen {
+  filter: opacity(1);
+}
+html .header.showLearnMoreScreen .header-video {
+  filter: blur(2em);
+}
+html .header.showLearnMoreScreen::after {
+  background-color: rgba(9, 1, 35, 0.95);
+}
+html .header.showLearnMoreScreen .icon {
+  filter: opacity(0);
+}
+html .header.showLearnMoreScreen .homepage-headerTitle {
+  filter: opacity(0);
+}
+html .header.showLearnMoreScreen .homepage-subtitle {
+  filter: opacity(0);
 }
 html .contents {
   display: flex;
@@ -237,6 +354,14 @@ html .contents {
   align-items: center;
   width: 90%;
   margin-bottom: 5em;
+}
+html .contents .contentPanel {
+  display: flex;
+  align-items: center;
+}
+html .contents .contentPanel * {
+  margin: 0.25em;
+  background-color: transparent;
 }
 html .contents .contentList {
   width: 80vw;
@@ -315,7 +440,10 @@ html .contentPage .contentPage-thumbnail {
 }
 html .loadingScreen {
   display: flex;
+  width: 100%;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 html .loadingScreen .Pot {
   height: 18em;
@@ -353,11 +481,8 @@ html.darkmode .topNav {
 html.darkmode .topNav .topNav-left .hologramLink:not(.accountIconLink):hover {
   color: #eeff00;
 }
-html.darkmode .contents .categoryPanel button {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.75);
-}
-html.darkmode .contents .categoryPanel button.isSelected {
-  border-bottom: 3px solid rgba(255, 255, 255, 0.9);
+html.darkmode .contents .contentPanel * {
+  color: white;
 }
 html.darkmode .contents .contentList .content {
   outline: red;
