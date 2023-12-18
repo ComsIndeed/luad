@@ -14,6 +14,13 @@ $themes: (
   ),
 );
 
+// Global Classed
+html {
+  .red {
+    color: red;
+  }
+}
+
 @keyframes squeezeAndStretch {
 
   0%,
@@ -44,7 +51,7 @@ html {
 
   // Globals
   & {
-    padding-top: 2.5em;
+    padding-top: 3.5em;
     // overflow-y: hidden;
 
     * {
@@ -292,7 +299,7 @@ html {
     .header {
       width: 100%;
       height: 24em;
-      margin: 0.25em 0em 2em 0em;
+      margin: 0em 0em 2em 0em;
       border-radius: 0em 0em 0.5em 0.5em;
       position: relative;
       display: flex;
@@ -596,6 +603,31 @@ html {
         height: 18em;
         width: 18em;
         align-self: center;
+      }
+    }
+  }
+
+  // Admin page
+  & {
+    .adminPageLayout {
+      display: flex;
+      width: 100%;
+      nav {
+        display: flex;
+        padding: 1em;
+        flex-direction: column;
+        border: 1px solid gray;
+        a {
+          padding: 0.2em 1em;
+          margin: 0.5em 0em;
+          border-radius: 0.5em;
+          text-align: center;
+
+          background-color: rgba(0,0,0,0.03);
+          &:hover {
+            background-color: rgba(0,0,0,0.06);
+          }
+        }
       }
     }
   }

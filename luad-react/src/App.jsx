@@ -16,6 +16,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, provider } from "./config/firebase";
 import { signInWithRedirect } from "firebase/auth";
 import LoadingScreen from "./pages/LoadingScreen";
+import { useEffect, useState } from "react";
+import { AdminPage, AdminPageRouters } from "./pages/AdminPage";
 
 export const paths = {
   homepage: "/",
@@ -25,6 +27,7 @@ export const paths = {
   profilePage: "/profile",
   redirectPage: "/signInWithRedirect",
   apply: "/applications",
+  adminPanel: "/admin",
 };
 
 function Redirect() {
@@ -44,19 +47,38 @@ function Redirect() {
 }
 
 export default function App() {
+  const [user, loading, error] = useAuthState(auth);
+  const [userIsAdmin, setUserIsAdmin] = useState(false);
+
+  useEffect(() => {
+    user?.getIdTokenResult().then((result) => {
+      if (result?.claims.admin) {
+        setUserIsAdmin(true);
+      } else {
+        setUserIsAdmin(false);
+      }
+    });
+  }, [user]);
+
   return (
     <>
       <BrowserRouter>
-        <NavigationBar />
+        <NavigationBar userIsAdmin={userIsAdmin} />
 
         <Routes>
           <Route path={paths.homepage} element={<Homepage />} />
           <Route path={paths.contentPage} element={<ContentPage />} />
           <Route path={paths.aboutPage} element={<AboutPage />} />
-          <Route path={paths.profilePage} element={<ProfilePage />} />
+          <Route
+            path={paths.profilePage}
+            element={<ProfilePage userIsAdmin={userIsAdmin} />}
+          />
           <Route path={paths.redirectPage} element={<Redirect />} />
           <Route path={paths.apply} element={<LoadingScreen />} />
+          <Route path={paths.adminPanel} element={<AdminPage />} />
         </Routes>
+
+        <AdminPageRouters />
 
         {/* <Footer /> */}
       </BrowserRouter>

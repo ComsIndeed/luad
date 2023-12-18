@@ -6,7 +6,7 @@ import { auth } from "./config/firebase";
 import { Icon } from "@iconify/react";
 import { fetchFromFirestore } from "./lib/firestoreControls";
 
-function HologramButton({ children, classes, onClick }) {
+export function HologramButton({ children, classes, onClick }) {
   const outputClass = "hologramButton " + classes;
 
   return (
@@ -17,7 +17,7 @@ function HologramButton({ children, classes, onClick }) {
     </>
   );
 }
-function HologramLink(props) {
+export function HologramLink(props) {
   return (
     <>
       <Link
@@ -80,7 +80,7 @@ export function Footer() {
   );
 }
 
-export function NavigationBar() {
+export function NavigationBar({ userIsAdmin }) {
   const [isDarkMode, setDarkMode] = useState(false);
   const toggleDarkMode = () => {
     setDarkMode(!isDarkMode);
@@ -110,7 +110,16 @@ export function NavigationBar() {
           </HologramLink>
           <HologramLink to={paths.homepage}>Home</HologramLink>
           <HologramLink to={paths.aboutPage}>About</HologramLink>
-          <HologramLink to={paths.apply}>Apply for LUAD</HologramLink>
+          {userIsAdmin ? (
+            ""
+          ) : (
+            <HologramLink to={paths.apply}>Apply for LUAD</HologramLink>
+          )}
+          {userIsAdmin ? (
+            <HologramLink to={paths.adminPanel}>Admin Panel</HologramLink>
+          ) : (
+            ""
+          )}
         </div>
         <div className="topNav-right">
           <button className="toggleDarkMode" onClick={toggleDarkMode}>

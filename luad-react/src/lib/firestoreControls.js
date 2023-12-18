@@ -1,4 +1,5 @@
-import { db } from "../config/firebase";
+import { deleteObject, ref } from "firebase/storage";
+import { db, storage } from "../config/firebase";
 import {
   collection,
   getDocs,
@@ -7,148 +8,6 @@ import {
   addDoc,
   deleteDoc,
 } from "firebase/firestore";
-
-// =======================
-
-// 6 articles, 3 editorials, 2 literature
-const data1 = {
-  articles: [
-    {
-      title: "Exploring the Deep Sea",
-      content: "Dive into the mysteries of the ocean depths.",
-      createdAt: "2023-03-15T09:00:00Z",
-    },
-    {
-      title: "The Art of Coding",
-      content: "Unraveling the beauty of programming.",
-      createdAt: "2023-04-22T12:30:00Z",
-    },
-    {
-      title: "Space Travel Adventures",
-      content: "Journey through the cosmos and beyond.",
-      createdAt: "2023-05-10T18:45:00Z",
-    },
-    {
-      title: "The World of Microorganisms",
-      content: "Tiny life forms with big impacts.",
-      createdAt: "2023-06-28T08:15:00Z",
-    },
-    {
-      title: "Innovations in Green Energy",
-      content: "Revolutionizing the way we power our world.",
-      createdAt: "2023-07-17T16:20:00Z",
-    },
-    {
-      title: "Discovering Ancient Civilizations",
-      content: "Unearthing the secrets of bygone eras.",
-      createdAt: "2023-08-05T14:10:00Z",
-    },
-  ],
-  editorials: [
-    {
-      title: "Opinion: Future of Artificial Intelligence",
-      content: "Navigating the ethical landscapes of AI.",
-      createdAt: "2023-09-12T10:45:00Z",
-    },
-    {
-      title: "Environmental Challenges",
-      content: "Addressing urgent issues for a sustainable future.",
-      createdAt: "2023-10-08T17:55:00Z",
-    },
-    {
-      title: "The Role of Technology in Education",
-      content: "Transforming the way we learn and teach.",
-      createdAt: "2023-11-19T11:25:00Z",
-    },
-  ],
-  literature: [
-    {
-      title: "Poetry Collection: Whispers of the Wind",
-      content: "Verses that dance with the breeze.",
-      createdAt: "2023-12-07T13:40:00Z",
-    },
-    {
-      title: "Short Stories: Tales from the Enchanted Forest",
-      content: "Magical narratives of mystical realms.",
-      createdAt: "2023-01-30T22:05:00Z",
-    },
-  ],
-};
-
-// 6 articles, 3 editorials, 4 literature
-const data2 = {
-  articles: [
-    {
-      title: "Exploring the Deep Sea",
-      content: "Dive into the mysteries of the ocean depths.",
-      createdAt: "2023-03-15T09:00:00Z",
-    },
-    {
-      title: "The Art of Coding",
-      content: "Unraveling the beauty of programming.",
-      createdAt: "2023-04-22T12:30:00Z",
-    },
-    {
-      title: "Space Travel Adventures",
-      content: "Journey through the cosmos and beyond.",
-      createdAt: "2023-05-10T18:45:00Z",
-    },
-    {
-      title: "The World of Microorganisms",
-      content: "Tiny life forms with big impacts.",
-      createdAt: "2023-06-28T08:15:00Z",
-    },
-    {
-      title: "Innovations in Green Energy",
-      content: "Revolutionizing the way we power our world.",
-      createdAt: "2023-07-17T16:20:00Z",
-    },
-    {
-      title: "Discovering Ancient Civilizations",
-      content: "Unearthing the secrets of bygone eras.",
-      createdAt: "2023-08-05T14:10:00Z",
-    },
-  ],
-  editorials: [
-    {
-      title: "Opinion: Future of Artificial Intelligence",
-      content: "Navigating the ethical landscapes of AI.",
-      createdAt: "2023-09-12T10:45:00Z",
-    },
-    {
-      title: "Environmental Challenges",
-      content: "Addressing urgent issues for a sustainable future.",
-      createdAt: "2023-10-08T17:55:00Z",
-    },
-    {
-      title: "New Editorial: Innovations in Healthcare",
-      content: "Revolutionizing medical care for a healthier world.",
-      createdAt: "2023-11-25T09:30:00Z",
-    },
-  ],
-  literature: [
-    {
-      title: "Poetry Collection: Whispers of the Wind",
-      content: "Verses that dance with the breeze.",
-      createdAt: "2023-12-07T13:40:00Z",
-    },
-    {
-      title: "Short Stories: Tales from the Enchanted Forest",
-      content: "Magical narratives of mystical realms.",
-      createdAt: "2023-01-30T22:05:00Z",
-    },
-    {
-      title: "Epic Fantasy: The Chronicles of Eloria",
-      content: "Embark on a journey through a fantastical realm.",
-      createdAt: "2023-02-15T15:20:00Z",
-    },
-    {
-      title: "Romantic Poetry: Whispers of the Heart",
-      content: "Capturing the essence of love in poetic verses.",
-      createdAt: "2023-03-05T18:10:00Z",
-    },
-  ],
-};
 
 // =======================
 
@@ -446,6 +305,18 @@ export const removeDocFromFirestore = async (
   isVerbose = false,
   path = "/content"
 ) => {
+  fetchFromFirestore(path, docID).then((doc) => {
+    console.log(doc);
+    if (doc.headerImageReference) {
+      deleteObject(ref(storage, doc.headerImageReference))
+        .then(() => {
+          console.log("Successfully deleted " + doc.headerImageReference);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  });
   await deleteDoc(doc(db, path, docID))
     .then((result) => {
       deleteFromCache(docID, path);

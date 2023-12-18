@@ -1,31 +1,32 @@
 import { signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
 import { auth, provider } from "../config/firebase";
-import { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
-import { paths } from "../App";
 
-function Pages(props) {
-  if (props.entry.error) {
+function Pages({ entry, userIsAdmin }) {
+  if (entry.error) {
     return (
       <>
-        <p>Error: {JSON.stringify(props.entry.error)} </p>
+        <p>Error: {JSON.stringify(entry.error)} </p>
       </>
     );
   }
-  if (props.entry.loading) {
+  if (entry.loading) {
     return (
       <>
         <h3>Loading profile...</h3>
       </>
     );
   }
-  if (props.entry.user) {
-    const user = props.entry.user;
+  if (entry.user) {
+    const user = entry.user;
     return (
       <>
         <img src={user.photoURL} />
-        <h2> {user.displayName} </h2>
+        <span>
+          <h2>
+            {userIsAdmin ? "[Administrator]" : ""} {user.displayName}
+          </h2>
+        </span>
         <p> {user.email} </p>
         <button
           onClick={() => {
@@ -61,13 +62,13 @@ function Pages(props) {
   );
 }
 
-export function ProfilePage() {
+export function ProfilePage({ userIsAdmin }) {
   const [user, loading, error] = useAuthState(auth);
 
   return (
     <>
       <div className="profilePage">
-        <Pages entry={{ user, loading, error }} />
+        <Pages entry={{ user, loading, error }} userIsAdmin={userIsAdmin} />
       </div>
     </>
   );
