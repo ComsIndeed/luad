@@ -55,7 +55,10 @@ export function LearnMoreScreen() {
         ref={learnMoreScreenReference}
         onWheel={handleScroll}
       >
-        <Screen classes="screen0">
+        <Screen>
+          <h1>Work in progress..</h1>
+        </Screen>
+        {/* <Screen classes="screen0">
           <div className="icons">
             <LazyLoadImage src={LuadIcon} />
             <LazyLoadImage src={PccsIcon} />
@@ -82,7 +85,7 @@ export function LearnMoreScreen() {
         </Screen>
         <Screen classes="screen2">
           <h1>The history of LUAD</h1>
-        </Screen>
+        </Screen> */}
       </div>
     </>
   );
