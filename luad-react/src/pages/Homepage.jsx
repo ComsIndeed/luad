@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { CardContent } from "./ContentPage";
 import headerImage from "../assets/header.webp";
 import LuadWebp from "../assets/luad.webp";
-import { ContentPanel } from "../Components";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { fetchFromFirestore } from "../lib/firestoreControls";
 import LoadingScreen from "./LoadingScreen";
 import { LearnMoreScreen } from "./LearnMoreScreen";
+import { CategorySelection, RefreshButton, SearchBar } from "../Components";
+import { Icon } from "@iconify/react";
 
 function Header({ setShowLearnMoreScreen, showLearnMoreScreen }) {
   const componentClass = showLearnMoreScreen
@@ -16,7 +17,7 @@ function Header({ setShowLearnMoreScreen, showLearnMoreScreen }) {
   return (
     <>
       <div className={componentClass}>
-        <LazyLoadImage className="header-video" src={headerImage} />
+        {/* <LazyLoadImage className="header-video" src={headerImage} /> */}
         <LazyLoadImage
           className="icon"
           src={LuadWebp}
@@ -44,6 +45,35 @@ function Header({ setShowLearnMoreScreen, showLearnMoreScreen }) {
   );
 }
 
+function ContentPanel({ method, toggleDarkMode, isDarkMode }) {
+  const cagetories = ["All", "Articles", "Editorials", "Literature"];
+
+  return (
+    <>
+      <div className="contentPanel">
+        <CategorySelection entry={cagetories} />
+        <SearchBar />
+        <RefreshButton method={method} />
+        <button className="toggleDarkMode" onClick={toggleDarkMode}>
+          {isDarkMode ? (
+            <Icon
+              className="toggleDarkMode-icon"
+              id="icon-darkMode"
+              icon="material-symbols:dark-mode"
+            />
+          ) : (
+            <Icon
+              className="toggleDarkMode-icon"
+              id="icon-lightMode"
+              icon="material-symbols:light-mode"
+            />
+          )}
+        </button>
+      </div>
+    </>
+  );
+}
+
 function ContentList({ content }) {
   const renderContent = () =>
     content.map((doc) => {
@@ -53,7 +83,7 @@ function ContentList({ content }) {
   return <>{renderContent()}</>;
 }
 
-function HomepageContent() {
+function HomepageContent({ isDarkMode, toggleDarkMode }) {
   const [content, setContent] = useState([]);
   useEffect(() => {
     fetchFromFirestore("/content").then((returned) => {
@@ -64,7 +94,11 @@ function HomepageContent() {
   return (
     <>
       <div className="contents">
-        <ContentPanel method={setContent} />
+        <ContentPanel
+          method={setContent}
+          isDarkMode={isDarkMode}
+          toggleDarkMode={toggleDarkMode}
+        />
         {content.length != 0 ? (
           <div className="contentList">
             <ContentList content={content} />
@@ -77,7 +111,15 @@ function HomepageContent() {
   );
 }
 
-export function Homepage() {
+function HomepageNavigation() {
+  return (
+    <>
+      <nav>test</nav>
+    </>
+  );
+}
+
+export function Homepage({ toggleDarkMode, isDarkMode }) {
   const [showLearnMoreScreen, setShowLearnMoreScreen] = useState(false);
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -91,12 +133,17 @@ export function Homepage() {
 
   return (
     <>
-      <Header
-        setShowLearnMoreScreen={setShowLearnMoreScreen}
-        showLearnMoreScreen={showLearnMoreScreen}
-      />
+      <div className="homepage">
+        <Header
+          setShowLearnMoreScreen={setShowLearnMoreScreen}
+          showLearnMoreScreen={showLearnMoreScreen}
+        />
 
-      <HomepageContent />
+        <HomepageContent
+          toggleDarkMode={toggleDarkMode}
+          isDarkMode={isDarkMode}
+        />
+      </div>
     </>
   );
 }

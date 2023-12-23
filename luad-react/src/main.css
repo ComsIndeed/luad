@@ -19,8 +19,10 @@ html .red {
   src: url("./assets/fonts/chunkfive/Chunk.ttf");
 }
 html {
-  padding-top: 3.5em;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+html body:not(:has(.homepage)) {
+  padding-top: 3em;
 }
 html * {
   transition-property: color, background-color, border-bottom, border;
@@ -35,7 +37,7 @@ html #root {
 html body {
   padding: 0;
   margin: 0;
-  background-color: #f8f8f8;
+  background-color: hsl(240, 100%, 95%);
 }
 html h1,
 html h2,
@@ -120,11 +122,13 @@ html .form svg {
 html .form:focus-within {
   border: 1px solid black;
 }
-html .form input, html .form button {
+html .form input,
+html .form button {
   border: none;
   padding: 0.5em;
 }
-html .form input:focus, html .form button:focus {
+html .form input:focus,
+html .form button:focus {
   outline: none;
 }
 html .redirectPage {
@@ -205,7 +209,13 @@ html .topNav .topNav-right .toggleDarkMode:hover #icon-darkMode {
   color: rgb(255, 255, 161);
   transform: scale(1.2);
 }
-html .header {
+html .homepage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+html .homepage .header {
   width: 100%;
   height: 24em;
   margin: 0em 0em 2em 0em;
@@ -217,8 +227,11 @@ html .header {
   justify-content: center;
   color: white;
   transition: all 0.5s;
+  background-image: url("./assets/header.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-html .header .learnMoreScreen {
+html .homepage .header .learnMoreScreen {
   filter: opacity(0);
   position: absolute;
   height: 100%;
@@ -229,53 +242,53 @@ html .header .learnMoreScreen {
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
 }
-html .header .learnMoreScreen .screen {
+html .homepage .header .learnMoreScreen .screen {
   width: 100%;
   height: 100%;
   flex: 0 0 auto;
   scroll-snap-align: start;
 }
-html .header .learnMoreScreen .screen1 {
+html .homepage .header .learnMoreScreen .screen1 {
   height: 90%;
 }
-html .header * {
+html .homepage .header * {
   transition: all 0.5s;
+  z-index: 2;
 }
-html .header .header-video {
+html .homepage .header .header-video {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-  z-index: -2;
   position: absolute;
 }
-html .header::after {
+html .homepage .header::after {
   content: "";
   position: absolute;
   width: 100%;
   height: 100%;
   background-color: rgba(13, 0, 54, 0.8);
   border-radius: 0em 0em 0.5em 0.5em;
-  z-index: -1;
+  z-index: 1;
   transition: background-color 2s;
 }
-html .header .icon {
+html .homepage .header .icon {
   aspect-ratio: 1/1;
 }
-html .header .homepage-headerTitle {
+html .homepage .header .homepage-headerTitle {
   font-size: 3.5em;
   font-family: "Chunkfive";
   font-weight: 100;
   -webkit-text-stroke: 0.025em black;
   color: #eeff00;
 }
-html .header .homepage.subtitle {
+html .homepage .header .homepage.subtitle {
   font-size: 1.25em;
   width: 25%;
   text-align: center;
   font-family: "Playfair Display SC";
 }
-html .header #homepage-learnMoreButton {
+html .homepage .header #homepage-learnMoreButton {
   background-color: rgba(15, 0, 31, 0.4);
   border: none;
   color: white;
@@ -286,21 +299,21 @@ html .header #homepage-learnMoreButton {
   bottom: 2em;
   right: 1em;
 }
-html .header #homepage-learnMoreButton:active {
+html .homepage .header #homepage-learnMoreButton:active {
   background-color: rgba(180, 164, 198, 0.4);
 }
-html .header.showLearnMoreScreen {
+html .homepage .header.showLearnMoreScreen {
   height: 95vh;
 }
-html .header.showLearnMoreScreen .screen0 {
+html .homepage .header.showLearnMoreScreen .screen0 {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-html .header.showLearnMoreScreen .screen0 .icons {
+html .homepage .header.showLearnMoreScreen .screen0 .icons {
   margin-top: 2em;
 }
-html .header.showLearnMoreScreen .screen0 .imageCarousel {
+html .homepage .header.showLearnMoreScreen .screen0 .imageCarousel {
   border-radius: 2em;
   display: flex;
   width: 90%;
@@ -308,73 +321,74 @@ html .header.showLearnMoreScreen .screen0 .imageCarousel {
   margin-top: 5em;
   scroll-snap-type: x mandatory;
 }
-html .header.showLearnMoreScreen .screen0 .imageCarousel * {
+html .homepage .header.showLearnMoreScreen .screen0 .imageCarousel * {
   scroll-snap-align: start;
   flex: 0 0 auto;
 }
-html .header.showLearnMoreScreen .screen1 {
+html .homepage .header.showLearnMoreScreen .screen1 {
   padding: 2em;
   display: flex;
   align-items: center;
   justify-content: start;
 }
-html .header.showLearnMoreScreen .screen1 .boardMembers {
+html .homepage .header.showLearnMoreScreen .screen1 .boardMembers {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1em;
   margin: 0em 0em 0em 16em;
 }
-html .header.showLearnMoreScreen .screen1 .boardMembers .boardMember {
+html .homepage .header.showLearnMoreScreen .screen1 .boardMembers .boardMember {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1em;
 }
-html .header.showLearnMoreScreen .screen1 .boardMembers .boardMember img, html .header.showLearnMoreScreen .screen1 .boardMembers .boardMember svg {
+html .homepage .header.showLearnMoreScreen .screen1 .boardMembers .boardMember img,
+html .homepage .header.showLearnMoreScreen .screen1 .boardMembers .boardMember svg {
   width: 5em;
   height: 5em;
 }
-html .header.showLearnMoreScreen .learnMoreScreen {
+html .homepage .header.showLearnMoreScreen .learnMoreScreen {
   filter: opacity(1);
 }
-html .header.showLearnMoreScreen .header-video {
+html .homepage .header.showLearnMoreScreen .header-video {
   filter: blur(2em);
 }
-html .header.showLearnMoreScreen::after {
+html .homepage .header.showLearnMoreScreen::after {
   background-color: rgba(9, 1, 35, 0.95);
 }
-html .header.showLearnMoreScreen .icon {
+html .homepage .header.showLearnMoreScreen .icon {
   filter: opacity(0);
 }
-html .header.showLearnMoreScreen .homepage-headerTitle {
+html .homepage .header.showLearnMoreScreen .homepage-headerTitle {
   filter: opacity(0);
 }
-html .header.showLearnMoreScreen .homepage-subtitle {
+html .homepage .header.showLearnMoreScreen .homepage-subtitle {
   filter: opacity(0);
 }
-html .contents {
+html .homepage .contents {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 90%;
   margin-bottom: 5em;
 }
-html .contents .contentPanel {
+html .homepage .contents .contentPanel {
   display: flex;
   align-items: center;
 }
-html .contents .contentPanel * {
+html .homepage .contents .contentPanel * {
   margin: 0.25em;
   background-color: transparent;
 }
-html .contents .contentList {
+html .homepage .contents .contentList {
   width: 80vw;
   margin-top: 1em;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.5em;
 }
-html .contents .contentList .content {
+html .homepage .contents .contentList .content {
   padding: 0.5em;
   padding-bottom: 2em;
   position: relative;
@@ -387,13 +401,13 @@ html .contents .contentList .content {
   font-style: normal;
   text-decoration: none;
 }
-html .contents .contentList .content:not(.large) {
+html .homepage .contents .contentList .content:not(.large) {
   aspect-ratio: 1/1;
 }
-html .contents .contentList .content.large {
+html .homepage .contents .contentList .content.large {
   grid-column: span 2;
 }
-html .contents .contentList .content .content-thumbnail {
+html .homepage .contents .contentList .content .content-thumbnail {
   z-index: -2;
   position: absolute;
   top: 0px;
@@ -404,7 +418,7 @@ html .contents .contentList .content .content-thumbnail {
      object-fit: cover;
   transition: transform 1.05s ease-out;
 }
-html .contents .contentList .content::before {
+html .homepage .contents .contentList .content::before {
   content: "";
   position: absolute;
   top: 0;
@@ -414,33 +428,36 @@ html .contents .contentList .content::before {
   background: linear-gradient(0deg, rgba(2, 0, 36, 0.6558998599) 0%, rgba(0, 0, 50, 0.5494572829) 35%, rgba(0, 47, 57, 0) 100%);
   z-index: -1;
 }
-html .contents .contentList .content .content-title {
+html .homepage .contents .contentList .content .content-title {
   font-weight: 625;
   font-size: 1.5em;
 }
-html .contents .contentList .content .content-author {
+html .homepage .contents .contentList .content .content-author {
   outline: red;
   opacity: 0.75;
   transition: margin 0.15s;
 }
-html .contents .contentList .content:hover::before {
+html .homepage .contents .contentList .content:hover::before {
   background: linear-gradient(0deg, rgba(2, 0, 36, 0.6558998599) 5%, rgba(0, 0, 50, 0.5494572829) 45%, rgba(0, 47, 57, 0) 100%);
 }
-html .contents .contentList .content:hover .content-author {
+html .homepage .contents .contentList .content:hover .content-author {
   margin-bottom: 0.25em;
 }
-html .contents .contentList .content:hover .content-thumbnail {
+html .homepage .contents .contentList .content:hover .content-thumbnail {
   transform: scale(1.05);
 }
 html .contentPage {
-  padding: 2em 1em;
+  padding: 2em 1em 3em 4em;
   font-size: larger;
 }
 html .contentPage .contentPage-thumbnail {
-  width: 60%;
+  width: 70%;
   margin: 1em 0em;
   height: auto;
   border-radius: 0.5em;
+  aspect-ratio: 16/9;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 html .loadingScreen {
   display: flex;

@@ -53,7 +53,7 @@ export function LearnMoreScreen() {
       <div
         className="learnMoreScreen"
         ref={learnMoreScreenReference}
-        onWheel={handleScroll}
+        // onWheel={handleScroll}
       >
         <Screen>
           <h1>Work in progress..</h1>

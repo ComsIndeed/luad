@@ -80,19 +80,7 @@ export function Footer() {
   );
 }
 
-export function NavigationBar({ userIsAdmin }) {
-  const [isDarkMode, setDarkMode] = useState(false);
-  const toggleDarkMode = () => {
-    setDarkMode(!isDarkMode);
-
-    const htmlElement = document.documentElement;
-    if (isDarkMode) {
-      htmlElement.classList.remove("darkmode");
-    } else {
-      htmlElement.classList.add("darkmode");
-    }
-  };
-
+export function NavigationBar({ userIsAdmin, toggleDarkMode, isDarkMode }) {
   const [user, loading, error] = useAuthState(auth);
   return (
     <>
@@ -143,7 +131,7 @@ export function NavigationBar({ userIsAdmin }) {
   );
 }
 
-function SearchBar() {
+export function SearchBar() {
   return (
     <>
       <div className="search form">
@@ -159,7 +147,7 @@ function SearchBar() {
   );
 }
 
-function CategorySelection({ entry }) {
+export function CategorySelection({ entry }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const isSelected = (target1, target2) => {
@@ -181,20 +169,6 @@ function CategorySelection({ entry }) {
           </HologramButton>
         );
       })}
-    </>
-  );
-}
-
-export function ContentPanel({ method }) {
-  const cagetories = ["All", "Articles", "Editorials", "Literature"];
-
-  return (
-    <>
-      <div className="contentPanel">
-        <CategorySelection entry={cagetories} />
-        <SearchBar />
-        <RefreshButton method={method} />
-      </div>
     </>
   );
 }

@@ -45,16 +45,16 @@ export default function ContentPage() {
     <>
       <div className="contentPage">
         {contentData ? "" : <LoadingScreen />}
+        <LazyLoadImage
+          className="contentPage-thumbnail animate__animated animate__fadeIn"
+          src={contentData.headerImage}
+        />
         <h1 className="contentPage-title animate__animated animate__fadeIn">
           {contentData.title}
         </h1>
         <p className="contentPage-author">
           {contentData.author ? "By:" : ""} {contentData.author}
         </p>
-        <LazyLoadImage
-          className="contentPage-thumbnail animate__animated animate__fadeIn"
-          src={contentData.headerImage}
-        />
         <Markdown
           children={text}
           className="contentPage-content animate__animated animate__fadeIn"
