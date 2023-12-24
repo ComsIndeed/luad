@@ -76,37 +76,40 @@ export default function App() {
 
   return (
     <>
-      {currentLocation.pathname != "/" ? (
-        <NavigationBar
-          userIsAdmin={userIsAdmin}
-          toggleDarkMode={toggleDarkMode}
-          isDarkMode={isDarkMode}
-        />
-      ) : (
-        ""
-      )}
+      <div className="AppWrapper">
+        {currentLocation.pathname != "/" ? (
+          <NavigationBar
+            userIsAdmin={userIsAdmin}
+            toggleDarkMode={toggleDarkMode}
+            isDarkMode={isDarkMode}
+          />
+        ) : (
+          ""
+        )}
 
-      <Routes>
-        <Route
-          path={paths.homepage}
-          element={
-            <Homepage isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-          }
-        />
-        <Route path={paths.contentPage} element={<ContentPage />} />
-        <Route path={paths.aboutPage} element={<AboutPage />} />
-        <Route
-          path={paths.profilePage}
-          element={<ProfilePage userIsAdmin={userIsAdmin} />}
-        />
-        <Route path={paths.redirectPage} element={<Redirect />} />
-        <Route path={paths.apply} element={<LoadingScreen />} />
-        <Route path={paths.adminPanel} element={<AdminPage />} />
-      </Routes>
+        <Routes>
+          <Route
+            path={paths.homepage}
+            element={
+              <Homepage
+                isDarkMode={isDarkMode}
+                toggleDarkMode={toggleDarkMode}
+              />
+            }
+          />
+          <Route path={paths.contentPage} element={<ContentPage />} />
+          <Route path={paths.aboutPage} element={<AboutPage />} />
+          <Route
+            path={paths.profilePage}
+            element={<ProfilePage userIsAdmin={userIsAdmin} />}
+          />
+          <Route path={paths.redirectPage} element={<Redirect />} />
+          <Route path={paths.apply} element={<LoadingScreen />} />
+          <Route path={paths.adminPanel} element={<AdminPage />} />
+        </Routes>
 
-      <AdminPageRouters />
-
-      {/* <Footer /> */}
+        <AdminPageRouters />
+      </div>
     </>
   );
 }

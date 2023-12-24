@@ -1,0 +1,137 @@
+@font-face {
+  font-family: "Chunkfive";
+  src: url("./Assets/fonts/chunkfive/Chunk.ttf");
+}
+body {
+  margin: 0;
+  max-width: 100vw;
+}
+body:not(.dark) {
+  color: #180202;
+  background-color: hsl(240, 100%, 95%);
+}
+body.dark {
+  color: #e0e0e0;
+  background-color: #1a1a1a;
+}
+body .MediaWrapper {
+  width: 100vw;
+}
+body h1, body h2, body h3, body p {
+  margin: 0;
+  display: inline;
+}
+
+.Homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.Homepage > * {
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+.Homepage .Header {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-image: url("header.webp");
+  padding: 1em 0em;
+  width: 100%;
+  border-radius: 0.5em;
+  height: 40vh;
+}
+.Homepage .Header > * {
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+.Homepage .Header::after {
+  content: "Yrdy";
+  width: 100%;
+  height: 100%;
+  background-color: rgba(4, 0, 67, 0.9);
+  position: absolute;
+  z-index: 1;
+  border-radius: 0.5em;
+}
+.Homepage .Header * {
+  z-index: 2;
+}
+@media (max-width: 768px) {
+  .Homepage .Header {
+    height: 40vh;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .Homepage .Header {
+    height: 30vh;
+  }
+}
+.Homepage .Header .HeaderScreen_Main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.Homepage .Header .HeaderScreen_Main > * {
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+.Homepage .Header .HeaderScreen_Main .Header-title {
+  font-family: "Chunkfive";
+  color: gold;
+  font-weight: 500;
+  -webkit-text-stroke: 0.025em black;
+}
+@media (min-width: 1024px) {
+  .Homepage .Header .HeaderScreen_Main .Header-icon {
+    width: 10em;
+    height: 10em;
+  }
+  .Homepage .Header .HeaderScreen_Main .Header-title {
+    font-size: 3em;
+  }
+  .Homepage .Header .HeaderScreen_Main .Header-subtitle {
+    font-size: 1em;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .Homepage .Header .HeaderScreen_Main .Header-icon {
+    width: 7em;
+    height: 7em;
+  }
+  .Homepage .Header .HeaderScreen_Main .Header-title {
+    font-size: 2em;
+  }
+  .Homepage .Header .HeaderScreen_Main .Header-subtitle {
+    font-size: 0.7;
+  }
+}
+@media (max-width: 768px) {
+  .Homepage .Header .HeaderScreen_Main .Header-icon {
+    width: 6em;
+    height: 6em;
+  }
+  .Homepage .Header .HeaderScreen_Main .Header-title {
+    font-size: 2em;
+  }
+  .Homepage .Header .HeaderScreen_Main .Header-subtitle {
+    font-size: 1em;
+  }
+}
+.Homepage .Header .HeaderScreen_Main #LearnMoreButton {
+  position: absolute;
+  bottom: 2em;
+  right: 2em;
+}
+.Homepage .HomepageNavigation {
+  width: -moz-min-content;
+  width: min-content;
+  outline: solid 1px red;
+}/*# sourceMappingURL=main.css.map */
