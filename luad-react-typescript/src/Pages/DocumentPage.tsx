@@ -5,26 +5,30 @@ import {
   FirestoreDocument,
 } from "../Library/firestoreUtils";
 import { Loading } from "../Reusables/Loading";
+import Markdown from "markdown-to-jsx";
 
 export function DocumentPage() {
   const [currentDocument, setCurrentDocument] = useState<
     FirestoreDocument | undefined
   >(undefined);
   const { id } = useParams();
+  const [text, setText] = useState<string>("");
 
   useEffect(() => {
     fetchFromFirestore("/content", id).then(
       (
         fetchedDocument: FirestoreDocument | FirestoreDocument[] | undefined
       ) => {
-        if (!fetchedDocument) {
-          throw new Error("No document fetched");
+        if (!fetchedDocument || Array.isArray(fetchedDocument)) {
+          console.error(fetchedDocument);
+          throw new Error(
+            "Either there is no document or an array of document got fetched"
+          );
         }
-        // Assuming you want to handle the case where it's an array
-        const singleDocument = Array.isArray(fetchedDocument)
-          ? fetchedDocument[0]
-          : fetchedDocument;
-        setCurrentDocument(singleDocument);
+        setCurrentDocument(fetchedDocument);
+        if (typeof fetchedDocument.content == "string") {
+          setText(fetchedDocument.content);
+        }
       }
     );
   }, [id]);
@@ -43,7 +47,7 @@ export function DocumentPage() {
           alt={`Thumbnail for ${currentDocument.title}`}
         />
         <h1>{currentDocument.title}</h1>
-        <p> {currentDocument.content} </p>
+        <Markdown children={text} />
       </div>
     </>
   );

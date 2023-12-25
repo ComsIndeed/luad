@@ -79,7 +79,7 @@ body h1, body h2, body h3, body p {
   content: "Yrdy";
   width: 100%;
   height: 100%;
-  background-color: rgba(4, 0, 67, 0.9);
+  background-color: rgba(4, 0, 67, 0.85);
   position: absolute;
   z-index: 1;
   border-radius: 0.5em;
@@ -167,8 +167,8 @@ body h1, body h2, body h3, body p {
   max-width: 100%;
 }
 .Homepage .Contents {
-  outline: 1px solid green;
   max-width: 90vw;
+  margin: 3em 0em;
 }
 .Homepage .Contents .ContentGrid {
   display: grid;
@@ -194,14 +194,16 @@ body h1, body h2, body h3, body p {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  outline: 1px solid red;
   justify-content: flex-start;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 0.5em;
 }
 .Homepage .Contents .ContentGrid .ContentCard > * {
   flex: 0 0 auto;
   max-width: 100%;
 }
 .Homepage .Contents .ContentGrid .ContentCard .ContentCard-thumbnail {
+  border-radius: 0.5em;
   aspect-ratio: 16/9;
 }
 .Homepage .Contents .ContentGrid .ContentCard .ContentCard-title {
@@ -227,14 +229,62 @@ body h1, body h2, body h3, body p {
 .DocumentPage {
   display: flex;
   flex-direction: column;
-  padding: 2em 4em;
+}
+@media (min-width: 1024px) {
+  .DocumentPage {
+    padding: 2em 4em;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .DocumentPage {
+    padding: 2em 6em;
+  }
+}
+@media (max-width: 768px) {
+  .DocumentPage {
+    padding: 2em 1em;
+  }
 }
 .DocumentPage img {
   border-radius: 0.5em;
+  aspect-ratio: 16/9;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+@media (min-width: 1024px) {
+  .DocumentPage img {
+    width: 55vw;
+    height: auto;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .DocumentPage img {
+    align-self: center;
+    width: 80vw;
+    height: auto;
+  }
+}
+@media (max-width: 768px) {
+  .DocumentPage img {
+    align-self: center;
+    width: 90vw;
+    height: auto;
+  }
 }
 .DocumentPage h1, .DocumentPage h2, .DocumentPage h3 {
   margin: 0.5em 0em;
 }
+@media (min-width: 768px) and (max-width: 1024px) {
+  .DocumentPage h1, .DocumentPage h2, .DocumentPage h3 {
+    align-self: center;
+    font-size: 2.5em;
+  }
+}
 .DocumentPage p {
   text-align: left;
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .DocumentPage p {
+    font-size: 1.5em;
+  }
 }/*# sourceMappingURL=main.css.map */

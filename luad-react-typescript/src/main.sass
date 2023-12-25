@@ -92,7 +92,7 @@ body
   .Header
     @include bg
     @include center
-    @include anOverlay(rgba(4, 0, 67, 0.9), 0.5em)
+    @include anOverlay(rgba(4, 0, 67, 0.85), 0.5em)
     background-image: url("header.webp")
     padding: 1em 0em
     width: 100%
@@ -144,8 +144,8 @@ body
   .HomepageNavigation
     @include center(row)
   .Contents
-    outline: 1px solid green
     max-width: 90vw
+    margin: 3em 0em
     .ContentGrid
       display: grid
       gap: 0.5em
@@ -157,9 +157,11 @@ body
         grid-template-columns: 1fr
       .ContentCard
         @include center()
-        @include temporaryOutline(red)
         justify-content: flex-start
+        background-color: rgba(0, 0, 0, 0.05)
+        border-radius: 0.5em
         .ContentCard-thumbnail
+          border-radius: 0.5em
           aspect-ratio: 16/9
         .ContentCard-title
           word-wrap: break-word
@@ -172,10 +174,36 @@ body
 .DocumentPage
   display: flex
   flex-direction: column
-  padding: 2em 4em
+  @include forScreens($d)
+    padding: 2em 4em
+  @include forScreens($t)
+    padding: 2em 6em
+  @include forScreens($p)
+    padding: 2em 1em
+
   img
     border-radius: 0.5em
+    aspect-ratio: 16/9
+    object-fit: cover
+    @include forScreens($d)
+      width: 55vw
+      height: auto
+    @include forScreens($t)
+      align-self: center
+      width: 80vw
+      height: auto
+    @include forScreens($p)
+      align-self: center
+      width: 90vw
+      height: auto
+
   h1, h2, h3
     margin: 0.5em 0em
+    @include forScreens($t)
+      align-self: center
+      font-size: 2.5em
+
   p
     text-align: left
+    @include forScreens($t)
+      font-size: 1.5em

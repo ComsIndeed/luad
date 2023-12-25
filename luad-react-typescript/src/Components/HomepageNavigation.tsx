@@ -1,5 +1,6 @@
 import React from "react";
 import { useScreenSize } from "../Library/customHooks";
+import ThemeToggle from "../Reusables/ThemeToggle";
 
 function ForDesktops() {
   return (
@@ -10,7 +11,7 @@ function ForDesktops() {
         placeholder="Search"
         id="HomepageNavigation-SearchBar"
       />
-      <button>Dark Mode</button>
+      <ThemeToggle />
     </>
   );
 }
