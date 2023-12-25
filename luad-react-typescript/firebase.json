@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "luad-react",
+    "site": "luad-dev-react",
     "public": "dist",
     "ignore": [
       "firebase.json",

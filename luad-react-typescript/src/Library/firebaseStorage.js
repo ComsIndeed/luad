@@ -4,7 +4,7 @@ import {
   ref,
   uploadBytes,
 } from "firebase/storage";
-import { storage } from "../config/firebase";
+import { storage } from "../Library/firebase";
 import { v4 as UUID } from "uuid";
 
 // Upload thumbnail
