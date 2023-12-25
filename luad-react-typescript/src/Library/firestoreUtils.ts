@@ -13,10 +13,11 @@ import {
 export interface FirestoreDocument {
   id?: string;
   title?: string;
-  content: string;
+  content?: string;
   author?: string;
   headerImage?: string;
   isLargeCard?: boolean;
+  headerImageReference?: string;
 }
 
 // Initializes cache if it doesn't exist
@@ -220,6 +221,9 @@ export const fetchFromFirestore = async (
     Cooldown.set(5); // 5-second cooldown
     if (doc) {
       const requestedData = await requestFromFirestore(path, doc);
+      if (Array.isArray(requestedData)) {
+        throw new Error("Received an array");
+      }
       if (isVerbose) {
         console.log(
           `\nFetched 1 document from Firestore\nPath: ${path}\nDocument ID: ${doc}`
@@ -237,6 +241,9 @@ export const fetchFromFirestore = async (
         undefined,
         isVerbose
       );
+      if (!Array.isArray(requestedData)) {
+        throw new Error("Did not receive array");
+      }
       if (isVerbose) {
         console.log(
           `\nFetched ${requestedData.length} document(s) from Firestore\nPath: ${path}`
@@ -323,6 +330,9 @@ export const removeDocFromFirestore = async (
 ) => {
   fetchFromFirestore(path, docID).then((doc) => {
     console.log(doc);
+    if (Array.isArray(doc)) {
+      throw new Error("Thats an array");
+    }
     if (doc && doc.headerImageReference) {
       deleteObject(ref(storage, doc.headerImageReference))
         .then(() => {
