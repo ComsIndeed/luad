@@ -4,23 +4,29 @@ import { Homepage } from "./Pages/Homepage";
 import { paths } from "./Configuration/paths";
 import { DocumentPage } from "./Pages/DocumentPage";
 import Navigation from "./Components/Navigation";
-import { MediaWrapperProvider } from "./Configuration/MediaWrapperContext";
+import { ThemeProvider } from "./Configuration/ThemeContext";
+import { useScreenSize } from "./Library/customHooks";
 
 export default function App() {
   let location = useLocation();
-  const MediaWrapperReference = useRef(null);
-
+  let { isDesktop, isTablet } = useScreenSize();
   return (
     <>
-      <MediaWrapperProvider>
-        <div className="MediaWrapper" ref={MediaWrapperReference}>
-          {location.pathname != paths.homepage && <Navigation />}
+      <ThemeProvider>
+        <div className="MediaWrapper">
+          {location.pathname != paths.homepage && (
+            <Navigation
+              targetDevice={
+                isDesktop ? "desktops" : isTablet ? "tablets" : "phones"
+              }
+            />
+          )}
           <Routes>
             <Route path={paths.homepage} element={<Homepage />} />
             <Route path={paths.documentPage} element={<DocumentPage />} />
           </Routes>
         </div>
-      </MediaWrapperProvider>
+      </ThemeProvider>
     </>
   );
 }

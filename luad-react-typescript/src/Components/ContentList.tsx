@@ -34,7 +34,7 @@ function ContentCard({ entry }: ContentCardProps) {
           src={entry.headerImage}
           alt={`Thumbnail for the article: "${entry.title}"`}
         />
-        <h2 className="ContentCard-title"> {entry.title} </h2>
+        <h3 className="ContentCard-title"> {entry.title} </h3>
       </Link>
     </>
   );
