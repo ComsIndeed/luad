@@ -1,0 +1,250 @@
+// Style groups
+@mixin bg()
+  background-repeat: no-repeat
+  background-size: cover
+@mixin center($direction: column)
+  display: flex
+  flex-direction: $direction
+  align-items: center
+  justify-content: center
+  & > *
+    flex: 0 0 auto
+    max-width: 100%
+@mixin max()
+  height: 100%
+  width: 100%
+@mixin anOverlay($color, $border-radius: 0em)
+  position: relative
+  &::after
+    content: "Yrdy"
+    width: 100%
+    height: 100%
+    background-color: $color
+    position: absolute
+    z-index: 1
+    border-radius: $border-radius
+  *
+    z-index: 2
+@mixin forScreens($min)
+  @if $min == 1024px
+    @media (min-width: 1024px)
+      @content
+  @if $min == 768px
+    @media ( min-width: 768px) and ( max-width: 1024px )
+      @content
+  @if $min == 640px
+    @media ( max-width: 768px)
+      @content
+@mixin temporaryOutline($color: red)
+  outline: 1px solid $color
+
+// Media queries
+$p: 640px
+$t: 768px
+$d: 1024px
+
+@font-face
+  font-family: "Chunkfive"
+  src: url("./Assets/fonts/chunkfive/Chunk.ttf")
+
+@keyframes squeezeAndStretch
+  0%,
+  100%
+    transform: scaleX(1) scaleY(1)
+    transform-origin: center bottom
+  50%
+    transform-origin: center bottom
+    transform: scaleX(0.8) scaleY(1.2)
+
+// ! ------------------------------ ----------- ---------------------------------------
+// ! ------------------------------ STARTS HERE ---------------------------------------
+// ! ------------------------------ ----------- ---------------------------------------
+
+// Reusables
+.ThemeToggleButton
+  border: none
+  background: none
+  svg
+    width: 1.75em
+    height: 1.75em
+
+// Global
+body
+  margin: 0
+  overflow-y: scroll
+  max-width: 100vw
+  margin-bottom: 5em
+  transition: background-color 0.15s
+  *
+    transition: color 0.15s
+  &
+    &::-webkit-scrollbar
+      width: 8px
+    &::-webkit-scrollbar-track
+      background-color: #f5f5f5
+    &::-webkit-scrollbar-thumb
+      background-color: #888
+      border-radius: 8px
+    &::-webkit-scrollbar-thumb:hover
+      background-color: darken(#888, 10%)
+  &.light-theme
+    background-color: hsl(240, 100%, 95%)
+    *
+      color: #180202
+  &.dark-theme
+    background-color: #1a1a1a
+    *
+      color: #e0e0e0
+  & .MediaWrapper
+    width: calc(100vw - 8px)
+  h1, h2, h3, p
+    margin: 0
+    display: inline
+  &
+    .LuadTitle
+      font-family: "Chunkfive"
+      color: gold
+      font-weight: 500
+      letter-spacing: -0.11em
+      -webkit-text-stroke: 0.03em black
+.Homepage
+  @include center()
+  .Header
+    @include bg
+    @include center
+    @include anOverlay(rgba(4, 0, 67, 0.85), 0.5em)
+    background-image: url("header.webp")
+    padding: 1em 0em
+    width: 100%
+    border-radius: 0.5em
+    height: 40vh
+    @include forScreens($p)
+      height: 40vh
+    @include forScreens($t)
+      height: 30vh
+
+    .HeaderScreen_Main
+      @include center()
+      color: white
+      .Header-title
+        font-family: "Chunkfive"
+        color: gold
+        font-weight: 500
+        letter-spacing: -0.11em
+        -webkit-text-stroke: 0.025em black
+      .Header-subtitle
+        color: white
+      @include forScreens($d)
+        .Header-icon
+          width: 10em
+          height: 10em
+        .Header-title
+          font-size: 3em
+        .Header-subtitle
+          font-size: 1em
+      @include forScreens($t)
+        .Header-icon
+          width: 7em
+          height: 7em
+        .Header-title
+          font-size: 2em
+        .Header-subtitle
+          font-size: 0.7
+      @include forScreens($p)
+        .Header-icon
+          width: 8em
+          height: 8em
+        .Header-title
+          font-size: 3em
+        .Header-subtitle
+          font-size: 0.75em
+
+      #LearnMoreButton
+        position: absolute
+        bottom: 2em
+        right: 2em
+  .HomepageNavigation
+    @include center(row)
+  .Contents
+    max-width: 90vw
+    margin: 3em 0em
+    background-color: rgba(255, 255, 255, 0.025)
+    .ContentGrid
+      display: grid
+      gap: 0.75em
+      @include forScreens($d)
+        grid-template-columns: 1fr 1fr 1fr 1fr
+      @include forScreens($t)
+        grid-template-columns: 1fr 1fr 1fr
+      @include forScreens($p)
+        grid-template-columns: 1fr
+      .ContentCard
+        text-decoration: none
+        @include center()
+        justify-content: flex-start
+        background-color: rgba(255, 255, 255, 0.15)
+        border-radius: 0.5em
+        .ContentCard-thumbnail
+          border-radius: 0.5em
+          aspect-ratio: 16/9
+          object-fit: cover
+        .ContentCard-title
+          word-wrap: break-word
+          padding: 0.5em 2em
+          text-align: center
+          text-decoration: none
+.Loading
+  @include center()
+  .Pot
+    animation: squeezeAndStretch 2s infinite alternate
+.DocumentPage
+  display: flex
+  flex-direction: column
+  @include forScreens($d)
+    padding: 2em 4em
+  @include forScreens($t)
+    padding: 2em 6em
+  @include forScreens($p)
+    padding: 2em 1em
+
+  img
+    border-radius: 0.5em
+    aspect-ratio: 16/9
+    object-fit: cover
+    @include forScreens($d)
+      width: 55vw
+      height: auto
+    @include forScreens($t)
+      align-self: center
+      width: 80vw
+      height: auto
+    @include forScreens($p)
+      align-self: center
+      width: 90vw
+      height: auto
+
+  h1, h2, h3
+    margin: 0.5em 0em
+    @include forScreens($t)
+      align-self: center
+      font-size: 2.5em
+
+  p
+    text-align: left
+    @include forScreens($t)
+      font-size: 1.5em
+.Navigation
+  @include center(row)
+  border-bottom: 1px solid black
+  justify-content: space-between
+  @include forScreens($p)
+    border-bottom: none
+  *
+    vertical-align: middle
+    margin: 0.125em 0.15em
+
+  .Navigation-logo
+    margin-right: 3em
+
+  .BackButton
+    padding: 0.25em

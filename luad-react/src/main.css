@@ -1,1 +1,553 @@
-/*# sourceMappingURL=main.css.map */
+html .red {
+  color: red;
+}
+
+@keyframes squeezeAndStretch {
+  0%, 100% {
+    transform: scaleX(1) scaleY(1);
+  }
+  50% {
+    transform: scaleX(0.8) scaleY(1.2);
+  }
+}
+@font-face {
+  font-family: "Playfair Displace SC";
+  src: url("./assets/fonts/playfairDisplaySC/PlayfairDisplaySC-Regular.ttf");
+}
+@font-face {
+  font-family: "ChunkFive";
+  src: url("./assets/fonts/chunkfive/Chunk.ttf");
+}
+html {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+html body:not(:has(.homepage)) {
+  padding-top: 3em;
+}
+html * {
+  transition-property: color, background-color, border-bottom, border;
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+}
+html #root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+html body {
+  padding: 0;
+  margin: 0;
+  background-color: hsl(240, 100%, 95%);
+}
+html h1,
+html h2,
+html h3,
+html p {
+  margin: 0;
+}
+html ::-webkit-scrollbar {
+  width: 9px;
+}
+html ::-webkit-scrollbar-track {
+  background: transparent;
+}
+html ::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+  border: transparent;
+}
+html .hologramButton {
+  color: #180202;
+  font-style: normal;
+  text-decoration: none;
+  margin: 0.25em;
+  vertical-align: middle;
+  font-size: 1.05em;
+  border: none;
+  border-bottom: 1px solid black;
+  transition: all 0.25s;
+  background-color: transparent;
+}
+html .hologramButton.selected {
+  font-weight: bold;
+  border-bottom: 2px solid black;
+}
+html .hologramLink {
+  color: #180202;
+  font-style: normal;
+  text-decoration: none;
+  margin: 0.25em;
+  vertical-align: middle;
+}
+html .hologramLink.accountIconLink {
+  margin: 0em 1em;
+  height: 2em;
+  aspect-ratio: 1/1;
+}
+html .hologramLink.accountIconLink .accountIcon {
+  height: 100%;
+  width: 100%;
+  border-radius: 100em;
+}
+html .refreshButton {
+  aspect-ratio: 1/1 !important;
+  padding: 0.1em;
+  transform: scale(2);
+  background: none;
+  border: none;
+}
+html .refreshButton:hover {
+  background-color: rgb(227, 227, 227);
+}
+html .refreshButton:active {
+  background-color: lightgreen;
+}
+html .Pot {
+  display: inline-block;
+  transform-origin: center bottom;
+  animation: squeezeAndStretch 2.5s infinite alternate;
+  aspect-ratio: 1/1;
+  flex-grow: 0;
+}
+html .form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid gray;
+  border-radius: 2em;
+}
+html .form svg {
+  aspect-ratio: 1/1;
+}
+html .form:focus-within {
+  border: 1px solid black;
+}
+html .form input,
+html .form button {
+  border: none;
+  padding: 0.5em;
+}
+html .form input:focus,
+html .form button:focus {
+  outline: none;
+}
+html .redirectPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10vh;
+}
+html .redirectPage .icon {
+  height: 12em;
+  aspect-ratio: 1/1;
+  background-image: url("./assets/luad.png");
+  background-size: cover;
+}
+html .topNav {
+  width: 100%;
+  height: 3em;
+  border-bottom: 1px solid rgb(215, 215, 215);
+  display: flex;
+  align-items: center;
+  z-index: 5;
+  background-color: rgb(250, 250, 255);
+  /* Adjust as needed */
+  position: fixed;
+  top: 0;
+}
+html .topNav .topNav-left {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+html .topNav .topNav-left .hologramLink:not(.accountIconLink) {
+  padding: 0em 1em;
+  margin: 0.2em;
+  transition: transform 0.1s ease-in-out;
+}
+html .topNav .topNav-left .hologramLink:not(.accountIconLink):hover {
+  transform: scale(1.05);
+  color: blueviolet;
+}
+html .topNav .topNav-left .hologramLink:not(.accountIconLink):hover::after {
+  content: "";
+  position: absolute;
+  top: calc(0% - 1em);
+  left: 0%;
+  height: 3em;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.149);
+  z-index: -4;
+}
+html .topNav .topNav-right {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: right;
+  align-items: center;
+}
+html .topNav .topNav-right .toggleDarkMode {
+  aspect-ratio: 1/1;
+  height: 2em;
+  background-color: transparent;
+  padding: 0em;
+  border: none;
+  margin: 0em 0.5em;
+}
+html .topNav .topNav-right .toggleDarkMode svg {
+  aspect-ratio: 1/1;
+  height: 2em;
+  width: 2em;
+}
+html .topNav .topNav-right .toggleDarkMode:hover #icon-lightMode {
+  color: #8e99ff;
+  transform: scale(1.2);
+}
+html .topNav .topNav-right .toggleDarkMode:hover #icon-darkMode {
+  color: rgb(255, 255, 161);
+  transform: scale(1.2);
+}
+html .homepage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+html .homepage .header {
+  width: 100%;
+  height: 24em;
+  margin: 0em 0em 2em 0em;
+  border-radius: 0em 0em 0.5em 0.5em;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.5s;
+  background-image: url("./assets/header.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+html .homepage .header .learnMoreScreen {
+  filter: opacity(0);
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+html .homepage .header .learnMoreScreen .screen {
+  width: 100%;
+  height: 100%;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+html .homepage .header .learnMoreScreen .screen1 {
+  height: 90%;
+}
+html .homepage .header * {
+  transition: all 0.5s;
+  z-index: 2;
+}
+html .homepage .header .header-video {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  position: absolute;
+}
+html .homepage .header::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(13, 0, 54, 0.8);
+  border-radius: 0em 0em 0.5em 0.5em;
+  z-index: 1;
+  transition: background-color 2s;
+}
+html .homepage .header .icon {
+  aspect-ratio: 1/1;
+}
+html .homepage .header .homepage-headerTitle {
+  font-size: 3.5em;
+  font-family: "Chunkfive";
+  font-weight: 100;
+  -webkit-text-stroke: 0.025em black;
+  color: #eeff00;
+}
+html .homepage .header .homepage.subtitle {
+  font-size: 1.25em;
+  width: 25%;
+  text-align: center;
+  font-family: "Playfair Display SC";
+}
+html .homepage .header #homepage-learnMoreButton {
+  background-color: rgba(15, 0, 31, 0.4);
+  border: none;
+  color: white;
+  transition: background-color 0.025s ease-in-out;
+  padding: 0.75em;
+  margin-right: 2em;
+  position: absolute;
+  bottom: 2em;
+  right: 1em;
+}
+html .homepage .header #homepage-learnMoreButton:active {
+  background-color: rgba(180, 164, 198, 0.4);
+}
+html .homepage .header.showLearnMoreScreen {
+  height: 95vh;
+}
+html .homepage .header.showLearnMoreScreen .screen0 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+html .homepage .header.showLearnMoreScreen .screen0 .icons {
+  margin-top: 2em;
+}
+html .homepage .header.showLearnMoreScreen .screen0 .imageCarousel {
+  border-radius: 2em;
+  display: flex;
+  width: 90%;
+  overflow: scroll;
+  margin-top: 5em;
+  scroll-snap-type: x mandatory;
+}
+html .homepage .header.showLearnMoreScreen .screen0 .imageCarousel * {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+}
+html .homepage .header.showLearnMoreScreen .screen1 {
+  padding: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+html .homepage .header.showLearnMoreScreen .screen1 .boardMembers {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1em;
+  margin: 0em 0em 0em 16em;
+}
+html .homepage .header.showLearnMoreScreen .screen1 .boardMembers .boardMember {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+}
+html .homepage .header.showLearnMoreScreen .screen1 .boardMembers .boardMember img,
+html .homepage .header.showLearnMoreScreen .screen1 .boardMembers .boardMember svg {
+  width: 5em;
+  height: 5em;
+}
+html .homepage .header.showLearnMoreScreen .learnMoreScreen {
+  filter: opacity(1);
+}
+html .homepage .header.showLearnMoreScreen .header-video {
+  filter: blur(2em);
+}
+html .homepage .header.showLearnMoreScreen::after {
+  background-color: rgba(9, 1, 35, 0.95);
+}
+html .homepage .header.showLearnMoreScreen .icon {
+  filter: opacity(0);
+}
+html .homepage .header.showLearnMoreScreen .homepage-headerTitle {
+  filter: opacity(0);
+}
+html .homepage .header.showLearnMoreScreen .homepage-subtitle {
+  filter: opacity(0);
+}
+html .homepage .contents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  margin-bottom: 5em;
+}
+html .homepage .contents .contentPanel {
+  display: flex;
+  align-items: center;
+}
+html .homepage .contents .contentPanel * {
+  margin: 0.25em;
+  background-color: transparent;
+}
+html .homepage .contents .contentList {
+  width: 80vw;
+  margin-top: 1em;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5em;
+}
+html .homepage .contents .contentList .content {
+  padding: 0.5em;
+  padding-bottom: 2em;
+  position: relative;
+  border-radius: 0.5em;
+  overflow: hidden;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  font-style: normal;
+  text-decoration: none;
+}
+html .homepage .contents .contentList .content:not(.large) {
+  aspect-ratio: 1/1;
+}
+html .homepage .contents .contentList .content.large {
+  grid-column: span 2;
+}
+html .homepage .contents .contentList .content .content-thumbnail {
+  z-index: -2;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: calc(100% + 1em);
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: transform 1.05s ease-out;
+}
+html .homepage .contents .contentList .content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, rgba(2, 0, 36, 0.6558998599) 0%, rgba(0, 0, 50, 0.5494572829) 35%, rgba(0, 47, 57, 0) 100%);
+  z-index: -1;
+}
+html .homepage .contents .contentList .content .content-title {
+  font-weight: 625;
+  font-size: 1.5em;
+}
+html .homepage .contents .contentList .content .content-author {
+  outline: red;
+  opacity: 0.75;
+  transition: margin 0.15s;
+}
+html .homepage .contents .contentList .content:hover::before {
+  background: linear-gradient(0deg, rgba(2, 0, 36, 0.6558998599) 5%, rgba(0, 0, 50, 0.5494572829) 45%, rgba(0, 47, 57, 0) 100%);
+}
+html .homepage .contents .contentList .content:hover .content-author {
+  margin-bottom: 0.25em;
+}
+html .homepage .contents .contentList .content:hover .content-thumbnail {
+  transform: scale(1.05);
+}
+html .contentPage {
+  padding: 2em 1em 3em 4em;
+  font-size: larger;
+}
+html .contentPage .contentPage-thumbnail {
+  width: 70%;
+  margin: 1em 0em;
+  height: auto;
+  border-radius: 0.5em;
+  aspect-ratio: 16/9;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+html .loadingScreen {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+html .loadingScreen .Pot {
+  height: 18em;
+  width: 18em;
+  align-self: center;
+}
+html .adminPageLayout {
+  display: flex;
+  width: 100%;
+}
+html .adminPageLayout nav {
+  display: flex;
+  padding: 1em;
+  flex-direction: column;
+  border: 1px solid gray;
+}
+html .adminPageLayout nav a {
+  padding: 0.2em 1em;
+  margin: 0.5em 0em;
+  border-radius: 0.5em;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.03);
+}
+html .adminPageLayout nav a:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+html .footer {
+  margin-top: 16em;
+  height: 12em;
+  width: calc(100vw - 4em);
+  background-color: #1a1a1a;
+  padding: 2em;
+  color: white;
+}
+
+html.darkmode body {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+html.darkmode body p,
+html.darkmode body h1,
+html.darkmode body h2,
+html.darkmode body h3,
+html.darkmode body button,
+html.darkmode body a {
+  color: #e0e0e0;
+}
+html.darkmode body button {
+  background-color: #1a1a1a;
+}
+html.darkmode .topNav {
+  background-color: #0012b3;
+  border-bottom: none;
+}
+html.darkmode .topNav .topNav-left .hologramLink:not(.accountIconLink):hover {
+  color: #eeff00;
+}
+html.darkmode .contents .contentPanel * {
+  color: white;
+}
+html.darkmode .contents .contentList .content {
+  outline: red;
+}
+html.darkmode .footer {
+  background-color: #000319;
+}
+
+html .profilePage {
+  display: grid;
+  place-items: center;
+  margin-top: 2em;
+}
+html .profilePage * {
+  margin: 0.25em;
+}
+html .profilePage button {
+  padding: 0.5em;
+}
+html .infoDiv {
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
+  margin: 1em;
+  width: 90vw;
+  height: 40vh;
+  border-radius: 0.5em;
+  padding: 1em;
+}/*# sourceMappingURL=main.css.map */

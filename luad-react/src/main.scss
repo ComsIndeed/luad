@@ -1,19 +1,20 @@
 // Themes
 $themes: (
-  light: (text: #180202,
+  light: (
+    text: #180202,
     bgColor: hsl(240, 100%, 95%),
     primary: #4d5eff,
     secondary: #e6e6e5,
     accent: #eeff00,
   ),
-  dark: (text: #e0e0e0,
+  dark: (
+    text: #e0e0e0,
     bgColor: #1a1a1a,
     primary: #0012b3,
     secondary: #1a1a19,
     accent: #eeff00,
   ),
 );
-
 
 // Global Classed
 html {
@@ -23,7 +24,6 @@ html {
 }
 
 @keyframes squeezeAndStretch {
-
   0%,
   100% {
     transform: scaleX(1) scaleY(1);
@@ -37,33 +37,29 @@ html {
 // Fonts
 @font-face {
   font-family: "Playfair Displace SC";
-  src: url('./assets/fonts/playfairDisplaySC/PlayfairDisplaySC-Regular.ttf');
+  src: url("./assets/fonts/playfairDisplaySC/PlayfairDisplaySC-Regular.ttf");
 }
 
 @font-face {
   font-family: "ChunkFive";
-  src: url('./assets/fonts/chunkfive/Chunk.ttf');
+  src: url("./assets/fonts/chunkfive/Chunk.ttf");
 }
 
 $shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.16);
 
 // Light Mode and general
 html {
-
   // Globals
   & {
-
-    
     body:not(:has(.homepage)) {
       padding-top: 3em;
-    }    
-    
+    }
+
     * {
       transition-property: color, background-color, border-bottom, border;
       transition-duration: 0.15s;
       transition-timing-function: ease;
     }
-
 
     #root {
       display: flex;
@@ -84,11 +80,7 @@ html {
       margin: 0;
     }
 
-    font-family: 'Segoe UI',
-    Tahoma,
-    Geneva,
-    Verdana,
-    sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
     // Scrollbars for all
     & {
@@ -147,7 +139,6 @@ html {
           border-radius: 100em;
         }
       }
-
     }
 
     .refreshButton {
@@ -220,7 +211,6 @@ html {
 
   // Top Navigation Bar
   & {
-
     .topNav {
       width: 100%;
       // padding: 0.4em 0em;
@@ -301,7 +291,6 @@ html {
         }
       }
     }
-
   }
 
   // Homepage
@@ -539,7 +528,6 @@ html {
               grid-column: span 2;
             }
 
-
             .content-thumbnail {
               z-index: -2;
               position: absolute;
@@ -552,13 +540,18 @@ html {
             }
 
             &::before {
-              content: '';
+              content: "";
               position: absolute;
               top: 0;
               left: 0;
               width: 100%;
               height: 100%;
-              background: linear-gradient(0deg, rgba(2, 0, 36, 0.6558998599439776) 0%, rgba(0, 0, 50, 0.5494572829131652) 35%, rgba(0, 47, 57, 0) 100%);
+              background: linear-gradient(
+                0deg,
+                rgba(2, 0, 36, 0.6558998599439776) 0%,
+                rgba(0, 0, 50, 0.5494572829131652) 35%,
+                rgba(0, 47, 57, 0) 100%
+              );
               z-index: -1;
             }
 
@@ -575,7 +568,12 @@ html {
 
             &:hover {
               &::before {
-                background: linear-gradient(0deg, rgba(2, 0, 36, 0.6558998599439776) 5%, rgba(0, 0, 50, 0.5494572829131652) 45%, rgba(0, 47, 57, 0) 100%);
+                background: linear-gradient(
+                  0deg,
+                  rgba(2, 0, 36, 0.6558998599439776) 5%,
+                  rgba(0, 0, 50, 0.5494572829131652) 45%,
+                  rgba(0, 47, 57, 0) 100%
+                );
               }
 
               .content-author {
@@ -594,7 +592,6 @@ html {
             //   display: -webkit-inline-box;
             //   -webkit-line-clamp: 4;
             // }
-
           }
         }
       }
@@ -678,7 +675,6 @@ html {
 
 // Dark mode styling
 html.darkmode {
-
   // Globals
   & {
     body {
@@ -691,7 +687,7 @@ html.darkmode {
       h3,
       button,
       a {
-        color: map-get(map-get($themes, dark), text)
+        color: map-get(map-get($themes, dark), text);
       }
 
       button {
