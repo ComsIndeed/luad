@@ -74,9 +74,6 @@ body
   overflow-y: scroll
   max-width: 100vw
   margin-bottom: 5em
-  transition: background-color 0.15s
-  *
-    transition: color 0.15s
   &
     &::-webkit-scrollbar
       width: 8px
@@ -96,7 +93,9 @@ body
     *
       color: #e0e0e0
   & .MediaWrapper
-    width: calc(100vw - 8px)
+    width: 100vw
+    @include forScreens($d)
+      width: calc(100vw - 8px)
   h1, h2, h3, p
     margin: 0
     display: inline
@@ -158,16 +157,47 @@ body
           font-size: 3em
         .Header-subtitle
           font-size: 0.75em
-
       #LearnMoreButton
         position: absolute
         bottom: 2em
         right: 2em
+    .ThemeToggleButton
+      background-color: rgba(255,255,255,0.25)
+      padding: 0.5em
+      border-radius: 0.5em
+      position: absolute
+      top: 10%
+      right: 2.5%
   .HomepageNavigation
     @include center(row)
+    position: relative
+    height: 3em
+    margin: 0.5em 0em
+    width: 90%
+    button
+      border: none
+      background: none
+      cursor: pointer
+      svg
+        margin: 0.5em
+        transform: scale(2)
+      &:hover
+        transform: scale(1.1)
+    .PaginationButtons
+      position: absolute
+      left: 0%
+      display: flex
+      align-items: center
+    .Buttons
+      position: absolute
+      right: 0%
+      display: flex
+      align-items: center
+    #HomepageNavigation-SearchBar
+      padding: 0.5em
+      border-radius: 4em
   .Contents
     max-width: 90vw
-    margin: 3em 0em
     background-color: rgba(255, 255, 255, 0.025)
     .ContentGrid
       display: grid

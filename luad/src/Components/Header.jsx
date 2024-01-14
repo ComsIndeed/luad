@@ -1,8 +1,11 @@
 import React from "react";
+import ThemeToggle from "../Reusables/ThemeToggle";
+
 function HeaderScreen_Main() {
   return (
     <>
       <div className="HeaderScreen_Main">
+        <ThemeToggle />
         <img className="Header-icon" src="luad.webp" alt="Luad Icon" />
         <h1 className="Header-title">LUAD</h1>
         <p className="Header-subtitle">
