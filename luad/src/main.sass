@@ -38,6 +38,9 @@
 @mixin temporaryOutline($color: red)
   outline: 1px solid $color
 
+
+
+
 // Media queries
 $p: 640px
 $t: 768px
@@ -67,6 +70,9 @@ $d: 1024px
   svg
     width: 1.75em
     height: 1.75em
+
+.NavigationLink
+  margin: 1em
 
 // Global
 body
@@ -106,8 +112,18 @@ body
       font-weight: 500
       letter-spacing: -0.11em
       -webkit-text-stroke: 0.03em black
+
+
+
+
+
+
+
+
+
 .Homepage
   @include center()
+  
   .Header
     @include bg
     @include center
@@ -168,34 +184,33 @@ body
       position: absolute
       top: 10%
       right: 2.5%
+  
   .HomepageNavigation
-    @include center(row)
-    position: relative
+    // @include center(row)
+    background-color: hsl(240, 100%, 95%)
+    position: -webkit-sticky
+    position: sticky
+    top: 0
     height: 3em
     margin: 0.5em 0em
+    padding: 0% 5%
     width: 90%
-    button
-      border: none
-      background: none
-      cursor: pointer
-      svg
-        margin: 0.5em
-        transform: scale(2)
-      &:hover
-        transform: scale(1.1)
-    .PaginationButtons
-      position: absolute
-      left: 0%
-      display: flex
-      align-items: center
-    .Buttons
-      position: absolute
-      right: 0%
-      display: flex
-      align-items: center
-    #HomepageNavigation-SearchBar
-      padding: 0.5em
-      border-radius: 4em
+
+    display: grid
+    grid-template-columns: repeat(3, 1fr)
+    gap: 10px
+
+    .left 
+      grid-column: 1
+      place-self: center start
+    .center
+      grid-column: 2
+      place-self: center center
+    .right
+      grid-column: 3
+      place-self: center end
+
+  
   .Contents
     max-width: 90vw
     background-color: rgba(255, 255, 255, 0.025)
@@ -223,10 +238,24 @@ body
           padding: 0.5em 2em
           text-align: center
           text-decoration: none
+
+
+
+
+
+
 .Loading
   @include center()
   .Pot
     animation: squeezeAndStretch 2s infinite alternate
+
+
+
+
+
+
+
+
 .DocumentPage
   display: flex
   flex-direction: column
@@ -263,6 +292,14 @@ body
     text-align: left
     @include forScreens($t)
       font-size: 1.5em
+
+
+
+
+
+
+
+
 .Navigation
   @include center(row)
   border-bottom: 1px solid black
