@@ -37,7 +37,12 @@
       @content
 @mixin temporaryOutline($color: red)
   outline: 1px solid $color
-
+@mixin hoverInteractive()
+  transition: transform 0.1s
+  &:hover
+    transform: scale(1.0125)
+  &:active
+    transform: scale(0.975)
 
 
 
@@ -73,6 +78,9 @@ $d: 1024px
 
 .NavigationLink
   margin: 1em
+
+.BackButton, .BackButton *
+  text-decoration: none
 
 // Global
 body
@@ -112,7 +120,8 @@ body
       font-weight: 500
       letter-spacing: -0.11em
       -webkit-text-stroke: 0.03em black
-
+  button, a, button p, button label, a label, a p
+    cursor: pointer
 
 
 
@@ -196,8 +205,13 @@ body
     padding: 0% 5%
     width: 90%
 
+    .NavigationLink
+      display: inline-block
+      width: min-content
+      @include hoverInteractive
+
     display: grid
-    grid-template-columns: repeat(3, 1fr)
+    grid-template-columns: 1fr 3fr 1fr
     gap: 10px
 
     .left 
@@ -214,6 +228,7 @@ body
   .Contents
     max-width: 90vw
     background-color: rgba(255, 255, 255, 0.025)
+    margin-bottom: 2em 
     .ContentGrid
       display: grid
       gap: 0.75em
@@ -224,11 +239,15 @@ body
       @include forScreens($p)
         grid-template-columns: 1fr
       .ContentCard
+        @include hoverInteractive
         text-decoration: none
         @include center()
         justify-content: flex-start
         background-color: rgba(255, 255, 255, 0.15)
         border-radius: 0.5em
+        box-shadow: 3px 4px 12px -4px rgba(0,0,0,0.4)
+        -webkit-box-shadow: 3px 4px 12px -4px rgba(0,0,0,0.4)
+        -moz-box-shadow: 3px 4px 12px -4px rgba(0,0,0,0.4)
         .ContentCard-thumbnail
           border-radius: 0.5em
           aspect-ratio: 16/9
@@ -302,6 +321,9 @@ body
 
 .Navigation
   @include center(row)
+  position: sticky
+  top: 0%
+  background-color: whitesmoke
   border-bottom: 1px solid black
   justify-content: space-between
   @include forScreens($p)
@@ -310,8 +332,17 @@ body
     vertical-align: middle
     margin: 0.125em 0.15em
 
-  .Navigation-logo
-    margin-right: 3em
+  // .Navigation-logo
+  //   margin-right: 3em
 
   .BackButton
     padding: 0.25em
+
+
+
+
+
+
+.NotFoundPage
+  height: 30vh
+  @include center()

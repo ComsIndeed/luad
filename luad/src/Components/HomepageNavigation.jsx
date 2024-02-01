@@ -1,7 +1,8 @@
 import React from "react";
 import { Icon } from "@iconify/react";
 import { useScreenSize } from "../Library/customHooks";
-import { NavigationLink } from "../Reusables/Clickables";
+import { NavigationLink, NavigationButton } from "../Reusables/Clickables";
+import { paths } from "../Configuration/paths";
 
 // PAGINATION BUTTONS SAVE
 {
@@ -21,12 +22,12 @@ function ForDesktops() {
     <>
       <div className="left">
         <div className="Buttons">
-          <button>
+          <NavigationButton>
             <Icon icon="material-symbols:menu" />
-          </button>
-          <button>
+          </NavigationButton>
+          <NavigationLink to={paths.adminPage.dashboard}>
             <Icon icon="material-symbols:admin-panel-settings" />
-          </button>
+          </NavigationLink>
         </div>
       </div>
 

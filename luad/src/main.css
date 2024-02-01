@@ -25,6 +25,10 @@
   margin: 1em;
 }
 
+.BackButton, .BackButton * {
+  text-decoration: none;
+}
+
 body {
   margin: 0;
   overflow-y: scroll;
@@ -74,6 +78,9 @@ body .LuadTitle {
   font-weight: 500;
   letter-spacing: -0.11em;
   -webkit-text-stroke: 0.03em black;
+}
+body button, body a, body button p, body button label, body a label, body a p {
+  cursor: pointer;
 }
 
 .Homepage {
@@ -205,8 +212,20 @@ body .LuadTitle {
   padding: 0% 5%;
   width: 90%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 3fr 1fr;
   gap: 10px;
+}
+.Homepage .HomepageNavigation .NavigationLink {
+  display: inline-block;
+  width: -moz-min-content;
+  width: min-content;
+  transition: transform 0.1s;
+}
+.Homepage .HomepageNavigation .NavigationLink:hover {
+  transform: scale(1.0125);
+}
+.Homepage .HomepageNavigation .NavigationLink:active {
+  transform: scale(0.975);
 }
 .Homepage .HomepageNavigation .left {
   grid-column: 1;
@@ -223,6 +242,7 @@ body .LuadTitle {
 .Homepage .Contents {
   max-width: 90vw;
   background-color: rgba(255, 255, 255, 0.025);
+  margin-bottom: 2em;
 }
 .Homepage .Contents .ContentGrid {
   display: grid;
@@ -244,6 +264,7 @@ body .LuadTitle {
   }
 }
 .Homepage .Contents .ContentGrid .ContentCard {
+  transition: transform 0.1s;
   text-decoration: none;
   display: flex;
   flex-direction: column;
@@ -252,6 +273,15 @@ body .LuadTitle {
   justify-content: flex-start;
   background-color: rgba(255, 255, 255, 0.15);
   border-radius: 0.5em;
+  box-shadow: 3px 4px 12px -4px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 3px 4px 12px -4px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 3px 4px 12px -4px rgba(0, 0, 0, 0.4);
+}
+.Homepage .Contents .ContentGrid .ContentCard:hover {
+  transform: scale(1.0125);
+}
+.Homepage .Contents .ContentGrid .ContentCard:active {
+  transform: scale(0.975);
 }
 .Homepage .Contents .ContentGrid .ContentCard > * {
   flex: 0 0 auto;
@@ -352,6 +382,9 @@ body .LuadTitle {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  position: sticky;
+  top: 0%;
+  background-color: whitesmoke;
   border-bottom: 1px solid black;
   justify-content: space-between;
 }
@@ -368,9 +401,18 @@ body .LuadTitle {
   vertical-align: middle;
   margin: 0.125em 0.15em;
 }
-.Navigation .Navigation-logo {
-  margin-right: 3em;
-}
 .Navigation .BackButton {
   padding: 0.25em;
+}
+
+.NotFoundPage {
+  height: 30vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.NotFoundPage > * {
+  flex: 0 0 auto;
+  max-width: 100%;
 }/*# sourceMappingURL=main.css.map */

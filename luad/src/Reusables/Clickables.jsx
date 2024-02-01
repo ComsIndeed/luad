@@ -10,3 +10,13 @@ export function NavigationLink({ children, to }) {
     </>
   );
 }
+
+export function NavigationButton({ children, onClick }) {
+  return (
+    <>
+      <Link className="NavigationButton" onClick={onClick}>
+        {children}
+      </Link>
+    </>
+  );
+}
