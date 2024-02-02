@@ -7,6 +7,7 @@ import Navigation from "./Components/Navigation";
 import { ThemeProvider } from "./Configuration/ThemeContext";
 import { useScreenSize } from "./Library/customHooks";
 import NotFound from "./Pages/NotFound";
+import AccountPage from "./Pages/AccountPage";
 
 export default function App() {
   let location = useLocation();
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="*" element={<NotFound />} />
             <Route path={paths.homepage} element={<Homepage />} />
             <Route path={paths.documentPage} element={<DocumentPage />} />
+            <Route path={paths.accountPage} element={<AccountPage />} />
           </Routes>
         </div>
       </ThemeProvider>

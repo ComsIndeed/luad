@@ -21,7 +21,7 @@
   height: 1.75em;
 }
 
-.NavigationLink {
+.NavigationLink, .NavigationButton {
   margin: 1em;
 }
 
@@ -105,7 +105,7 @@ body button, body a, body button p, body button label, body a label, body a p {
   padding: 1em 0em;
   width: 100%;
   border-radius: 0.5em;
-  height: 40vh;
+  min-height: 40vh;
 }
 .Homepage .Header > * {
   flex: 0 0 auto;
@@ -125,12 +125,12 @@ body button, body a, body button p, body button label, body a label, body a p {
 }
 @media (max-width: 768px) {
   .Homepage .Header {
-    height: 40vh;
+    min-height: 45vh;
   }
 }
 @media (min-width: 768px) and (max-width: 1024px) {
   .Homepage .Header {
-    height: 30vh;
+    min-height: 40vh;
   }
 }
 .Homepage .Header .HeaderScreen_Main {
@@ -207,13 +207,10 @@ body button, body a, body button p, body button label, body a label, body a p {
   background-color: hsl(240, 100%, 95%);
   position: sticky;
   top: 0;
-  height: 3em;
+  min-height: 3em;
   margin: 0.5em 0em;
   padding: 0% 5%;
   width: 90%;
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  gap: 10px;
 }
 .Homepage .HomepageNavigation .NavigationLink {
   display: inline-block;
@@ -227,17 +224,55 @@ body button, body a, body button p, body button label, body a label, body a p {
 .Homepage .HomepageNavigation .NavigationLink:active {
   transform: scale(0.975);
 }
-.Homepage .HomepageNavigation .left {
-  grid-column: 1;
-  place-self: center start;
+@media (max-width: 768px) {
+  .Homepage .HomepageNavigation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .Homepage .HomepageNavigation > * {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+  .Homepage .HomepageNavigation .top, .Homepage .HomepageNavigation .bottom {
+    display: flex;
+    gap: 1em;
+  }
 }
-.Homepage .HomepageNavigation .center {
-  grid-column: 2;
-  place-self: center center;
+@media (min-width: 768px) and (max-width: 1024px) {
+  .Homepage .HomepageNavigation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .Homepage .HomepageNavigation > * {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+  .Homepage .HomepageNavigation .top, .Homepage .HomepageNavigation .bottom {
+    display: flex;
+    gap: 1em;
+  }
 }
-.Homepage .HomepageNavigation .right {
-  grid-column: 3;
-  place-self: center end;
+@media (min-width: 1024px) {
+  .Homepage .HomepageNavigation {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+  }
+  .Homepage .HomepageNavigation .left {
+    grid-column: 1;
+    place-self: center start;
+  }
+  .Homepage .HomepageNavigation .center {
+    grid-column: 2;
+    place-self: center center;
+  }
+  .Homepage .HomepageNavigation .right {
+    grid-column: 3;
+    place-self: center end;
+  }
 }
 .Homepage .Contents {
   max-width: 90vw;
@@ -264,7 +299,6 @@ body button, body a, body button p, body button label, body a label, body a p {
   }
 }
 .Homepage .Contents .ContentGrid .ContentCard {
-  transition: transform 0.1s;
   text-decoration: none;
   display: flex;
   flex-direction: column;
@@ -276,12 +310,6 @@ body button, body a, body button p, body button label, body a label, body a p {
   box-shadow: 3px 4px 12px -4px rgba(0, 0, 0, 0.4);
   -webkit-box-shadow: 3px 4px 12px -4px rgba(0, 0, 0, 0.4);
   -moz-box-shadow: 3px 4px 12px -4px rgba(0, 0, 0, 0.4);
-}
-.Homepage .Contents .ContentGrid .ContentCard:hover {
-  transform: scale(1.0125);
-}
-.Homepage .Contents .ContentGrid .ContentCard:active {
-  transform: scale(0.975);
 }
 .Homepage .Contents .ContentGrid .ContentCard > * {
   flex: 0 0 auto;
@@ -382,8 +410,6 @@ body button, body a, body button p, body button label, body a label, body a p {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  position: sticky;
-  top: 0%;
   background-color: whitesmoke;
   border-bottom: 1px solid black;
   justify-content: space-between;
@@ -413,6 +439,17 @@ body button, body a, body button p, body button label, body a label, body a p {
   justify-content: center;
 }
 .NotFoundPage > * {
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+
+.AccountPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.AccountPage > * {
   flex: 0 0 auto;
   max-width: 100%;
 }/*# sourceMappingURL=main.css.map */

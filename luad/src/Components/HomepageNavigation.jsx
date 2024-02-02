@@ -17,18 +17,29 @@ import { paths } from "../Configuration/paths";
 </div> */
 }
 
+function Buttons() {
+  return (
+    <>
+      <div className="Buttons">
+        <NavigationButton>
+          <Icon icon="material-symbols:menu" />
+        </NavigationButton>
+        <NavigationLink to={paths.adminPage.dashboard}>
+          <Icon icon="material-symbols:admin-panel-settings" />
+        </NavigationLink>
+        <NavigationLink to={paths.accountPage}>
+          <Icon icon="material-symbols:account-circle" />{" "}
+        </NavigationLink>
+      </div>
+    </>
+  );
+}
+
 function ForDesktops() {
   return (
     <>
       <div className="left">
-        <div className="Buttons">
-          <NavigationButton>
-            <Icon icon="material-symbols:menu" />
-          </NavigationButton>
-          <NavigationLink to={paths.adminPage.dashboard}>
-            <Icon icon="material-symbols:admin-panel-settings" />
-          </NavigationLink>
-        </div>
+        <Buttons />
       </div>
 
       <div className="center">
@@ -51,27 +62,13 @@ function ForDesktops() {
     </>
   );
 }
+
 function ForTablets() {
   return (
     <>
-      <div className="left">
-        <div className="Buttons">
-          <button>
-            <Icon icon="material-symbols:admin-panel-settings" />
-          </button>
-          <button>
-            <Icon icon="material-symbols:menu" />
-          </button>
-        </div>
-      </div>
+      <div className="top">
+        <Buttons />
 
-      <div className="center">
-        <button>
-          <Icon icon="mdi:filter" />
-        </button>
-      </div>
-
-      <div className="right">
         <input
           type="search"
           name="Search"
@@ -79,6 +76,15 @@ function ForTablets() {
           className="Phone"
           id="HomepageNavigation-SearchBar"
         />
+      </div>
+      <div className="bottom">
+        <div className="center">
+          <NavigationLink>All</NavigationLink>
+          <NavigationLink>Featured</NavigationLink>
+          <NavigationLink>Articles</NavigationLink>
+          <NavigationLink>Editorials</NavigationLink>
+          <NavigationLink>Literature</NavigationLink>
+        </div>
       </div>
     </>
   );
@@ -86,24 +92,9 @@ function ForTablets() {
 function ForPhones() {
   return (
     <>
-      <div className="left">
-        <div className="Buttons">
-          <button>
-            <Icon icon="material-symbols:admin-panel-settings" />
-          </button>
-          <button>
-            <Icon icon="material-symbols:menu" />
-          </button>
-        </div>
-      </div>
+      <div className="top">
+        <Buttons />
 
-      <div className="center">
-        <button>
-          <Icon icon="mdi:filter" />
-        </button>
-      </div>
-
-      <div className="right">
         <input
           type="search"
           name="Search"
@@ -111,6 +102,15 @@ function ForPhones() {
           className="Phone"
           id="HomepageNavigation-SearchBar"
         />
+      </div>
+      <div className="bottom">
+        <div className="center">
+          <NavigationLink>All</NavigationLink>
+          <NavigationLink>Featured</NavigationLink>
+          <NavigationLink>Articles</NavigationLink>
+          <NavigationLink>Editorials</NavigationLink>
+          <NavigationLink>Literature</NavigationLink>
+        </div>
       </div>
     </>
   );
