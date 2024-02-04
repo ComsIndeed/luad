@@ -22,7 +22,21 @@
 }
 
 .NavigationLink, .NavigationButton {
-  margin: 1em;
+  transition: transform 0.1s;
+  padding: 0.25rem;
+  margin: 0.25rem;
+  background: none;
+  border: none;
+}
+.NavigationLink:hover, .NavigationButton:hover {
+  transform: scale(1.0125);
+}
+.NavigationLink:active, .NavigationButton:active {
+  transform: scale(0.975);
+}
+.NavigationLink svg, .NavigationButton svg {
+  aspect-ratio: 16/16;
+  height: 1rem;
 }
 
 .BackButton, .BackButton * {
@@ -52,13 +66,19 @@ body.light-theme {
   background-color: hsl(240, 100%, 95%);
 }
 body.light-theme * {
-  color: #180202;
+  color: #010101;
+}
+body.light-theme .HomepageNavigation {
+  background-color: hsl(240, 100%, 95%);
 }
 body.dark-theme {
-  background-color: #1a1a1a;
+  background-color: hsl(240, 100%, 5%);
 }
 body.dark-theme * {
   color: #e0e0e0;
+}
+body.dark-theme .HomepageNavigation {
+  background-color: hsl(240, 100%, 5%);
 }
 body .MediaWrapper {
   width: 100vw;
@@ -112,7 +132,7 @@ body button, body a, body button p, body button label, body a label, body a p {
   max-width: 100%;
 }
 .Homepage .Header::after {
-  content: "Yrdy";
+  content: "";
   width: 100%;
   height: 100%;
   background-color: rgba(4, 0, 67, 0.85);
@@ -204,7 +224,6 @@ body button, body a, body button p, body button label, body a label, body a p {
   right: 2.5%;
 }
 .Homepage .HomepageNavigation {
-  background-color: hsl(240, 100%, 95%);
   position: sticky;
   top: 0;
   min-height: 3em;
@@ -410,7 +429,6 @@ body button, body a, body button p, body button label, body a label, body a p {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: whitesmoke;
   border-bottom: 1px solid black;
   justify-content: space-between;
 }

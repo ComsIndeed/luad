@@ -12,7 +12,6 @@ export default function Pagination({}) {
           <Icon icon="mingcute:right-fill" />
         </button>
       </div>
-      */
     </>
   );
 }
