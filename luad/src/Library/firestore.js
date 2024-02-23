@@ -1,5 +1,5 @@
 import { deleteObject, ref } from "firebase/storage";
-import { db, storage } from "../Library/firebase";
+import { db, storage } from "./firebase";
 import {
   collection,
   getDocs,
@@ -12,7 +12,7 @@ import {
 // =======================
 
 // Initializes cache if it doesnt exist
-export const initCache = () => {
+const initCache = () => {
   if (!sessionStorage.getItem("firestoreCache")) {
     sessionStorage.setItem("firestoreCache", "{}");
   }
@@ -31,7 +31,7 @@ const hasCache = (path, doc = undefined) => {
 };
 
 // Function to update cache data
-export const updateCache = (path, newData) => {
+const updateCache = (path, newData) => {
   if (!sessionStorage.getItem("firestoreCache")) {
     console.error(`Key "firestoreCache" not found in SessionStorage.`);
   }
@@ -193,16 +193,16 @@ export const fetchFromFirestore = async (
 ) => {
   initCache(); // sets a key in SessionStorage with value of "{}" as string
 
-  // If force revalidate and still has cooldown
-  if (forceRevalidate && Cooldown.get() > 0) {
-    console.error(
-      `Cooldown has ${Cooldown.get()} seconds remaining. Data retrieved from cache.`
-    );
-    return requestFromCache(path, doc);
-  }
+  // // If force revalidate and still has cooldown
+  // if (forceRevalidate && Cooldown.get() > 0) {
+  //   console.error(
+  //     `Cooldown has ${Cooldown.get()} seconds remaining. Data retrieved from cache.`
+  //   );
+  //   return requestFromCache(path, doc);
+  // }
 
   // IF revalidate: Fetch from Firestore if no cooldown or forceRevalidate is true
-  else if ((forceRevalidate && Cooldown.get() === 0) || !hasCache(path, doc)) {
+  if (forceRevalidate || !hasCache(path, doc)) {
     Cooldown.set(5); // 5-second cooldown
     if (doc) {
       const requestedData = await requestFromFirestore(path, doc);
@@ -265,8 +265,24 @@ export const fetchFromFirestore = async (
   }
 };
 
-// FIRESTORE WRITES
-// ===================================
+// ! FIRESTORE WRITES
+// ! ===================================
+
+// Interface for Firestore Documents
+//
+// DocumentItem:
+//      head: object
+//          title: string
+//          headerImage: string
+//          author: string
+//          creationDateRaw: integer
+//          creationDate: vector
+//          lastModifiedRaw: integer
+//          lastModified: vector
+//          meta: object
+//              category: string[]
+//      body: string (markdown)
+//
 
 export const addDocToFirestore = async (
   data,
@@ -341,3 +357,32 @@ export const removeDocFromFirestore = async (
       console.error(err);
     });
 };
+
+export async function uploadDocumentToFirestore(
+  documentObject,
+  path = "/documents"
+) {
+  // const documentObjectJSON = JSON.stringify(documentObject);
+  addDoc(collection(db, path), documentObject)
+    .then((res) => {
+      return res;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+export async function uploadDocumentsToFirestore(
+  documentObjects,
+  path = "/documents",
+  method = undefined
+) {
+  documentObjects.forEach((documentObject) => {
+    uploadDocumentToFirestore(documentObject, path);
+  });
+  if (method) {
+    fetchFromFirestore(path, undefined, true).then((documentListResponse) => {
+      method(documentListResponse);
+    });
+  }
+}

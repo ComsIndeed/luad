@@ -1,6 +1,6 @@
 import React, { Suspense, ReactNode } from "react";
 import { useEffect, useState } from "react";
-import { fetchFromFirestore } from "../Library/firestoreControls";
+import { fetchFromFirestore } from "../Library/firestore";
 import { Loading } from "../Reusables/Loading";
 import { Link } from "react-router-dom";
 import { paths } from "../Configuration/paths";

@@ -4,7 +4,7 @@ import { HomepageNavigation } from "../Components/HomepageNavigation";
 import { Contents } from "../Components/ContentList";
 import Pagination from "../Components/Pagination";
 
-export function Homepage() {
+export function Homepage({ isAdmin }) {
   return (
     <>
       <div className="Homepage">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchFromFirestore } from "../Library/firestoreControls";
+import { fetchFromFirestore } from "../Library/firestore";
 import { Loading } from "../Reusables/Loading";
 import Markdown from "markdown-to-jsx";
 import "animate.css";

@@ -58,6 +58,29 @@ export default function AccountPage({ userIsAdmin }) {
     <>
       <div className="AccountPage">
         <Pages entry={{ user, loading, error }} userIsAdmin={userIsAdmin} />
+        <button
+          onClick={() => {
+            console.log(user);
+          }}
+        >
+          Log user details
+        </button>
+        <button
+          onClick={() => {
+            fetch(
+              "https://content-docs.googleapis.com/v1/documents/1VfLIlU1eoCzqhiFoq39eG2MtDrop4799FG0986wIdmk",
+              {
+                Authorization: `Bearer ya29.a0AfB_byCIU_bgwa2zlsL-Xb8wtZ5OgpxVoF4RSUtS5aNDaaVzDgoOAIsZJJMD-5fpnoq_yXaj3zhS6cFLLwUT7dz74Pw2y2pySkQXNzxLQZ0YFdbsQN9x_rVDxJFc9ppEteEpIr6XZHODl6KS3HsWExN8kpJJuywiFXAnbs4aCgYKAbQSARESFQHGX2Miagbmy0uMazHgZYQyrhzCzA0174`,
+                mode: "no-cors",
+                method: "GET",
+              }
+            ).then((res) => {
+              console.log(res);
+            });
+          }}
+        >
+          Log document details
+        </button>
       </div>
     </>
   );

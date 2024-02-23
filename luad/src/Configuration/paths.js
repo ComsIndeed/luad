@@ -3,7 +3,5 @@ export const paths = {
   accountPage: "/account",
   posts: "/post/",
   documentPage: "/post/:id",
-  adminPage: {
-    dashboard: "/admin/",
-  },
+  adminPage: "/admin",
 };

@@ -17,29 +17,31 @@ import { paths } from "../Configuration/paths";
 </div> */
 }
 
-function Buttons() {
+function Buttons({ isAdmin }) {
   return (
     <>
       <div className="Buttons">
         <NavigationButton>
           <Icon icon="material-symbols:menu" />
         </NavigationButton>
-        <NavigationLink to={paths.adminPage.dashboard}>
-          <Icon icon="material-symbols:admin-panel-settings" />
-        </NavigationLink>
+        {isAdmin && (
+          <NavigationLink to={paths.adminPage}>
+            <Icon icon="material-symbols:admin-panel-settings" />
+          </NavigationLink>
+        )}
         <NavigationLink to={paths.accountPage}>
-          <Icon icon="material-symbols:account-circle" />{" "}
+          <Icon icon="material-symbols:account-circle" />
         </NavigationLink>
       </div>
     </>
   );
 }
 
-function ForDesktops() {
+function ForDesktops({ isAdmin }) {
   return (
     <>
       <div className="left">
-        <Buttons />
+        <Buttons isAdmin={isAdmin} />
       </div>
 
       <div className="center">
@@ -63,11 +65,11 @@ function ForDesktops() {
   );
 }
 
-function ForTablets() {
+function ForTablets({ isAdmin }) {
   return (
     <>
       <div className="top">
-        <Buttons />
+        <Buttons isAdmin={isAdmin} />
 
         <input
           type="search"
@@ -89,11 +91,11 @@ function ForTablets() {
     </>
   );
 }
-function ForPhones() {
+function ForPhones({ isAdmin }) {
   return (
     <>
       <div className="top">
-        <Buttons />
+        <Buttons isAdmin={isAdmin} />
 
         <input
           type="search"
@@ -116,15 +118,15 @@ function ForPhones() {
   );
 }
 
-export function HomepageNavigation() {
+export function HomepageNavigation({ isAdmin }) {
   const { isDesktop, isTablet, isPhone } = useScreenSize();
 
   return (
     <>
       <div className="HomepageNavigation">
-        {isDesktop && <ForDesktops />}
-        {isTablet && <ForTablets />}
-        {isPhone && <ForPhones />}
+        {isDesktop && <ForDesktops isAdmin={isAdmin} />}
+        {isTablet && <ForTablets isAdmin={isAdmin} />}
+        {isPhone && <ForPhones isAdmin={isAdmin} />}
       </div>
     </>
   );
