@@ -17,13 +17,21 @@ function ContentCard({ entry }) {
   return (
     <>
       <Link to={paths.posts + entry.id} className="ContentCard">
-        <img
-          className="ContentCard-thumbnail"
-          height={250}
-          src={entry.headerImage}
-          alt={`Thumbnail for the article: "${entry.title}"`}
-        />
-        <h3 className="ContentCard-title"> {entry.title} </h3>
+        {entry.head.headerImage.small && (
+          <img
+            className="ContentCard-thumbnail"
+            width={280}
+            height={210}
+            src={entry.head.headerImage.small}
+            alt={`Thumbnail for the article: "${entry.head.title}"`}
+          />
+        )}
+        <div className="ContentCard-text">
+          <h3 className="ContentCard-title"> {entry.head.title} </h3>
+          <p className="ContentCard-author">
+            {"By: "} {entry.head.author}
+          </p>
+        </div>
       </Link>
     </>
   );
@@ -57,7 +65,8 @@ export function Contents() {
   const [displayType, setDisplayType] = useState("grid");
 
   useEffect(() => {
-    fetchFromFirestore("/content").then((returnedCollection) => {
+    fetchFromFirestore("documents").then((returnedCollection) => {
+      console.log(returnedCollection);
       setCollectionList(returnedCollection);
     });
   }, []);

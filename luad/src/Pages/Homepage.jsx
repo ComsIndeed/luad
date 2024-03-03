@@ -9,7 +9,7 @@ export function Homepage({ isAdmin }) {
     <>
       <div className="Homepage">
         <Header />
-        <HomepageNavigation />
+        <HomepageNavigation isAdmin={isAdmin} />
         <Contents />
 
         {/* Pagination is yet to be done. Just rework it at this point. */}

@@ -8,7 +8,7 @@ import { ThemeProvider } from "./Configuration/ThemeContext";
 import { useScreenSize } from "./Library/customHooks";
 import NotFound from "./Pages/NotFound";
 import AccountPage from "./Pages/AccountPage";
-import AdminPage from "./Pages/AdminPage";
+import AdminPage from "./Pages/AdminPage/AdminPage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./Library/firebase";
 

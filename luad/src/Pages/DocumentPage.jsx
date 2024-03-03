@@ -15,9 +15,9 @@ export function DocumentPage() {
   }, []);
 
   useEffect(() => {
-    fetchFromFirestore("/content", id).then((fetchedDocument) => {
+    fetchFromFirestore("documents", id).then((fetchedDocument) => {
       setCurrentDocument(fetchedDocument);
-      setText(fetchedDocument.content);
+      setText(fetchedDocument.body);
     });
   }, [id]);
 
@@ -28,15 +28,17 @@ export function DocumentPage() {
   return (
     <>
       <div className="DocumentPage">
-        <img
-          width={768}
-          height={452}
-          src={currentDocument.headerImage}
-          alt={`Thumbnail for ${currentDocument.title}`}
-          className="animate__animated animate__fadeIn"
-        />
+        {currentDocument.head.headerImage.large && (
+          <img
+            width={768}
+            height={452}
+            src={currentDocument.head.headerImage.large}
+            alt={`Thumbnail for ${currentDocument.head.title}`}
+            className="animate__animated animate__fadeIn"
+          />
+        )}
         <h1 className="animate__animated animate__fadeIn">
-          {currentDocument.title}
+          {currentDocument.head.title}
         </h1>
         <Markdown
           children={text}

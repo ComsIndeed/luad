@@ -322,15 +322,23 @@ export const removeDocFromFirestore = async (
   path = "/content"
 ) => {
   fetchFromFirestore(path, docID).then((doc) => {
-    console.log(doc);
-    if (doc.headerImageReference) {
-      deleteObject(ref(storage, doc.headerImageReference))
-        .then(() => {
-          console.log("Successfully deleted " + doc.headerImageReference);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+    const sizes = ["small", "medium", "large"];
+    if (
+      doc?.head?.headerImage?.smallFullPath ||
+      doc?.head?.headerImage?.mediumFullPath ||
+      doc?.head?.headerImage?.largeFullPath
+    ) {
+      sizes.forEach((size) => {
+        const fullPath = `${size}FullPath`;
+        deleteObject(ref(storage, doc?.head?.headerImage[fullPath])).catch(
+          () => {
+            console.error(
+              "SOMETHING WENT WRONG WITH DELETING. PATH: ",
+              doc?.head?.headerImage[fullPath]
+            );
+          }
+        );
+      });
     }
   });
   await deleteDoc(doc(db, path, docID))
@@ -357,19 +365,17 @@ export const removeDocFromFirestore = async (
       console.error(err);
     });
 };
-
 export async function uploadDocumentToFirestore(
   documentObject,
   path = "/documents"
 ) {
-  // const documentObjectJSON = JSON.stringify(documentObject);
-  addDoc(collection(db, path), documentObject)
-    .then((res) => {
-      return res;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  try {
+    const res = await addDoc(collection(db, path), documentObject);
+    return res;
+  } catch (error) {
+    console.error("Error uploading document:", error);
+    throw error; // Or return an error object
+  }
 }
 
 export async function uploadDocumentsToFirestore(
@@ -377,12 +383,20 @@ export async function uploadDocumentsToFirestore(
   path = "/documents",
   method = undefined
 ) {
-  documentObjects.forEach((documentObject) => {
-    uploadDocumentToFirestore(documentObject, path);
-  });
-  if (method) {
-    fetchFromFirestore(path, undefined, true).then((documentListResponse) => {
-      method(documentListResponse);
+  try {
+    const uploadPromises = documentObjects.map((documentObject) => {
+      return uploadDocumentToFirestore(documentObject, path);
     });
+
+    const uploadedDocuments = await Promise.all(uploadPromises);
+
+    if (method) {
+      method(uploadedDocuments);
+    }
+
+    return uploadedDocuments;
+  } catch (error) {
+    console.error("Error uploading documents:", error);
+    throw error; // Or return an error object
   }
 }
