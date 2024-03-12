@@ -71,6 +71,14 @@ const createSrcSet = async (event, method = undefined, output = "base64") => {
 export function useDocumentInterface(database, storage, user = undefined) {
   const [objectEntry, setObjectEntry] = useState(null);
   const [objectEntryList, setObjectEntryList] = useState([]);
+  const handlePushEntry = () => {
+    if (objectEntry) {
+      setObjectEntryList((prev) => {
+        return [...prev, objectEntry];
+      });
+      setObjectEntry(null);
+    }
+  };
 
   const removeDraftByUuid = (uuidToRemove) => {
     setObjectEntryList((prevList) => {
@@ -90,15 +98,6 @@ export function useDocumentInterface(database, storage, user = undefined) {
       });
     } else {
       setObjectEntry({ ...objectEntry, [name]: value });
-    }
-  };
-
-  const handlePushEntry = () => {
-    if (objectEntry) {
-      setObjectEntryList((prev) => {
-        return [...prev, objectEntry];
-      });
-      setObjectEntry(null);
     }
   };
 
@@ -174,10 +173,21 @@ export function useDocumentInterface(database, storage, user = undefined) {
   const pushImportedDocumentEntry = (parsedDocumentObject) => {
     if (!!parsedDocumentObject) {
       setObjectEntryList((prev) => {
-        return [...prev, { ...parsedDocumentObject, operation: "POST" }];
+        return [
+          ...prev,
+          {
+            ...parsedDocumentObject,
+            operation: "POST",
+            entryID: v4(),
+          },
+        ];
       });
     }
   };
+
+  const editEntry = () => {};
+
+  const saveEntryEdits = () => {};
 
   return {
     objectEntry, // For viewing current entry

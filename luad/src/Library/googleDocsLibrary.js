@@ -1,3 +1,18 @@
+// TODO
+// TODO Set the link extractors to not get the link of the master document,
+// TODO or at least make a function to remove the master document
+// TODO
+// TODO Implement actual editing
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+// TODO
+
 const fetchDocument = async (documentId, accessToken) => {
   try {
     const response = await fetch(
@@ -97,18 +112,34 @@ function parseDocument(documentObject) {
     }
   });
 
-  // Find the index of the first newline character
-  const firstNewlineIndex = rawBigText.indexOf("\n");
+  // Index of first occuring text
+  const firstOccuringTextIndex = rawBigText.search(/\S/);
 
-  // Extract the header from the raw big text
-  if (firstNewlineIndex !== -1) {
-    header = rawBigText.substring(0, firstNewlineIndex);
-    // Extract the body from the raw big text (excluding the header)
-    body = rawBigText.substring(firstNewlineIndex + 1);
-  } else {
-    // If there's no newline character, the entire big text is considered as the header
-    header = rawBigText;
-  }
+  // Index of first newline occuring after first occuring text
+  const firstOccurringNewlineAfterFirstOccurringText = rawBigText.indexOf(
+    "\n",
+    firstOccuringTextIndex
+  );
+
+  // Extracting header and body
+  header = rawBigText.substring(
+    firstOccuringTextIndex,
+    firstOccurringNewlineAfterFirstOccurringText
+  );
+  body = rawBigText.substring(firstOccurringNewlineAfterFirstOccurringText + 1);
+
+  // // Find the index of the first newline character
+  // const firstNewlineIndex = rawBigText.indexOf("\n");
+
+  // // Extract the header from the raw big text
+  // if (firstNewlineIndex !== -1) {
+  //   header = rawBigText.substring(0, firstNewlineIndex);
+  //   // Extract the body from the raw big text (excluding the header)
+  //   body = rawBigText.substring(firstNewlineIndex + 1);
+  // } else {
+  //   // If there's no newline character, the entire big text is considered as the header
+  //   header = rawBigText;
+  // }
 
   // Return an object with header, body, and rawBigText properties
   return { header, body, rawBigText };

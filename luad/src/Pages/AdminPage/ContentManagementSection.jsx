@@ -258,7 +258,7 @@ function DraftList({
               <DraftListItem
                 objectEntryItem={objectEntryItem}
                 removeDraftByUuid={removeDraftByUuid}
-                key={index}
+                key={objectEntryItem.entryID}
                 index={index}
               />
             );
@@ -283,11 +283,13 @@ function DraftList({
   );
 }
 function DraftListItem({ objectEntryItem, removeDraftByUuid }) {
+  const [showEditPanel, setShowEditPanel] = useState(false);
   return (
     <>
       <li className="DraftEntryItem">
         <p> NAME: {objectEntryItem.title} </p> <br />
         <p> AUTHOR: {objectEntryItem.author} </p> <br />
+        <p> Entry ID: {objectEntryItem.entryID} </p> <br />
         <button
           onClick={() => {
             removeDraftByUuid(objectEntryItem?.entryID);
@@ -295,6 +297,31 @@ function DraftListItem({ objectEntryItem, removeDraftByUuid }) {
         >
           Discard draft
         </button>
+        <button
+          onClick={() => {
+            console.log(objectEntryItem);
+          }}
+        >
+          Log draft
+        </button>
+        <button
+          onClick={() => {
+            setShowEditPanel(!showEditPanel);
+          }}
+        >
+          Edit
+        </button>{" "}
+        <br />
+        {showEditPanel && (
+          <div>
+            <label>Title</label> <br />
+            <input type="text" defaultValue={objectEntryItem?.title} /> <br />
+            <label>Author</label> <br />
+            <input type="text" defaultValue={objectEntryItem?.author} /> <br />
+            <label>Body</label> <br />
+            <textarea type="text" defaultValue={objectEntryItem?.body} />
+          </div>
+        )}
       </li>
     </>
   );
