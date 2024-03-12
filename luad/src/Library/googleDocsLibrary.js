@@ -73,6 +73,45 @@ function extractDocIdsFromJSON(jsonData) {
   return docIDs;
 }
 
+function parseDocument(documentObject) {
+  // Extract the content from the documentObject
+  let parsedDocument = documentObject.body.content;
+
+  // Initialize variables for header, body, and rawBigText
+  let header = "";
+  let body = "";
+  let rawBigText = "";
+
+  // Iterate through each item in the parsedDocument
+  parsedDocument.forEach((item) => {
+    // Check if the item has a "paragraph" property
+    if (item.hasOwnProperty("paragraph")) {
+      // Map each textRun from paragraph elements and push to rawBigText
+      item.paragraph.elements.forEach((arrayItem) => {
+        if (arrayItem.hasOwnProperty("textRun")) {
+          rawBigText += arrayItem.textRun.content + " ";
+        }
+      });
+    }
+  });
+
+  // Find the index of the first newline character
+  const firstNewlineIndex = rawBigText.indexOf("\n");
+
+  // Extract the header from the raw big text
+  if (firstNewlineIndex !== -1) {
+    header = rawBigText.substring(0, firstNewlineIndex);
+    // Extract the body from the raw big text (excluding the header)
+    body = rawBigText.substring(firstNewlineIndex + 1);
+  } else {
+    // If there's no newline character, the entire big text is considered as the header
+    header = rawBigText;
+  }
+
+  // Return an object with header, body, and rawBigText properties
+  return { header, body, rawBigText };
+}
+
 export {
   fetchDocument,
   extractDocId,
