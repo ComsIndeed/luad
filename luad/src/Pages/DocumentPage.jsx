@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchFromFirestore } from "../Library/firestore";
 import { Loading } from "../Reusables/Loading";
-import Markdown from "markdown-to-jsx";
+import Markdown, { compiler } from "markdown-to-jsx";
 import "animate.css";
 
 export function DocumentPage() {
@@ -40,6 +40,7 @@ export function DocumentPage() {
         <h1 className="animate__animated animate__fadeIn">
           {currentDocument.head.title}
         </h1>
+
         <Markdown
           children={text}
           className="animate__animated animate__fadeIn"

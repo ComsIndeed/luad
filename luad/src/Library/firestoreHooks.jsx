@@ -3,6 +3,7 @@ import { uploadBlobsToFirestoreStorage } from "./firebaseStorage";
 import { fetchFromFirestore, uploadDocumentsToFirestore } from "./firestore";
 
 import Resizer from "react-image-file-resizer";
+import { v4 } from "uuid";
 
 function resize(size, file, output = "base64") {
   return new Promise((resolve) => {
@@ -71,13 +72,28 @@ export function useDocumentInterface(database, storage, user = undefined) {
   const [objectEntry, setObjectEntry] = useState(null);
   const [objectEntryList, setObjectEntryList] = useState([]);
 
+  const removeDraftByUuid = (uuidToRemove) => {
+    setObjectEntryList((prevList) => {
+      // Filter out the item with the specified uuid
+      return prevList.filter((item) => item.entryID !== uuidToRemove);
+    });
+  };
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setObjectEntry({ ...objectEntry, [name]: value });
+    if (!objectEntry?.operation || !objectEntry?.uuid) {
+      setObjectEntry({
+        ...objectEntry,
+        operation: "POST",
+        entryID: v4(),
+        [name]: value,
+      });
+    } else {
+      setObjectEntry({ ...objectEntry, [name]: value });
+    }
   };
 
   const handlePushEntry = () => {
-    console.log("OBJECT ENTRY BEING PUSHED: ", objectEntry);
     if (objectEntry) {
       setObjectEntryList((prev) => {
         return [...prev, objectEntry];
@@ -87,7 +103,9 @@ export function useDocumentInterface(database, storage, user = undefined) {
   };
 
   const handleFileInputChange = (event) => {
+    console.log("RAN: ", event.target.files[0]);
     createSrcSet(event, undefined, "blob").then((blobs) => {
+      console.log("BLOBS: ", blobs);
       setObjectEntry((prev) => {
         return {
           ...prev,
@@ -149,13 +167,28 @@ export function useDocumentInterface(database, storage, user = undefined) {
     );
   };
 
+  const handleDiscardAllEntries = () => {
+    setObjectEntryList(null);
+  };
+
+  const pushImportedDocumentEntry = (parsedDocumentObject) => {
+    if (!!parsedDocumentObject) {
+      setObjectEntryList((prev) => {
+        return [...prev, { ...parsedDocumentObject, operation: "POST" }];
+      });
+    }
+  };
+
   return {
     objectEntry, // For viewing current entry
     objectEntryList, // For displaying queue
     handleInputChange, // For handling events
     handlePushEntry, // For handling events
     handleFileInputChange, // For handling events
+    handleDiscardAllEntries,
+    removeDraftByUuid,
     uploadEntries, // For uploading
+    pushImportedDocumentEntry,
     //
     // createNewDocumentItem, // Not needed
   };

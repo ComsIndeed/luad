@@ -1,4 +1,4 @@
-import ContentManagement from "./ContentManagemenSection";
+import ContentManagement from "./ContentManagementSection";
 import Dashboard from "./Dashboard";
 
 export default function AdminPage({ isAdmin }) {

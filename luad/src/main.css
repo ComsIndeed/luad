@@ -526,4 +526,9 @@ body button svg {
 .AdminPage .ContentManagement .DocumentListView .FirestoreList .FirestoreListItem, .AdminPage .ContentManagement .DocumentListView .FirestoreList .DraftListItem, .AdminPage .ContentManagement .DocumentListView .DraftList .FirestoreListItem, .AdminPage .ContentManagement .DocumentListView .DraftList .DraftListItem {
   display: flex;
   flex-direction: column;
+}
+.AdminPage .sectionDivider {
+  margin: 2em;
+  padding: 1em 0em;
+  border-bottom: 1px solid black;
 }/*# sourceMappingURL=main.css.map */

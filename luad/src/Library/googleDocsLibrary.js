@@ -89,7 +89,9 @@ function parseDocument(documentObject) {
       // Map each textRun from paragraph elements and push to rawBigText
       item.paragraph.elements.forEach((arrayItem) => {
         if (arrayItem.hasOwnProperty("textRun")) {
-          rawBigText += arrayItem.textRun.content + " ";
+          // Replace the "Enter" symbol with newline character "\n"
+          const text = arrayItem.textRun.content.replace(/\v/g, "\n");
+          rawBigText += text + " ";
         }
       });
     }
@@ -112,9 +114,86 @@ function parseDocument(documentObject) {
   return { header, body, rawBigText };
 }
 
+// ===
+
+function isMasterDocument(documentObject, requiredLinks = 1) {
+  // Regular expression pattern to match Google Docs links
+  const pattern =
+    /https:\/\/docs\.google\.com\/document\/d\/([a-zA-Z0-9-_]+)(?:\?.*)?/g;
+
+  // Extract the content from the documentObject
+  const content = documentObject.body.content;
+
+  // Count the number of Google Docs links found
+  let linkCount = 0;
+
+  // Iterate through the content to search for Google Docs links
+  for (const item of content) {
+    // Check if the item has a "paragraph" property
+    if (item.paragraph && item.paragraph.elements) {
+      // Iterate through the elements of the paragraph
+      for (const element of item.paragraph.elements) {
+        // Check if the element contains text
+        if (element.textRun && element.textRun.content) {
+          // Search for Google Docs links in the text content
+          const matches = element.textRun.content.match(pattern);
+          // If matches are found, increment the linkCount
+          if (matches && matches.length > 0) {
+            linkCount += matches.length;
+          }
+        }
+      }
+    }
+  }
+
+  // Check if the link count meets the required number
+  return linkCount >= requiredLinks;
+}
+
+function formatParsedTextDocumentToDraftFormatting(documentObject) {
+  return {
+    title: documentObject.header,
+    body: documentObject.body,
+  };
+}
+
+export default async function handleImportFromDocs(
+  documentLink,
+  accessToken,
+  pushImportedDraft
+) {
+  //
+  // Extract document content
+  const documentID = extractDocId(documentLink);
+  const documentObject = await fetchDocument(documentID, accessToken);
+  //
+  // If master, format all documents, create a chain of requests then add to draft
+  if (extractDocLinksFromJSON(documentObject.length > 0)) {
+    const docIDs = extractDocIdsFromJSON(documentObject);
+    docIDs.forEach(async (ID) => {
+      const takenDocumentObject = await fetchDocument(ID, accessToken);
+      const takenDocumentContent = parseDocument(takenDocumentObject);
+      const formattedTakenImportDraftObject =
+        formatParsedTextDocumentToDraftFormatting(takenDocumentContent);
+      console.log(takenDocumentContent);
+      pushImportedDraft(formattedTakenImportDraftObject);
+    });
+  }
+  //
+  // If singular, format document, add to draft
+  if (extractDocLinksFromJSON(documentObject.length == 0)) {
+    const documentContent = parseDocument(documentObject);
+    const formattedImportDraft =
+      formatParsedTextDocumentToDraftFormatting(documentContent);
+    console.log(documentContent);
+    pushImportedDraft(formattedImportDraft);
+  }
+}
+
 export {
   fetchDocument,
   extractDocId,
   extractDocLinksFromJSON,
   extractDocIdsFromJSON,
+  parseDocument,
 };
