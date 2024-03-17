@@ -512,12 +512,20 @@ body button svg {
   max-width: 100%;
 }
 
+.AdminPage {
+  padding: 1em;
+  font-size: 125%;
+}
+.AdminPage textarea, .AdminPage input {
+  border: none;
+  padding: 0.5em;
+}
 .AdminPage .ContentManagement .CreateView {
   display: flex;
   flex-direction: column;
 }
 .AdminPage .ContentManagement .DocumentListView {
-  width: 45vw;
+  min-width: 45vw;
 }
 .AdminPage .ContentManagement .DocumentListView .FirestoreList, .AdminPage .ContentManagement .DocumentListView .DraftList {
   display: flex;
@@ -526,6 +534,57 @@ body button svg {
 .AdminPage .ContentManagement .DocumentListView .FirestoreList .FirestoreListItem, .AdminPage .ContentManagement .DocumentListView .FirestoreList .DraftListItem, .AdminPage .ContentManagement .DocumentListView .DraftList .FirestoreListItem, .AdminPage .ContentManagement .DocumentListView .DraftList .DraftListItem {
   display: flex;
   flex-direction: column;
+}
+.AdminPage .ContentManagement .DocumentListView .DraftList {
+  display: grid;
+}
+.AdminPage .ContentManagement .DocumentListView .DraftList .DraftEntryItem {
+  border-bottom: 1px solid;
+  padding: 0.5em 0.5em;
+  display: flex;
+  flex-direction: column;
+  margin: 0em 2em;
+}
+.AdminPage .ContentManagement .DocumentListView .DraftList .DraftEntryItem * {
+  margin: 0.25em 0em;
+}
+.AdminPage .ContentManagement .DocumentListView .DraftList .DraftEntryItem .info * {
+  padding: 0em 0.5em;
+  border-left: 1px solid black;
+}
+.AdminPage .ContentManagement .DocumentListView .DraftList .DraftEntryItem .buttons * {
+  padding: 0.5em;
+}
+.AdminPage .ContentManagement .DocumentListView .DraftList .DraftEntryItem .editPanel {
+  outline: 1px solid red;
+}
+.AdminPage .ContentManagement .DocumentListView .DraftList .DraftEntryItem .editPanel textarea {
+  width: 100%;
+  min-height: 20em;
+}
+.AdminPage .ContentManagement .DocumentListView .FirestoreList .FirestoreListItem {
+  border-bottom: 1px solid;
+  padding: 0.5em 0.5em;
+  display: flex;
+  flex-direction: column;
+  margin: 0em 2em;
+}
+.AdminPage .ContentManagement .DocumentListView .FirestoreList .FirestoreListItem * {
+  margin: 0.25em 0em;
+}
+.AdminPage .ContentManagement .DocumentListView .FirestoreList .FirestoreListItem .info * {
+  padding: 0em 0.5em;
+  border-left: 1px solid black;
+}
+.AdminPage .ContentManagement .DocumentListView .FirestoreList .FirestoreListItem .buttons * {
+  padding: 0.5em;
+}
+.AdminPage .ContentManagement .DocumentListView .FirestoreList .FirestoreListItem .editPanel {
+  outline: 1px solid red;
+}
+.AdminPage .ContentManagement .DocumentListView .FirestoreList .FirestoreListItem .editPanel textarea {
+  width: 100%;
+  min-height: 20em;
 }
 .AdminPage .sectionDivider {
   margin: 2em;

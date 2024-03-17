@@ -102,9 +102,7 @@ export function useDocumentInterface(database, storage, user = undefined) {
   };
 
   const handleFileInputChange = (event) => {
-    console.log("RAN: ", event.target.files[0]);
     createSrcSet(event, undefined, "blob").then((blobs) => {
-      console.log("BLOBS: ", blobs);
       setObjectEntry((prev) => {
         return {
           ...prev,
@@ -119,8 +117,6 @@ export function useDocumentInterface(database, storage, user = undefined) {
   };
 
   const createNewDocumentItem = (entry, srcSet = undefined) => {
-    console.log("ENTRY: ", entry);
-    console.log("SRC SET: ", srcSet);
     return {
       head: {
         title: entry?.title ?? null, // Fallback to null for missing title
@@ -142,6 +138,47 @@ export function useDocumentInterface(database, storage, user = undefined) {
         },
       },
       body: entry?.body ?? null, // Fallback to null for missing body
+    };
+  };
+
+  const createDraftItemFromDocument = (documentItem) => {
+    const { head, body } = documentItem;
+    const {
+      title,
+      author,
+      creationDate,
+      creationDateRaw,
+      lastModified,
+      lastModifiedRaw,
+      headerImage,
+      meta,
+    } = head;
+
+    const srcSet = {
+      large: headerImage?.large ?? null,
+      medium: headerImage?.medium ?? null,
+      small: headerImage?.small ?? null,
+      largeRef: {
+        fullPath: headerImage?.largeFullPath ?? null,
+      },
+      mediumRef: {
+        fullPath: headerImage?.mediumFullPath ?? null,
+      },
+      smallRef: {
+        fullPath: headerImage?.smallFullPath ?? null,
+      },
+    };
+
+    return {
+      title,
+      author,
+      creationDate,
+      creationDateRaw,
+      lastModified,
+      lastModifiedRaw,
+      ...srcSet,
+      category: meta?.category ?? [],
+      body,
     };
   };
 
@@ -185,9 +222,38 @@ export function useDocumentInterface(database, storage, user = undefined) {
     }
   };
 
-  const editEntry = () => {};
+  const getEntryByID = (id) => {
+    return objectEntryList.filter((item) => item.entryID === id);
+  };
 
-  const saveEntryEdits = () => {};
+  const editEntry = (id, changes) => {
+    const filteredList = objectEntryList.filter((item) => item.entryID !== id);
+    const originalItemIndex = objectEntryList.findIndex(
+      (item) => item.entryID === id
+    );
+    if (originalItemIndex !== -1 && changes) {
+      const updatedItem = {
+        ...objectEntryList[originalItemIndex],
+        ...changes,
+      };
+      const updatedList = [
+        ...filteredList.slice(0, originalItemIndex),
+        updatedItem,
+        ...filteredList.slice(originalItemIndex),
+      ];
+      setObjectEntryList(updatedList);
+    }
+  };
+
+  const editFirestoreDocument = (documentID, changes) => {
+    fetchFromFirestore("/documents", documentID, true).then(
+      (fetchedDocument) => {
+        setObjectEntryList((prev) => {
+          return [...prev, createDraftItemFromDocument(fetchedDocument)];
+        });
+      }
+    );
+  };
 
   return {
     objectEntry, // For viewing current entry
@@ -199,6 +265,8 @@ export function useDocumentInterface(database, storage, user = undefined) {
     removeDraftByUuid,
     uploadEntries, // For uploading
     pushImportedDocumentEntry,
+    getEntryByID,
+    editEntry,
     //
     // createNewDocumentItem, // Not needed
   };

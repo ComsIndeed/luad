@@ -429,19 +429,72 @@ body
 
 
 .AdminPage
+  padding: 1em
+  font-size: 125%
+
+  textarea, input
+    border: none
+    padding: 0.5em
+
   .ContentManagement
     .CreateView
       display: flex
       flex-direction: column
     .DocumentListView
-      width: 45vw
+      min-width: 45vw
       .FirestoreList, .DraftList
         display: flex
         flex-direction: column
         .FirestoreListItem, .DraftListItem
           display: flex
           flex-direction: column
-  
+      .DraftList
+        display: grid
+        .DraftEntryItem
+          border-bottom: 1px solid 
+          padding: 0.5em 0.5em
+          display: flex
+          flex-direction: column
+          margin: 0em 2em
+          *
+            margin: 0.25em 0em
+          .info
+            *
+              padding: 0em 0.5em
+              border-left: 1px solid black
+          .buttons
+            *
+              padding: 0.5em
+          .editPanel
+            @include temporaryOutline(red)
+            textarea
+              width: 100%
+              min-height: 20em
+      .FirestoreList
+        .FirestoreListItem
+          border-bottom: 1px solid 
+          padding: 0.5em 0.5em
+          display: flex
+          flex-direction: column
+          margin: 0em 2em
+          *
+            margin: 0.25em 0em
+          .info
+            *
+              padding: 0em 0.5em
+              border-left: 1px solid black
+          .buttons
+            *
+              padding: 0.5em
+          .editPanel
+            @include temporaryOutline(red)
+            textarea
+              width: 100%
+              min-height: 20em
+            
+
+            
+   
   // Globals, kinda
   &
     .sectionDivider

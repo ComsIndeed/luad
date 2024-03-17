@@ -4,16 +4,11 @@ export const CLIENT_ID =
 import { useGoogleLogin } from "@react-oauth/google";
 import { useEffect, useState } from "react";
 
-// Provided we wrap the app with the react oauth provider thing
-
 const useGoogleAuthState = (scopes = undefined) => {
-  const [loginResponse, setLoginResponse] = useState(null);
+  const [loginResponse, setLoginResponse] = useState(
+    JSON.parse(sessionStorage.getItem("loginResponse")) || null
+  );
   const [userInfo, setUserInfo] = useState(null);
-
-  useEffect(() => {
-    console.log(loginResponse);
-    console.log(userInfo);
-  }, [loginResponse, userInfo]);
 
   // GET user info
   useEffect(() => {
@@ -36,6 +31,11 @@ const useGoogleAuthState = (scopes = undefined) => {
     }
   }, [loginResponse]);
 
+  // Store loginResponse in sessionStorage when it changes
+  useEffect(() => {
+    sessionStorage.setItem("loginResponse", JSON.stringify(loginResponse));
+  }, [loginResponse]);
+
   const login = useGoogleLogin({
     scope: scopes,
     onSuccess: (res) => {
@@ -46,6 +46,7 @@ const useGoogleAuthState = (scopes = undefined) => {
   const logout = () => {
     setLoginResponse(null);
     setUserInfo(null);
+    sessionStorage.removeItem("loginResponse"); // Remove loginResponse from sessionStorage on logout
   };
 
   return { login, loginResponse, userInfo, logout };

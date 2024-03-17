@@ -1,30 +1,13 @@
 import { useEffect, useState } from "react";
 import { fetchFromFirestore } from "../../Library/firestore";
 import { useDocumentInterface } from "../../Library/firestoreHooks";
-import handleImportFromDocs, {
-  extractDocId,
-  fetchDocument,
-} from "../../Library/googleDocsLibrary";
+import handleImportFromDocs from "../../Library/googleDocsLibrary";
 import { db, storage } from "../../Library/firebase";
-import {} from "../../Library/googleDocsLibrary";
 import { CLIENT_ID, useGoogleAuthState } from "../../Library/googleOauth";
-
-// !!! FIX SPELLINGS
-// !!! FIX EVERYTHING
 
 export default function ContentManagement() {
   const [firestoreCollection, setFirestoreCollection] = useState([]);
-  const {
-    objectEntry,
-    objectEntryList,
-    handleInputChange,
-    handleFileInputChange,
-    handleDiscardAllEntries,
-    handlePushEntry,
-    uploadEntries,
-    removeDraftByUuid,
-    pushImportedDocumentEntry,
-  } = useDocumentInterface(db, storage);
+  const CMS = useDocumentInterface(db, storage);
 
   useEffect(() => {
     fetchFromFirestore("/documents", undefined, true).then(
@@ -38,32 +21,14 @@ export default function ContentManagement() {
     <>
       <div className="ContentManagement">
         <h1>Content Management</h1>
-        <CreateView
-          objectEntry={objectEntry}
-          handleInputChange={handleInputChange}
-          handleFileInputChange={handleFileInputChange}
-          handlePushEntry={handlePushEntry}
-          pushImportedDocumentEntry={pushImportedDocumentEntry}
-        />
-        <DocumentListView
-          firestoreCollection={firestoreCollection}
-          objectEntryList={objectEntryList}
-          removeDraftByUuid={removeDraftByUuid}
-          handleDiscardAllEntries={handleDiscardAllEntries}
-          uploadEntries={uploadEntries}
-        />
+        <CreateView CMS={CMS} />
+        <DocumentListView CMS={CMS} firestoreCollection={firestoreCollection} />
       </div>
     </>
   );
 }
 
-function CreateView({
-  objectEntry,
-  handleInputChange,
-  handleFileInputChange,
-  handlePushEntry,
-  pushImportedDocumentEntry,
-}) {
+function CreateView({ CMS }) {
   const GoogleOauth = useGoogleAuthState(
     "https://www.googleapis.com/auth/documents.readonly"
   );
@@ -73,41 +38,38 @@ function CreateView({
       <div className="CreateView">
         <h2>Create new post</h2>
 
-        <ImportFromDocs
-          GoogleOauth={GoogleOauth}
-          pushImportedDocumentEntry={pushImportedDocumentEntry}
-        />
+        <ImportFromDocs GoogleOauth={GoogleOauth} CMS={CMS} />
 
         <label>Title</label>
         <input
           type="text"
           name="title"
-          value={objectEntry?.title ? objectEntry?.title : ""}
+          value={CMS.objectEntry?.title || ""}
           id="TitleInput"
-          onChange={handleInputChange}
+          onChange={CMS.handleInputChange}
         />
         <label>Author</label>
         <input
           type="text"
           name="author"
-          value={objectEntry?.author ? objectEntry?.author : ""}
+          value={CMS.objectEntry?.author || ""}
           id="AuthorInput"
-          onChange={handleInputChange}
+          onChange={CMS.handleInputChange}
         />
         <label>Body</label>
         <textarea
           name="body"
           id="TitleInput"
-          onChange={handleInputChange}
-          value={objectEntry?.body ? objectEntry?.body : ""}
+          onChange={CMS.handleInputChange}
+          value={CMS.objectEntry?.body || ""}
         />
         <input
           type="file"
           name="headerImage"
           id="FileInput"
-          onChange={handleFileInputChange}
+          onChange={CMS.handleFileInputChange}
         />
-        <button onClick={handlePushEntry}>Add to drafts</button>
+        <button onClick={CMS.handlePushEntry}>Add to drafts</button>
 
         <br />
         <br />
@@ -117,8 +79,8 @@ function CreateView({
   );
 }
 
-function ImportFromDocs({ GoogleOauth, pushImportedDocumentEntry }) {
-  const [docLink, setDocLink] = useState(null);
+function ImportFromDocs({ GoogleOauth, CMS }) {
+  const [docLink, setDocLink] = useState("");
 
   return (
     <>
@@ -143,40 +105,48 @@ function ImportFromDocs({ GoogleOauth, pushImportedDocumentEntry }) {
             </>
           )}
         </p>
-        <br />
-        <input
-          type="text"
-          name="DocLinkInput"
-          id="docLinkInput"
-          placeholder="Google Doc link"
-          onChange={(e) => {
-            setDocLink(e.target.value);
-          }}
-        />
-        <button
-          onClick={() => {
-            handleImportFromDocs(
-              docLink,
-              GoogleOauth?.loginResponse?.access_token,
-              pushImportedDocumentEntry
-            );
-          }}
-        >
-          Import document
-        </button>
+        {GoogleOauth?.userInfo && (
+          <>
+            <br />
+            <button
+              onClick={() => {
+                GoogleOauth.logout();
+              }}
+            >
+              Logout
+            </button>
+            <br />
+            <input
+              type="text"
+              name="DocLinkInput"
+              id="docLinkInput"
+              placeholder="Google Doc link"
+              value={docLink}
+              onChange={(e) => {
+                setDocLink(e.target.value);
+              }}
+            />
+            <button
+              onClick={() => {
+                handleImportFromDocs(
+                  docLink,
+                  GoogleOauth?.loginResponse?.access_token,
+                  CMS.pushImportedDocumentEntry
+                );
+                setDocLink("");
+              }}
+            >
+              Import document
+            </button>
+          </>
+        )}
       </div>
     </>
   );
 }
 
-function DocumentListView({
-  firestoreCollection,
-  objectEntryList,
-  handleDiscardAllEntries,
-  removeDraftByUuid,
-  uploadEntries,
-}) {
-  const [list, setList] = useState("firestore");
+function DocumentListView({ CMS, firestoreCollection }) {
+  const [list, setList] = useState("drafts");
 
   return (
     <>
@@ -202,14 +172,7 @@ function DocumentListView({
         {list === "firestore" && (
           <FirestoreList firestoreCollection={firestoreCollection} />
         )}
-        {list === "drafts" && (
-          <DraftList
-            objectEntryList={objectEntryList}
-            handleDiscardAllEntries={handleDiscardAllEntries}
-            removeDraftByUuid={removeDraftByUuid}
-            uploadEntries={uploadEntries}
-          />
-        )}
+        {list === "drafts" && <DraftList CMS={CMS} />}
       </div>
     </>
   );
@@ -219,11 +182,12 @@ function FirestoreList({ firestoreCollection }) {
   return (
     <>
       <div className="FirestoreList">
-        {firestoreCollection.map((firestoreDocument) => {
+        {firestoreCollection.map((firestoreDocument, index) => {
           return (
             <FirestoreListItem
               firestoreDocument={firestoreDocument}
               key={firestoreDocument?.id}
+              index={index}
             />
           );
         })}
@@ -231,98 +195,119 @@ function FirestoreList({ firestoreCollection }) {
     </>
   );
 }
-function FirestoreListItem({ firestoreDocument }) {
+
+function FirestoreListItem({ firestoreDocument, index }) {
   return (
     <>
-      <button className="FirestoreListItem">
-        <h3>{firestoreDocument?.head?.title}</h3>
-        <p>{firestoreDocument?.head?.author}</p>
-      </button>
+      <div className="FirestoreListItem">
+        <div className="info">
+          <h3>{index + 1}</h3>
+          <p>{firestoreDocument?.head?.title}</p>
+          <p>{firestoreDocument?.head?.author}</p>
+        </div>
+        <div className="buttons">
+          <button>Edit document</button>
+          <button>Delete document</button>
+        </div>
+      </div>
     </>
   );
 }
 
-function DraftList({
-  objectEntryList,
-  removeDraftByUuid,
-  handleDiscardAllEntries,
-  uploadEntries,
-}) {
+function DraftList({ CMS }) {
   return (
     <>
-      <ol className="DraftList">
-        <h3>Drafts: {objectEntryList.length}</h3>
-        {objectEntryList.length > 0 &&
-          objectEntryList?.map((objectEntryItem, index) => {
-            return (
-              <DraftListItem
-                objectEntryItem={objectEntryItem}
-                removeDraftByUuid={removeDraftByUuid}
-                key={objectEntryItem.entryID}
-                index={index}
-              />
-            );
-          })}
-      </ol>
-      <button
-        onClick={() => {
-          console.log(objectEntryList);
-        }}
-      >
-        Log
-      </button>
-      <button
-        onClick={() => {
-          uploadEntries();
-        }}
-      >
-        Save and upload changes
-      </button>
-      <button onClick={handleDiscardAllEntries}>Discard changes</button>
+      <div className="DraftList">
+        <h2> DRAFT LIST: {CMS.objectEntryList?.length} </h2>
+        {CMS.objectEntryList.length === 0 && "Looking empty in here.."}
+        {CMS.objectEntryList.length > 0 &&
+          CMS.objectEntryList?.map((objectEntryItem, index) => (
+            <DraftListItem
+              objectEntryItem={objectEntryItem}
+              CMS={CMS}
+              key={objectEntryItem.entryID}
+              index={index}
+            />
+          ))}
+      </div>
+      <button onClick={() => console.log(CMS.objectEntryList)}>Log</button>
+      <button onClick={CMS.uploadEntries}>Save and upload changes</button>
+      <button onClick={CMS.handleDiscardAllEntries}>Discard changes</button>
     </>
   );
 }
-function DraftListItem({ objectEntryItem, removeDraftByUuid }) {
+
+function DraftListItem({ objectEntryItem, CMS, index }) {
   const [showEditPanel, setShowEditPanel] = useState(false);
+  const [changes, setChanges] = useState({});
+
+  useEffect(() => {
+    console.log(changes);
+  }, [changes]);
+
+  const handleEditInputChange = (e) => {
+    setChanges((prev) => {
+      return {
+        ...prev,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
+
   return (
-    <>
-      <li className="DraftEntryItem">
-        <p> NAME: {objectEntryItem.title} </p> <br />
-        <p> AUTHOR: {objectEntryItem.author} </p> <br />
-        <p> Entry ID: {objectEntryItem.entryID} </p> <br />
-        <button
-          onClick={() => {
-            removeDraftByUuid(objectEntryItem?.entryID);
-          }}
-        >
+    <div className="DraftEntryItem">
+      <div className="info">
+        <h3>{index + 1}</h3>
+        <p>{objectEntryItem.operation}</p>
+        <p>{objectEntryItem.title}</p>
+        <p>{objectEntryItem.author || "Author wasnt provided"}</p>
+      </div>
+      <div className="buttons">
+        <button onClick={() => CMS.removeDraftByUuid(objectEntryItem.entryID)}>
           Discard draft
         </button>
-        <button
-          onClick={() => {
-            console.log(objectEntryItem);
-          }}
-        >
-          Log draft
+        <button onClick={() => console.log(objectEntryItem)}>Log draft</button>
+        <button onClick={() => setShowEditPanel(!showEditPanel)}>
+          Edit draft
         </button>
-        <button
-          onClick={() => {
-            setShowEditPanel(!showEditPanel);
-          }}
-        >
-          Edit
-        </button>{" "}
-        <br />
-        {showEditPanel && (
-          <div>
-            <label>Title</label> <br />
-            <input type="text" defaultValue={objectEntryItem?.title} /> <br />
-            <label>Author</label> <br />
-            <input type="text" defaultValue={objectEntryItem?.author} /> <br />
-            <label>Body</label> <br />
-            <textarea type="text" defaultValue={objectEntryItem?.body} />
+      </div>
+      {showEditPanel && (
+        <div className="editPanel">
+          <input
+            type="text"
+            defaultValue={objectEntryItem.title}
+            placeholder="Title"
+            name="title"
+            onChange={handleEditInputChange}
+          />{" "}
+          <br />
+          <input
+            type="text"
+            defaultValue={objectEntryItem.author}
+            placeholder="Author"
+            name="author"
+            onChange={handleEditInputChange}
+          />{" "}
+          <br />
+          <textarea
+            defaultValue={objectEntryItem.body}
+            placeholder="Body"
+            name="body"
+            onChange={handleEditInputChange}
+          />
+          <div className="editButtons">
+            <button
+              onClick={() => {
+                console.log("TEST: ", CMS.getEntryByID(objectEntryItem.id));
+                CMS.editEntry(objectEntryItem.entryID, changes);
+              }}
+            >
+              Save changes
+            </button>
+            <button>Cancel</button>
           </div>
-        )}
-      </li>
-    </>
+        </div>
+      )}
+    </div>
   );
 }
