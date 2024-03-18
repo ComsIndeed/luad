@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { fetchFromFirestore } from "../../Library/firestore";
-import { useDocumentInterface } from "../../Library/firestoreHooks";
+import {
+  createSrcSet,
+  useDocumentInterface,
+} from "../../Library/firestoreHooks";
 import handleImportFromDocs from "../../Library/googleDocsLibrary";
 import { db, storage } from "../../Library/firebase";
 import { CLIENT_ID, useGoogleAuthState } from "../../Library/googleOauth";
@@ -146,7 +149,7 @@ function ImportFromDocs({ GoogleOauth, CMS }) {
 }
 
 function DocumentListView({ CMS, firestoreCollection }) {
-  const [list, setList] = useState("drafts");
+  const [list, setList] = useState("firestore");
 
   return (
     <>
@@ -170,7 +173,7 @@ function DocumentListView({ CMS, firestoreCollection }) {
           </button>
         </div>
         {list === "firestore" && (
-          <FirestoreList firestoreCollection={firestoreCollection} />
+          <FirestoreList firestoreCollection={firestoreCollection} CMS={CMS} />
         )}
         {list === "drafts" && <DraftList CMS={CMS} />}
       </div>
@@ -178,16 +181,18 @@ function DocumentListView({ CMS, firestoreCollection }) {
   );
 }
 
-function FirestoreList({ firestoreCollection }) {
+function FirestoreList({ firestoreCollection, CMS }) {
   return (
     <>
       <div className="FirestoreList">
+        <h2>Firestore Database: {firestoreCollection.length} </h2>
         {firestoreCollection.map((firestoreDocument, index) => {
           return (
             <FirestoreListItem
               firestoreDocument={firestoreDocument}
               key={firestoreDocument?.id}
               index={index}
+              CMS={CMS}
             />
           );
         })}
@@ -196,7 +201,46 @@ function FirestoreList({ firestoreCollection }) {
   );
 }
 
-function FirestoreListItem({ firestoreDocument, index }) {
+function FirestoreListItem({ firestoreDocument, index, CMS }) {
+  const [showEditPanel, setShowEditPanel] = useState(false);
+  const [changes, setChanges] = useState(null);
+  const [srcSet, setSrcSet] = useState(null);
+  const [isReady, setIsReady] = useState(true);
+
+  const handleEditInputChange = (e) => {
+    setChanges((prev) => {
+      return {
+        ...prev,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
+
+  const handleEditFileInputChange = (e) => {
+    if (e.target.files[0]) {
+      setIsReady(false);
+      createSrcSet(e, undefined, "blob").then((returned) => {
+        setSrcSet(returned);
+        setIsReady(true);
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (srcSet) {
+      setChanges((prev) => {
+        return {
+          ...prev,
+          headerImage: srcSet,
+        };
+      });
+    }
+  }, [srcSet]);
+
+  useEffect(() => {
+    console.log("CHANGES: ", changes);
+  }, [changes]);
+
   return (
     <>
       <div className="FirestoreListItem">
@@ -206,9 +250,56 @@ function FirestoreListItem({ firestoreDocument, index }) {
           <p>{firestoreDocument?.head?.author}</p>
         </div>
         <div className="buttons">
-          <button>Edit document</button>
+          <button onClick={() => [setShowEditPanel(!showEditPanel)]}>
+            Edit document
+          </button>
           <button>Delete document</button>
         </div>
+        {showEditPanel && (
+          <div className="editPanel">
+            <h3>Editing: {firestoreDocument?.head?.title}.. </h3> <br />
+            <input
+              type="text"
+              placeholder="Title"
+              name="title"
+              onChange={handleEditInputChange}
+              defaultValue={firestoreDocument?.head?.title}
+            />{" "}
+            <br />
+            <label>Header Image: </label>{" "}
+            <input
+              type="file"
+              name="headerImage"
+              id="headerImageFileInput"
+              onChange={handleEditFileInputChange}
+            />
+            <input
+              type="text"
+              placeholder="Author"
+              name="author"
+              onChange={handleEditInputChange}
+              defaultValue={firestoreDocument?.head?.author}
+            />{" "}
+            <br />
+            <textarea
+              type="text"
+              placeholder="Body"
+              name="body"
+              onChange={handleEditInputChange}
+              defaultValue={firestoreDocument?.body}
+            />{" "}
+            <br />
+            <button
+              onClick={() => {
+                CMS.updateFirestoreDocument(firestoreDocument?.id, changes);
+              }}
+              disabled={!isReady}
+            >
+              Update document
+            </button>{" "}
+            <button>Discard changes</button>
+          </div>
+        )}
       </div>
     </>
   );
@@ -280,6 +371,8 @@ function DraftListItem({ objectEntryItem, CMS, index }) {
             name="title"
             onChange={handleEditInputChange}
           />{" "}
+          <br />
+          <label>Header Image: </label> <input type="file" name="" id="" />{" "}
           <br />
           <input
             type="text"

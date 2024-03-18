@@ -555,9 +555,6 @@ body button svg {
 .AdminPage .ContentManagement .DocumentListView .DraftList .DraftEntryItem .buttons * {
   padding: 0.5em;
 }
-.AdminPage .ContentManagement .DocumentListView .DraftList .DraftEntryItem .editPanel {
-  outline: 1px solid red;
-}
 .AdminPage .ContentManagement .DocumentListView .DraftList .DraftEntryItem .editPanel textarea {
   width: 100%;
   min-height: 20em;
@@ -578,9 +575,6 @@ body button svg {
 }
 .AdminPage .ContentManagement .DocumentListView .FirestoreList .FirestoreListItem .buttons * {
   padding: 0.5em;
-}
-.AdminPage .ContentManagement .DocumentListView .FirestoreList .FirestoreListItem .editPanel {
-  outline: 1px solid red;
 }
 .AdminPage .ContentManagement .DocumentListView .FirestoreList .FirestoreListItem .editPanel textarea {
   width: 100%;

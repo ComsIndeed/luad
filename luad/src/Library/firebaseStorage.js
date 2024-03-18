@@ -31,12 +31,12 @@ async function uploadBlobsToFirestoreStorage(blobs, documentTitle = undefined) {
 
     // Store download URL and reference
     const referenceName = `${key}Ref`;
-    console.log("REFERENCE NAME: ", referenceName);
+    // console.log("REFERENCE NAME: ", referenceName);
 
     downloadURLs[key] = downloadURL;
     references[referenceName] = uploadResult.ref;
 
-    console.log(downloadURLs, references);
+    // console.log(downloadURLs, references);
 
     return { downloadURL, reference: references[referenceName] }; // Return object with both values
   });

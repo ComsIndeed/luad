@@ -4,6 +4,8 @@ import { fetchFromFirestore, uploadDocumentsToFirestore } from "./firestore";
 
 import Resizer from "react-image-file-resizer";
 import { v4 } from "uuid";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { db } from "./firebase";
 
 function resize(size, file, output = "base64") {
   return new Promise((resolve) => {
@@ -57,7 +59,11 @@ function resize(size, file, output = "base64") {
   });
 }
 
-const createSrcSet = async (event, method = undefined, output = "base64") => {
+export const createSrcSet = async (
+  event,
+  method = undefined,
+  output = "base64"
+) => {
   const file = event.target.files[0];
   const small = await resize("small", file, output);
   const medium = await resize("medium", file, output);
@@ -116,29 +122,107 @@ export function useDocumentInterface(database, storage, user = undefined) {
     });
   };
 
-  const createNewDocumentItem = (entry, srcSet = undefined) => {
+  const createNewDocumentItem = (
+    entry,
+    srcSet = undefined,
+    keepUndefined = true
+  ) => {
+    // Destructure entry and srcSet with default empty objects
+    const {
+      title,
+      author,
+      creationDate,
+      creationDateRaw,
+      lastModified,
+      lastModifiedRaw,
+      body,
+      categories,
+    } = entry || {};
+
+    const { large, medium, small, largeRef, mediumRef, smallRef } =
+      srcSet || {};
+
+    // Function to filter out undefined values if keepUndefined is false
+    const filterUndefined = (obj) =>
+      Object.fromEntries(
+        Object.entries(obj).filter(
+          ([_, value]) => keepUndefined || value !== undefined
+        )
+      );
+
     return {
       head: {
-        title: entry?.title ?? null, // Fallback to null for missing title
-        author: entry?.author ?? null, // Fallback to null for missing author
-        creationDate: entry?.creationDate ?? null, // Fallback to null for missing creationDate
-        creationDateRaw: entry?.creationDateRaw ?? null, // Fallback to null for missing creationDateRaw
-        lastModified: entry?.lastModified ?? null, // Fallback to null for missing lastModified
-        lastModifiedRaw: entry?.lastModifiedRaw ?? null, // Fallback to null for missing lastModifiedRaw
+        // Include properties only if they are defined
+        ...(title && { title }),
+        ...(author && { author }),
+        ...(creationDate && { creationDate }),
+        ...(creationDateRaw && { creationDateRaw }),
+        ...(lastModified && { lastModified }),
+        ...(lastModifiedRaw && { lastModifiedRaw }),
         headerImage: {
-          large: srcSet?.large ?? null, // Fallback to null for missing large image
-          medium: srcSet?.medium ?? null, // Fallback to null for missing medium image
-          small: srcSet?.small ?? null, // Fallback to null for missing small image
-          largeFullPath: srcSet?.largeRef.fullPath ?? null, // Fallback to null for missing large image
-          mediumFullPath: srcSet?.mediumRef.fullPath ?? null, // Fallback to null for missing medium image
-          smallFullPath: srcSet?.smallRef.fullPath ?? null, // Fallback to null for missing small image
+          // Include properties only if they are defined
+          ...(large && { large }),
+          ...(medium && { medium }),
+          ...(small && { small }),
+          ...(largeRef &&
+            largeRef.fullPath && { largeFullPath: largeRef.fullPath }),
+          ...(mediumRef &&
+            mediumRef.fullPath && { mediumFullPath: mediumRef.fullPath }),
+          ...(smallRef &&
+            smallRef.fullPath && { smallFullPath: smallRef.fullPath }),
         },
         meta: {
-          category: entry?.categories || [], // Use an empty array for missing categories
+          // Use an empty array for missing categories
+          category: categories || [],
         },
       },
-      body: entry?.body ?? null, // Fallback to null for missing body
+      // Include body only if it is defined
+      ...(body && { body }),
+      // Filter out undefined values if keepUndefined is false
+      ...(!keepUndefined && {
+        head: filterUndefined({
+          title,
+          author,
+          creationDate,
+          creationDateRaw,
+          lastModified,
+          lastModifiedRaw,
+          headerImage: {
+            large,
+            medium,
+            small,
+            largeFullPath: largeRef && largeRef.fullPath,
+            mediumFullPath: mediumRef && mediumRef.fullPath,
+            smallFullPath: smallRef && smallRef.fullPath,
+          },
+          meta: { category: categories || [] },
+        }),
+        body: body,
+      }),
     };
+  };
+
+  const updateDocumentItem = (existingItem, updatedValues) => {
+    if (!existingItem || typeof existingItem !== "object" || !updatedValues) {
+      return existingItem;
+    }
+
+    // Merge updated values with existing item
+    const updatedItem = { ...existingItem, ...updatedValues };
+
+    // Remove undefined and null properties from the merged item
+    for (const key in updatedItem) {
+      if (updatedItem.hasOwnProperty(key)) {
+        if (updatedItem[key] === undefined || updatedItem[key] === null) {
+          delete updatedItem[key];
+        } else if (typeof updatedItem[key] === "object") {
+          // Recursively remove undefined and null properties from nested objects
+          updatedItem[key] = removeNullUndefined(updatedItem[key]);
+        }
+      }
+    }
+
+    return updatedItem;
   };
 
   const createDraftItemFromDocument = (documentItem) => {
@@ -245,14 +329,95 @@ export function useDocumentInterface(database, storage, user = undefined) {
     }
   };
 
-  const editFirestoreDocument = (documentID, changes) => {
-    fetchFromFirestore("/documents", documentID, true).then(
-      (fetchedDocument) => {
-        setObjectEntryList((prev) => {
-          return [...prev, createDraftItemFromDocument(fetchedDocument)];
-        });
-      }
-    );
+  const removeNullUndefined = (obj) => {
+    return Object.entries(obj)
+      .filter(([key, value]) => value !== null && value !== undefined)
+      .reduce((acc, [key, value]) => {
+        acc[key] = value;
+        return acc;
+      }, {});
+  };
+
+  // const pushFirestoreEditToDraft = () => {};
+
+  const convertImageReferencesToFullPaths = (srcSet) => {
+    if (!srcSet || typeof srcSet !== "object") {
+      return srcSet;
+    }
+
+    // Destructure the srcSet object
+    const { largeRef, mediumRef, smallRef } = srcSet;
+
+    // Create a new object with full paths for image references
+    const srcSetWithFullPaths = {
+      largeRef: { fullPath: largeRef?.fullPath ?? null },
+      mediumRef: { fullPath: mediumRef?.fullPath ?? null },
+      smallRef: { fullPath: smallRef?.fullPath ?? null },
+    };
+
+    return srcSetWithFullPaths;
+  };
+
+  const updateFirestoreDocument = (
+    documentID,
+    changes,
+    path = "/documents",
+    fileName = undefined
+  ) => {
+    let finalChanges = createNewDocumentItem(changes, undefined, false);
+    if (changes?.headerImage) {
+      uploadBlobsToFirestoreStorage(changes?.headerImage, undefined).then(
+        (headerImageObject) => {
+          console.log(headerImageObject);
+          const headerImageFinal =
+            convertImageReferencesToFullPaths(headerImageObject);
+          console.log(headerImageFinal);
+
+          delete finalChanges.head.headerImage;
+
+          finalChanges = updateDocumentItem(finalChanges, {
+            headerImage: headerImageFinal,
+          });
+
+          console.log(
+            "HEADER IMAGE GOTTEN: ",
+            removeNullUndefined(finalChanges)
+          );
+
+          setDoc(doc(db, path, documentID), removeNullUndefined(finalChanges), {
+            merge: true,
+          });
+        }
+      );
+
+      // !
+      // ! If theres header images:
+
+      // !    Delete old set
+      // !    Delete old set
+      // !    Delete old set
+      // !    Delete old set
+      // !    Delete old set
+      // !    Delete old set
+      // !    Delete old set
+      // !    Delete old set
+      // !    Delete old set
+      // !    Delete old set
+      // !    Delete old set
+
+      // !    Upload set to storage
+      // !    Retrieve URLs
+      // !    Insert URLs to changes
+      // !
+      // ! Update document with changes
+      // !
+    } else {
+      delete finalChanges.head.headerImage;
+      console.log("NO HEADER IMAGE: ", removeNullUndefined(finalChanges));
+      setDoc(doc(db, path, documentID), removeNullUndefined(finalChanges), {
+        merge: true,
+      });
+    }
   };
 
   return {
@@ -267,6 +432,7 @@ export function useDocumentInterface(database, storage, user = undefined) {
     pushImportedDocumentEntry,
     getEntryByID,
     editEntry,
+    updateFirestoreDocument,
     //
     // createNewDocumentItem, // Not needed
   };
