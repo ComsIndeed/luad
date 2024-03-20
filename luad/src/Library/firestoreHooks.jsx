@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { uploadBlobsToFirestoreStorage } from "./firebaseStorage";
-import { fetchFromFirestore, uploadDocumentsToFirestore } from "./firestore";
+import {
+  deleteHeaderImages,
+  fetchFromFirestore,
+  uploadDocumentsToFirestore,
+} from "./firestore";
 
 import Resizer from "react-image-file-resizer";
 import { v4 } from "uuid";
@@ -225,51 +229,52 @@ export function useDocumentInterface(database, storage, user = undefined) {
     return updatedItem;
   };
 
-  const createDraftItemFromDocument = (documentItem) => {
-    const { head, body } = documentItem;
-    const {
-      title,
-      author,
-      creationDate,
-      creationDateRaw,
-      lastModified,
-      lastModifiedRaw,
-      headerImage,
-      meta,
-    } = head;
+  // const createDraftItemFromDocument = (documentItem) => {
+  //   const { head, body } = documentItem;
+  //   const {
+  //     title,
+  //     author,
+  //     creationDate,
+  //     creationDateRaw,
+  //     lastModified,
+  //     lastModifiedRaw,
+  //     headerImage,
+  //     meta,
+  //   } = head;
 
-    const srcSet = {
-      large: headerImage?.large ?? null,
-      medium: headerImage?.medium ?? null,
-      small: headerImage?.small ?? null,
-      largeRef: {
-        fullPath: headerImage?.largeFullPath ?? null,
-      },
-      mediumRef: {
-        fullPath: headerImage?.mediumFullPath ?? null,
-      },
-      smallRef: {
-        fullPath: headerImage?.smallFullPath ?? null,
-      },
-    };
+  //   const srcSet = {
+  //     large: headerImage?.large ?? null,
+  //     medium: headerImage?.medium ?? null,
+  //     small: headerImage?.small ?? null,
+  //     largeRef: {
+  //       fullPath: headerImage?.largeFullPath ?? null,
+  //     },
+  //     mediumRef: {
+  //       fullPath: headerImage?.mediumFullPath ?? null,
+  //     },
+  //     smallRef: {
+  //       fullPath: headerImage?.smallFullPath ?? null,
+  //     },
+  //   };
 
-    return {
-      title,
-      author,
-      creationDate,
-      creationDateRaw,
-      lastModified,
-      lastModifiedRaw,
-      ...srcSet,
-      category: meta?.category ?? [],
-      body,
-    };
-  };
+  //   return {
+  //     title,
+  //     author,
+  //     creationDate,
+  //     creationDateRaw,
+  //     lastModified,
+  //     lastModifiedRaw,
+  //     ...srcSet,
+  //     category: meta?.category ?? [],
+  //     body,
+  //   };
+  // };
 
   const uploadEntries = async (entryList = objectEntryList) => {
     let documentEntries = [];
+    console.log(entryList);
 
-    const uploadPromises = entryList.map(async (entry) => {
+    const uploadPromises = entryList?.map(async (entry) => {
       const imageUrl = await uploadBlobsToFirestoreStorage(
         entry?.headerImage,
         entry?.title
@@ -288,7 +293,7 @@ export function useDocumentInterface(database, storage, user = undefined) {
   };
 
   const handleDiscardAllEntries = () => {
-    setObjectEntryList(null);
+    setObjectEntryList([]);
   };
 
   const pushImportedDocumentEntry = (parsedDocumentObject) => {
@@ -366,29 +371,31 @@ export function useDocumentInterface(database, storage, user = undefined) {
   ) => {
     let finalChanges = createNewDocumentItem(changes, undefined, false);
     if (changes?.headerImage) {
-      uploadBlobsToFirestoreStorage(changes?.headerImage, undefined).then(
-        (headerImageObject) => {
-          console.log(headerImageObject);
-          const headerImageFinal =
-            convertImageReferencesToFullPaths(headerImageObject);
-          console.log(headerImageFinal);
-
-          delete finalChanges.head.headerImage;
-
-          finalChanges = updateDocumentItem(finalChanges, {
-            headerImage: headerImageFinal,
-          });
-
-          console.log(
-            "HEADER IMAGE GOTTEN: ",
-            removeNullUndefined(finalChanges)
-          );
-
-          setDoc(doc(db, path, documentID), removeNullUndefined(finalChanges), {
-            merge: true,
-          });
-        }
-      );
+      deleteHeaderImages(documentID).then(() => {
+        uploadBlobsToFirestoreStorage(changes?.headerImage, undefined).then(
+          (headerImageObject) => {
+            const headerImageOutput = {
+              small: headerImageObject.small,
+              medium: headerImageObject.medium,
+              large: headerImageObject.large,
+              smallFullPath: headerImageObject.smallRef.fullPath,
+              mediumFullPath: headerImageObject.mediumRef.fullPath,
+              largeFullPath: headerImageObject.largeRef.fullPath,
+            };
+            finalChanges.head.headerImage = headerImageOutput;
+            console.log("RECEIVED IMAGES: ", removeNullUndefined(finalChanges));
+            setDoc(
+              doc(db, path, documentID),
+              removeNullUndefined(finalChanges),
+              {
+                merge: true,
+              }
+            ).then((e) => {
+              console.log(e);
+            });
+          }
+        );
+      });
 
       // !
       // ! If theres header images:
@@ -418,6 +425,10 @@ export function useDocumentInterface(database, storage, user = undefined) {
         merge: true,
       });
     }
+  };
+
+  const updateDraftHeaderImage = (event, entryID) => {
+    createSrcSet(event, undefined, "blob").then((sourceSet) => {});
   };
 
   return {

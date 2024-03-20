@@ -1,12 +1,13 @@
 import React from "react";
 import ThemeToggle from "../Reusables/ThemeToggle";
+import LUADIcon from "../Assets/luad.webp";
 
 function HeaderScreen_Main() {
   return (
     <>
       <div className="HeaderScreen_Main">
         <ThemeToggle />
-        <img className="Header-icon" src="luad.webp" alt="Luad Icon" />
+        <img className="Header-icon" src={LUADIcon} alt="Luad Icon" />
         <h1 className="Header-title">LUAD</h1>
         <p className="Header-subtitle">
           The Potterian's Talents, one click at a time

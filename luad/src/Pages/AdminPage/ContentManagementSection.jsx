@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { fetchFromFirestore } from "../../Library/firestore";
+import {
+  fetchFromFirestore,
+  removeDocFromFirestore,
+} from "../../Library/firestore";
 import {
   createSrcSet,
   useDocumentInterface,
@@ -7,6 +10,7 @@ import {
 import handleImportFromDocs from "../../Library/googleDocsLibrary";
 import { db, storage } from "../../Library/firebase";
 import { CLIENT_ID, useGoogleAuthState } from "../../Library/googleOauth";
+import { uploadBlobsToFirestoreStorage } from "../../Library/firebaseStorage";
 
 export default function ContentManagement() {
   const [firestoreCollection, setFirestoreCollection] = useState([]);
@@ -25,7 +29,11 @@ export default function ContentManagement() {
       <div className="ContentManagement">
         <h1>Content Management</h1>
         <CreateView CMS={CMS} />
-        <DocumentListView CMS={CMS} firestoreCollection={firestoreCollection} />
+        <DocumentListView
+          CMS={CMS}
+          firestoreCollection={firestoreCollection}
+          setFirestoreCollection={setFirestoreCollection}
+        />
       </div>
     </>
   );
@@ -148,7 +156,11 @@ function ImportFromDocs({ GoogleOauth, CMS }) {
   );
 }
 
-function DocumentListView({ CMS, firestoreCollection }) {
+function DocumentListView({
+  CMS,
+  firestoreCollection,
+  setFirestoreCollection,
+}) {
   const [list, setList] = useState("firestore");
 
   return (
@@ -173,7 +185,11 @@ function DocumentListView({ CMS, firestoreCollection }) {
           </button>
         </div>
         {list === "firestore" && (
-          <FirestoreList firestoreCollection={firestoreCollection} CMS={CMS} />
+          <FirestoreList
+            firestoreCollection={firestoreCollection}
+            CMS={CMS}
+            setFirestoreCollection={setFirestoreCollection}
+          />
         )}
         {list === "drafts" && <DraftList CMS={CMS} />}
       </div>
@@ -181,7 +197,7 @@ function DocumentListView({ CMS, firestoreCollection }) {
   );
 }
 
-function FirestoreList({ firestoreCollection, CMS }) {
+function FirestoreList({ firestoreCollection, CMS, setFirestoreCollection }) {
   return (
     <>
       <div className="FirestoreList">
@@ -193,6 +209,7 @@ function FirestoreList({ firestoreCollection, CMS }) {
               key={firestoreDocument?.id}
               index={index}
               CMS={CMS}
+              setFirestoreCollection={setFirestoreCollection}
             />
           );
         })}
@@ -201,7 +218,12 @@ function FirestoreList({ firestoreCollection, CMS }) {
   );
 }
 
-function FirestoreListItem({ firestoreDocument, index, CMS }) {
+function FirestoreListItem({
+  firestoreDocument,
+  index,
+  CMS,
+  setFirestoreCollection,
+}) {
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [changes, setChanges] = useState(null);
   const [srcSet, setSrcSet] = useState(null);
@@ -253,7 +275,18 @@ function FirestoreListItem({ firestoreDocument, index, CMS }) {
           <button onClick={() => [setShowEditPanel(!showEditPanel)]}>
             Edit document
           </button>
-          <button>Delete document</button>
+          <button
+            onClick={() => {
+              removeDocFromFirestore(
+                firestoreDocument.id,
+                setFirestoreCollection,
+                true,
+                "/documents"
+              );
+            }}
+          >
+            Delete document
+          </button>
         </div>
         {showEditPanel && (
           <div className="editPanel">
@@ -322,7 +355,13 @@ function DraftList({ CMS }) {
           ))}
       </div>
       <button onClick={() => console.log(CMS.objectEntryList)}>Log</button>
-      <button onClick={CMS.uploadEntries}>Save and upload changes</button>
+      <button
+        onClick={() => {
+          CMS.uploadEntries();
+        }}
+      >
+        Save and upload changes
+      </button>
       <button onClick={CMS.handleDiscardAllEntries}>Discard changes</button>
     </>
   );
@@ -345,13 +384,25 @@ function DraftListItem({ objectEntryItem, CMS, index }) {
     });
   };
 
+  const handleEditFileInputChange = (e) => {
+    createSrcSet(e, undefined, "blob").then((returnedSrcSet) => {
+      setChanges((prev) => {
+        return {
+          ...prev,
+          headerImage: returnedSrcSet,
+        };
+      });
+    });
+  };
+
   return (
     <div className="DraftEntryItem">
       <div className="info">
         <h3>{index + 1}</h3>
-        <p>{objectEntryItem.operation}</p>
-        <p>{objectEntryItem.title}</p>
-        <p>{objectEntryItem.author || "Author wasnt provided"}</p>
+        <div className="text">
+          <p>{objectEntryItem.title}</p> <br />
+          <p>{objectEntryItem.author || "Author wasnt provided"}</p>
+        </div>
       </div>
       <div className="buttons">
         <button onClick={() => CMS.removeDraftByUuid(objectEntryItem.entryID)}>
@@ -372,8 +423,8 @@ function DraftListItem({ objectEntryItem, CMS, index }) {
             onChange={handleEditInputChange}
           />{" "}
           <br />
-          <label>Header Image: </label> <input type="file" name="" id="" />{" "}
-          <br />
+          <label>Header Image: </label>
+          <input type="file" onChange={handleEditFileInputChange} /> <br />
           <input
             type="text"
             defaultValue={objectEntryItem.author}

@@ -365,6 +365,39 @@ export const removeDocFromFirestore = async (
       console.error(err);
     });
 };
+
+export const deleteHeaderImages = async (docID, path = "/documents") => {
+  try {
+    const docRef = doc(db, path, docID);
+    const docSnapshot = await getDoc(docRef);
+    const docData = docSnapshot.data();
+
+    const sizes = ["small", "medium", "large"];
+    sizes.forEach(async (size) => {
+      const fullPathKey = `${size}FullPath`;
+      const fullPath = docData?.head?.headerImage?.[fullPathKey];
+      if (fullPath) {
+        // Delete image from Firebase Storage
+        await deleteObject(ref(storage, fullPath));
+      }
+    });
+
+    // Update Firestore document to remove headerImage fields
+    await updateDoc(docRef, {
+      "head.headerImage": {
+        smallFullPath: null,
+        mediumFullPath: null,
+        largeFullPath: null,
+      },
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting header images:", error);
+    return { success: false, error };
+  }
+};
+
 export async function uploadDocumentToFirestore(
   documentObject,
   path = "/documents"

@@ -4,6 +4,7 @@ import { fetchFromFirestore } from "../Library/firestore";
 import { Loading } from "../Reusables/Loading";
 import { Link } from "react-router-dom";
 import { paths } from "../Configuration/paths";
+import notFoundImage from "../Assets/notFound.jpg";
 
 function SuspendedDisplay({ children }) {
   return (
@@ -17,15 +18,13 @@ function ContentCard({ entry }) {
   return (
     <>
       <Link to={paths.posts + entry.id} className="ContentCard">
-        {entry.head.headerImage.small && (
-          <img
-            className="ContentCard-thumbnail"
-            width={280}
-            height={210}
-            src={entry.head.headerImage.small}
-            alt={`Thumbnail for the article: "${entry.head.title}"`}
-          />
-        )}
+        <img
+          className="ContentCard-thumbnail"
+          width={280}
+          height={210}
+          src={entry.head.headerImage.small || notFoundImage}
+          alt={`Thumbnail for the article: "${entry.head.title}"`}
+        />
         <div className="ContentCard-text">
           <h3 className="ContentCard-title"> {entry.head.title} </h3>
           <p className="ContentCard-author">
@@ -62,20 +61,19 @@ function ContentList({ entries }) {
 
 export function Contents() {
   const [collectionList, setCollectionList] = useState([]);
-  const [displayType, setDisplayType] = useState("grid");
 
   useEffect(() => {
-    fetchFromFirestore("documents").then((returnedCollection) => {
-      console.log(returnedCollection);
-      setCollectionList(returnedCollection);
-    });
+    fetchFromFirestore("/documents", undefined, true, true).then(
+      (returnedCollection) => {
+        setCollectionList(returnedCollection);
+      }
+    );
   }, []);
 
   return (
     <>
       <div className="Contents">
-        {displayType === "grid" && <ContentGrid entries={collectionList} />}
-        {displayType === "list" && <ContentList entries={collectionList} />}
+        <ContentGrid entries={collectionList} />
       </div>
     </>
   );
