@@ -49,7 +49,6 @@ body {
   max-width: 100vw;
   margin-bottom: 5em;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  transition: background-color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29);
 }
 body h1, body h2, body h3, body p, body label, body button, body a, body svg, body input, body textarea, body svg, body a {
   transition: color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29), background-color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29);
@@ -143,6 +142,7 @@ body button svg {
   padding: 1em 0em;
   width: 100%;
   border-radius: 0.5em;
+  transition: min-height 1s;
   min-height: 40vh;
 }
 .Homepage .Header > * {
@@ -170,6 +170,78 @@ body button svg {
   .Homepage .Header {
     min-height: 40vh;
   }
+}
+.Homepage .Header.info {
+  min-height: 85vh;
+}
+@media (max-width: 768px) {
+  .Homepage .Header.info {
+    min-height: 95vh;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .Homepage .Header.info {
+    min-height: 80vh;
+  }
+}
+.Homepage .Header .HeaderScreen_Info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  outline: 1px solid red;
+  height: -moz-max-content;
+  height: max-content;
+  min-width: 100%;
+}
+.Homepage .Header .HeaderScreen_Info > * {
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+.Homepage .Header .HeaderScreen_Info .Header-title {
+  transition: top 1s ease;
+  position: absolute;
+  min-width: -moz-max-content;
+  min-width: max-content;
+  color: white;
+  font-size: 3em;
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .Homepage .Header .HeaderScreen_Info .Header-title {
+    font-size: 3em;
+  }
+}
+@media (max-width: 768px) {
+  .Homepage .Header .HeaderScreen_Info .Header-title {
+    font-size: 2em;
+  }
+}
+.Homepage .Header .HeaderScreen_Info .Header-title.center {
+  top: 50%;
+}
+.Homepage .Header .HeaderScreen_Info .Header-title.top {
+  top: 5%;
+}
+.Homepage .Header .HeaderScreen_Info .Header-title .Header-title-LUAD {
+  font-family: "Chunkfive";
+  background: linear-gradient(0deg, rgb(214, 200, 68) 0%, rgb(252, 255, 108) 57%, rgb(255, 254, 125) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 500;
+  letter-spacing: -0.07em;
+  padding: 0.07em;
+  -webkit-text-stroke: 0.025em black;
+}
+.Homepage .Header .HeaderScreen_Info .options .ItemCard {
+  background-color: hsla(0, 0%, 25%, 0.3);
+  padding: 2em;
+  margin: 0.1em;
+  -webkit-backdrop-filter: blur(1em);
+          backdrop-filter: blur(1em);
+}
+.Homepage .Header .HeaderScreen_Info .options .ItemCard * {
+  color: whitesmoke;
 }
 .Homepage .Header .HeaderScreen_Main {
   display: flex;
@@ -242,7 +314,6 @@ body button svg {
   right: 2.5%;
 }
 .Homepage .HomepageNavigation {
-  transition: background-color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29);
   position: sticky;
   top: 0;
   min-height: 3em;
@@ -471,7 +542,6 @@ body button svg {
   top: 0%;
   z-index: 10;
   justify-content: space-between;
-  transition: background-color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29);
 }
 .Navigation > * {
   flex: 0 0 auto;
@@ -546,12 +616,10 @@ body button svg {
   flex-direction: column;
   margin: 0em 2em;
 }
-.AdminPage .ContentManagement .DocumentListView .DraftList .DraftEntryItem .info {
-  display: flex;
-  align-items: center;
-}
 .AdminPage .ContentManagement .DocumentListView .DraftList .DraftEntryItem .info * {
   margin: 0.5em 0.25em;
+  display: flex;
+  align-items: center;
 }
 .AdminPage .ContentManagement .DocumentListView .DraftList .DraftEntryItem .info .text * {
   padding: 0em 0.5em;

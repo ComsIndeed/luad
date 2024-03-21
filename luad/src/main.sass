@@ -43,7 +43,7 @@
     transform: scale(1.0125)
   &:active
     transform: scale(0.975)
-@mixin colorShift($properties, $duration: 0.25s, $timing-function: cubic-bezier(0.16, 0.01, 0.81, 0.29)) 
+@mixin colorShift($properties, $duration: 0.25s, $timing-function: cubic-bezier(0.16, 0.01, 0.81, 0.29))
   $index: 0
   $propertyValue: ""
   @each $property in $properties
@@ -53,10 +53,11 @@
     @else if $index > 0
       $propertyValue: $propertyValue, $property $duration $timing-function
       $index: $index + 1
-  transition: $propertyValue
+      transition: $propertyValue
 
-  // Say proper
+$bezier: cubic-bezier(0.16, 0.01, 0.81, 0.29)
 
+// Say proper
 
 $bg-light: hsl(240, 100%, 95%)
 $bg-dark: hsl(240, 100%, 5%)
@@ -118,10 +119,10 @@ body
   margin-bottom: 5em
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif
   @include colorShift(background-color)
-  
+
   h1, h2, h3, p, label, button, a, svg, input, textarea, svg, a
-    @include colorShift([color, background-color])    
-    
+    @include colorShift([color, background-color])
+
   &
     &::-webkit-scrollbar
       width: 8px
@@ -146,7 +147,7 @@ body
       color: $color-dark
     textarea, input:not([type="file"]), button
       color: $color-dark
-      background-color:  lighten($bg-dark, 5%)
+      background-color: lighten($bg-dark, 5%)
     .HomepageNavigation
       background-color: $bg-dark
     .Navigation
@@ -171,13 +172,9 @@ body
   button svg
     background-color: transparent
 
-
-
-
-
 .Homepage
   @include center()
-  
+
   .Header
     @include bg
     @include center
@@ -186,12 +183,63 @@ body
     padding: 1em 0em
     width: 100%
     border-radius: 0.5em
+
+    transition: min-height 1s
     min-height: 40vh
     @include forScreens($p)
       min-height: 45vh
     @include forScreens($t)
       min-height: 40vh
+    &.info
+      min-height: 85vh
+      @include forScreens($p)
+        min-height: 95vh
+      @include forScreens($t)
+        min-height: 80vh
 
+    .HeaderScreen_Info
+      @include center()
+      position: relative
+      @include temporaryOutline(red)
+      height: max-content
+      // transition: min-height 1s
+      min-width: 100%
+      // min-height: 85vh
+      // @include forScreens($p)
+      //   min-height: 95vh
+      // @include forScreens($t)
+      //   min-height: 80vh
+      .Header-title
+        transition: top 1s ease
+        position: absolute
+        min-width: max-content
+        color: white
+        font-size: 3em
+        @include forScreens($t)
+          font-size: 3em
+        @include forScreens($p)
+          font-size: 2em
+        &.center
+          top: 50%
+        &.top
+          top: 5%
+        .Header-title-LUAD
+          font-family: "Chunkfive"
+          background: linear-gradient(0deg, rgba(214,200,68,1) 0%, rgba(252,255,108,1) 57%, rgba(255,254,125,1) 100%)
+          -webkit-background-clip: text
+          -webkit-text-fill-color: transparent
+          font-weight: 500
+          letter-spacing: -0.07em
+          padding: 0.07em
+          -webkit-text-stroke: 0.025em black
+      .options
+        .ItemCard
+          background-color: hsla(0, 0, 25%, 30%)
+          padding: 2em
+          margin: 0.1em
+          backdrop-filter: blur(1em)
+          *
+            color: whitesmoke
     .HeaderScreen_Main
       @include center()
       color: white
@@ -231,6 +279,7 @@ body
         position: absolute
         bottom: 2em
         right: 2em
+
     .ThemeToggleButton
       background-color: rgba(255,255,255,0.25)
       padding: 0.5em
@@ -238,7 +287,7 @@ body
       position: absolute
       top: 10%
       right: 2.5%
-  
+
   .HomepageNavigation
     @include colorShift(background-color)
     position: -webkit-sticky
@@ -255,7 +304,6 @@ body
       width: min-content
       @include hoverInteractive
 
-
     @include forScreens($p)
       @include center()
       .top, .bottom
@@ -267,11 +315,11 @@ body
       .top, .bottom
         display: flex
         gap: 1em
-    
+
     @include forScreens($d)
       display: grid
       grid-template-columns: 1fr 3fr 1fr
-      .left 
+      .left
         grid-column: 1
         place-self: center start
       .center
@@ -281,12 +329,10 @@ body
         grid-column: 3
         place-self: center end
 
-
-  
   .Contents
     // max-width: 90vw
     background-color: rgba(255, 255, 255, 0.025)
-    margin-bottom: 2em 
+    margin-bottom: 2em
     .ContentGrid
       display: grid
       gap: 0.75em
@@ -303,7 +349,7 @@ body
         flex-direction: column
         overflow: hidden
         border-radius: 0.5em
-        transition: transform 0.2s ease-in-out 
+        transition: transform 0.2s ease-in-out
         .ContentCard-thumbnail
           transform: scale(1.075)
           transition: transform 0.1s linear
@@ -316,7 +362,7 @@ body
         .ContentCard-title, .ContentCard-author
           color: white
           display: block
-        &:after 
+        &:after
           z-index: 1
           content: ""
           position: absolute
@@ -324,9 +370,9 @@ body
           left: 0
           width: 100%
           height: 100%
-          background-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 75%) 
+          background-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 75%)
           opacity: 0.5
-          transition: opacity 0.2s ease-in-out 
+          transition: opacity 0.2s ease-in-out
         &:hover
           transform: scale(1.025)
           .ContentCard-thumbnail
@@ -336,24 +382,11 @@ body
           // .ContentCard-title, .ContentCard-author
           &:after
             opacity: 0.55
-          
-        
-
-
-
-
 
 .Loading
   @include center()
   .Pot
     animation: squeezeAndStretch 2s infinite alternate
-
-
-
-
-
-
-
 
 .DocumentPage
   display: flex
@@ -392,13 +425,6 @@ body
     @include forScreens($t)
       font-size: 1.5em
 
-
-
-
-
-
-
-
 .Navigation
   @include center(row)
   position: sticky
@@ -415,31 +441,12 @@ body
   .BackButton
     padding: 0.25em
 
-
-
-
-
-
 .NotFoundPage
   height: 30vh
   @include center()
 
-
-
-
-
 .AccountPage
   @include center()
-
-
-
-
-
-
-
-
-
-
 
 .AdminPage
   padding: 1em
@@ -464,7 +471,7 @@ body
       .DraftList
         display: grid
         .DraftEntryItem
-          border-bottom: 1px solid 
+          border-bottom: 1px solid
           padding: 0.5em 0.5em
           display: flex
           flex-direction: column
@@ -472,8 +479,8 @@ body
           .info
             *
               margin: 0.5em 0.25em
-            display: flex
-            align-items: center
+              display: flex
+              align-items: center
             .text *
               padding: 0em 0.5em
               border-left: 1px solid black
@@ -486,7 +493,7 @@ body
               min-height: 20em
       .FirestoreList
         .FirestoreListItem
-          border-bottom: 1px solid 
+          border-bottom: 1px solid
           padding: 0.5em 0.5em
           display: flex
           flex-direction: column
@@ -504,14 +511,10 @@ body
             textarea
               width: 100%
               min-height: 20em
-            
 
-            
-   
   // Globals, kinda
   &
     .sectionDivider
       margin: 2em
       padding: 1em 0em
       border-bottom: 1px solid black
-
