@@ -239,18 +239,18 @@ body button svg {
 }
 @media (max-width: 768px) {
   .Homepage .Header .HeaderScreen_Main {
-    min-height: 12em;
+    min-height: 6em;
   }
   .Homepage .Header .HeaderScreen_Main .Header-icon {
-    top: 9%;
-    width: 11em;
-    height: 11em;
+    top: 15%;
+    width: 7.5em;
+    height: 7.5em;
   }
   .Homepage .Header .HeaderScreen_Main .Header-title {
-    font-size: 2em;
+    font-size: 1.5em;
   }
   .Homepage .Header .HeaderScreen_Main .Header-title.Header-title-luad {
-    font-size: 3em;
+    font-size: 2em;
   }
   .Homepage .Header .HeaderScreen_Main .Header-subtitle {
     font-size: 0.75em;
