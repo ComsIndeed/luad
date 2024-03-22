@@ -182,7 +182,7 @@ body button svg {
 }
 .Homepage .Header .HeaderScreen_Main .Header-icon {
   position: absolute;
-  top: 5%;
+  top: 12%;
   transition: opacity 1s;
 }
 .Homepage .Header .HeaderScreen_Main.expand .Header-icon {
@@ -193,10 +193,14 @@ body button svg {
 }
 .Homepage .Header .HeaderScreen_Main h1.Header-title-luad, .Homepage .Header .HeaderScreen_Main .Header-title .Header-title-luad {
   font-family: "Chunkfive";
-  color: gold;
-  font-weight: 500;
+  font-weight: 400;
+  padding-right: 0.15em;
   letter-spacing: -0.11em;
   -webkit-text-stroke: 0.025em black;
+  background: #E7DE72;
+  background: linear-gradient(to bottom, #fff478 0%, rgba(228, 209, 0, 0.8823529412) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .Homepage .Header .HeaderScreen_Main .Header-subtitle {
   color: white;
@@ -209,11 +213,11 @@ body button svg {
     width: 10em;
     height: 10em;
   }
-  .Homepage .Header .HeaderScreen_Main h1.Header-title {
-    font-size: 3em;
+  .Homepage .Header .HeaderScreen_Main .Header-title {
+    font-size: 2.5em;
   }
-  .Homepage .Header .HeaderScreen_Main h1 .Header-title {
-    font-size: 1em;
+  .Homepage .Header .HeaderScreen_Main .Header-title.Header-title-luad {
+    font-size: 3em;
   }
   .Homepage .Header .HeaderScreen_Main .Header-subtitle {
     font-size: 1em;
@@ -242,7 +246,7 @@ body button svg {
     min-height: 6em;
   }
   .Homepage .Header .HeaderScreen_Main .Header-icon {
-    top: 15%;
+    top: 20%;
     width: 7.5em;
     height: 7.5em;
   }
@@ -258,6 +262,11 @@ body button svg {
 }
 .Homepage .Header .HeaderScreen_Main #LearnMoreButton {
   position: absolute;
+  background-color: hsla(0, 0%, 3%, 0.4);
+  color: white;
+  padding: 0.75em;
+  border: none;
+  color: white;
   bottom: 2em;
   right: 2em;
 }

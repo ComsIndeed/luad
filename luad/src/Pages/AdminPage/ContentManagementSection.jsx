@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   fetchFromFirestore,
   removeDocFromFirestore,
@@ -9,8 +9,8 @@ import {
 } from "../../Library/firestoreHooks";
 import handleImportFromDocs from "../../Library/googleDocsLibrary";
 import { db, storage } from "../../Library/firebase";
-import { CLIENT_ID, useGoogleAuthState } from "../../Library/googleOauth";
-import { uploadBlobsToFirestoreStorage } from "../../Library/firebaseStorage";
+import { useGoogleAuthState } from "../../Library/googleOauth";
+import { Content } from "../../Configuration/config";
 
 export default function ContentManagement() {
   const [firestoreCollection, setFirestoreCollection] = useState([]);
@@ -74,18 +74,48 @@ function CreateView({ CMS }) {
           onChange={CMS.handleInputChange}
           value={CMS.objectEntry?.body || ""}
         />
+        <CategorySelection />
         <input
           type="file"
           name="headerImage"
           id="FileInput"
           onChange={CMS.handleFileInputChange}
         />
+
         <button onClick={CMS.handlePushEntry}>Add to drafts</button>
 
         <br />
         <br />
         <br />
       </div>
+    </>
+  );
+}
+
+function CategorySelection() {
+  return (
+    <>
+      <form>
+        <p>Categories</p> <br />
+        {Content.categories.map((categoryItem) => {
+          return (
+            <React.Fragment key={categoryItem}>
+              <input
+                type="checkbox"
+                name={categoryItem}
+                id={categoryItem + "Selection"}
+                onChange={(e) => {
+                  console.log(e.target.value);
+                }}
+              />
+              <label htmlFor={categoryItem}>
+                {categoryItem[0].toUpperCase() + categoryItem.slice(1)}
+              </label>{" "}
+              <br />
+            </React.Fragment>
+          );
+        })}
+      </form>
     </>
   );
 }
@@ -258,10 +288,6 @@ function FirestoreListItem({
       });
     }
   }, [srcSet]);
-
-  useEffect(() => {
-    console.log("CHANGES: ", changes);
-  }, [changes]);
 
   return (
     <>
