@@ -56,6 +56,20 @@ function resize(size, file, output = "base64") {
           output
         );
         break;
+      case "tiny":
+        Resizer.imageFileResizer(
+          file,
+          8,
+          6,
+          "WEBP",
+          30,
+          0,
+          (uri) => {
+            resolve(uri);
+          },
+          output
+        );
+        break;
       default:
         console.error("Invalid size provided:", size);
         resolve(null); // Handle invalid size gracefully
@@ -72,10 +86,11 @@ export const createSrcSet = async (
   const small = await resize("small", file, output);
   const medium = await resize("medium", file, output);
   const large = await resize("large", file, output);
+  const tiny = await resize("tiny", file, output);
   if (method) {
-    method({ small, medium, large });
+    method({ small, medium, large, tiny });
   }
-  return { small, medium, large };
+  return { small, medium, large, tiny };
 };
 
 export function useDocumentInterface(database, storage, user = undefined) {
@@ -104,6 +119,7 @@ export function useDocumentInterface(database, storage, user = undefined) {
         ...objectEntry,
         operation: "POST",
         entryID: v4(),
+        
         [name]: value,
       });
     } else {
@@ -114,12 +130,22 @@ export function useDocumentInterface(database, storage, user = undefined) {
   const handleFileInputChange = (event) => {
     createSrcSet(event, undefined, "blob").then((blobs) => {
       setObjectEntry((prev) => {
+        console.log({
+          ...prev,
+          headerImage: {
+            large: blobs.large,
+            medium: blobs.medium,
+            small: blobs.small,
+            tiny: blobs.tiny,
+          },
+        });
         return {
           ...prev,
           headerImage: {
             large: blobs.large,
             medium: blobs.medium,
             small: blobs.small,
+            tiny: blobs.tiny,
           },
         };
       });
@@ -143,8 +169,16 @@ export function useDocumentInterface(database, storage, user = undefined) {
       categories,
     } = entry || {};
 
-    const { large, medium, small, largeRef, mediumRef, smallRef } =
-      srcSet || {};
+    const {
+      large,
+      medium,
+      small,
+      tiny,
+      largeRef,
+      mediumRef,
+      smallRef,
+      tinyRef,
+    } = srcSet || {};
 
     // Function to filter out undefined values if keepUndefined is false
     const filterUndefined = (obj) =>
@@ -168,12 +202,15 @@ export function useDocumentInterface(database, storage, user = undefined) {
           ...(large && { large }),
           ...(medium && { medium }),
           ...(small && { small }),
+          ...(tiny && { tiny }),
           ...(largeRef &&
             largeRef.fullPath && { largeFullPath: largeRef.fullPath }),
           ...(mediumRef &&
             mediumRef.fullPath && { mediumFullPath: mediumRef.fullPath }),
           ...(smallRef &&
             smallRef.fullPath && { smallFullPath: smallRef.fullPath }),
+          ...(tinyRef &&
+            tinyRef.fullPath && { tinyFullPath: tinyRef.fullPath }),
         },
         meta: {
           // Use an empty array for missing categories
@@ -206,28 +243,28 @@ export function useDocumentInterface(database, storage, user = undefined) {
     };
   };
 
-  const updateDocumentItem = (existingItem, updatedValues) => {
-    if (!existingItem || typeof existingItem !== "object" || !updatedValues) {
-      return existingItem;
-    }
+  // const updateDocumentItem = (existingItem, updatedValues) => {
+  //   if (!existingItem || typeof existingItem !== "object" || !updatedValues) {
+  //     return existingItem;
+  //   }
 
-    // Merge updated values with existing item
-    const updatedItem = { ...existingItem, ...updatedValues };
+  //   // Merge updated values with existing item
+  //   const updatedItem = { ...existingItem, ...updatedValues };
 
-    // Remove undefined and null properties from the merged item
-    for (const key in updatedItem) {
-      if (updatedItem.hasOwnProperty(key)) {
-        if (updatedItem[key] === undefined || updatedItem[key] === null) {
-          delete updatedItem[key];
-        } else if (typeof updatedItem[key] === "object") {
-          // Recursively remove undefined and null properties from nested objects
-          updatedItem[key] = removeNullUndefined(updatedItem[key]);
-        }
-      }
-    }
+  //   // Remove undefined and null properties from the merged item
+  //   for (const key in updatedItem) {
+  //     if (updatedItem.hasOwnProperty(key)) {
+  //       if (updatedItem[key] === undefined || updatedItem[key] === null) {
+  //         delete updatedItem[key];
+  //       } else if (typeof updatedItem[key] === "object") {
+  //         // Recursively remove undefined and null properties from nested objects
+  //         updatedItem[key] = removeNullUndefined(updatedItem[key]);
+  //       }
+  //     }
+  //   }
 
-    return updatedItem;
-  };
+  //   return updatedItem;
+  // };
 
   // const createDraftItemFromDocument = (documentItem) => {
   //   const { head, body } = documentItem;
@@ -358,6 +395,7 @@ export function useDocumentInterface(database, storage, user = undefined) {
       largeRef: { fullPath: largeRef?.fullPath ?? null },
       mediumRef: { fullPath: mediumRef?.fullPath ?? null },
       smallRef: { fullPath: smallRef?.fullPath ?? null },
+      tinyRef: { fullPath: tinyRef?.fullPath ?? null },
     };
 
     return srcSetWithFullPaths;
@@ -375,9 +413,11 @@ export function useDocumentInterface(database, storage, user = undefined) {
         uploadBlobsToFirestoreStorage(changes?.headerImage, undefined).then(
           (headerImageObject) => {
             const headerImageOutput = {
+              tiny: headerImageObject.tiny,
               small: headerImageObject.small,
               medium: headerImageObject.medium,
               large: headerImageObject.large,
+              tinyFullPath: headerImageObject.tinyRef.fullPath,
               smallFullPath: headerImageObject.smallRef.fullPath,
               mediumFullPath: headerImageObject.mediumRef.fullPath,
               largeFullPath: headerImageObject.largeRef.fullPath,

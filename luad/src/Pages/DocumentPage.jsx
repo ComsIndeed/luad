@@ -9,13 +9,31 @@ export function DocumentPage() {
   const [currentDocument, setCurrentDocument] = useState();
   const { id } = useParams();
   const [text, setText] = useState("");
+  const [currentHeaderImage, setCurrentHeaderImage] = useState(() => {
+    if (!currentDocument?.head?.headerImage?.tiny) {
+      return currentDocument?.head?.headerImage?.large;
+    }
+  });
+
+  useEffect(() => {
+    if (currentDocument?.head?.headerImage?.tiny) {
+      setCurrentHeaderImage(currentDocument?.head?.headerImage?.tiny);
+      const image = new Image();
+      image.src = currentDocument?.head?.headerImage?.large;
+      image.onload = () => {
+        setCurrentHeaderImage(currentDocument?.head?.headerImage?.large);
+      };
+    } else {
+      setCurrentHeaderImage(currentDocument?.head?.headerImage?.large);
+    }
+  }, [currentDocument]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    fetchFromFirestore("documents", id).then((fetchedDocument) => {
+    fetchFromFirestore("documents", id, true).then((fetchedDocument) => {
       setCurrentDocument(fetchedDocument);
       setText(fetchedDocument.body);
     });
@@ -32,7 +50,7 @@ export function DocumentPage() {
           <img
             width={768}
             height={452}
-            src={currentDocument.head.headerImage.large}
+            src={currentHeaderImage}
             alt={`Thumbnail for ${currentDocument.head.title}`}
             className="animate__animated animate__fadeIn"
           />

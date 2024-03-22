@@ -7,6 +7,7 @@ import {
   getDoc,
   addDoc,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 // =======================
@@ -372,7 +373,7 @@ export const deleteHeaderImages = async (docID, path = "/documents") => {
     const docSnapshot = await getDoc(docRef);
     const docData = docSnapshot.data();
 
-    const sizes = ["small", "medium", "large"];
+    const sizes = ["tiny", "small", "medium", "large"];
     sizes.forEach(async (size) => {
       const fullPathKey = `${size}FullPath`;
       const fullPath = docData?.head?.headerImage?.[fullPathKey];
@@ -385,6 +386,7 @@ export const deleteHeaderImages = async (docID, path = "/documents") => {
     // Update Firestore document to remove headerImage fields
     await updateDoc(docRef, {
       "head.headerImage": {
+        tinyFullPath: null,
         smallFullPath: null,
         mediumFullPath: null,
         largeFullPath: null,

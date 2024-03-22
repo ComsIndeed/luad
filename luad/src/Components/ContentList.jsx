@@ -16,6 +16,24 @@ function SuspendedDisplay({ children }) {
 }
 
 function ContentCard({ entry }) {
+  const [currentHeaderImage, setCurrentHeaderImage] = useState(() => {
+    if (entry?.head?.headerImage?.tiny) {
+      return entry?.head?.headerImage?.tiny;
+    } else if (!entry?.head?.headerImage?.tiny) {
+      return entry?.head?.headerImage?.small;
+    }
+  });
+
+  useEffect(() => {
+    if (entry?.head?.headerImage?.tiny) {
+      const image = new Image();
+      image.src = entry?.head?.headerImage?.small;
+      image.onload = () => {
+        setCurrentHeaderImage(entry?.head?.headerImage?.small);
+      };
+    }
+  }, [entry]);
+
   return (
     <>
       <Link
@@ -26,7 +44,7 @@ function ContentCard({ entry }) {
           className="ContentCard-thumbnail"
           width={280}
           height={210}
-          src={entry.head.headerImage.small || notFoundImage}
+          src={currentHeaderImage || notFoundImage}
           alt={`Thumbnail for the article: "${entry.head.title}"`}
         />
         <div className="ContentCard-text">
@@ -44,18 +62,19 @@ function ContentGrid({ entries }) {
   return (
     <>
       <div className="ContentGrid">
-        {entries.map((fetchedDocument) => {
-          return (
-            <ContentCard key={fetchedDocument.id} entry={fetchedDocument} />
-          );
-        })}
+        {entries.length === 0 && <h2>Lookin' empty here..</h2>}
+        {entries.length > 0 &&
+          entries.map((fetchedDocument) => {
+            return (
+              <ContentCard key={fetchedDocument.id} entry={fetchedDocument} />
+            );
+          })}
       </div>
     </>
   );
 }
 
 function ContentList({ entries }) {
-  console.log(entries);
   return (
     <>
       <div className="ContentList"></div>
@@ -64,7 +83,7 @@ function ContentList({ entries }) {
 }
 
 export function Contents() {
-  const [collectionList, setCollectionList] = useState([]);
+  const [collectionList, setCollectionList] = useState(null);
 
   useEffect(() => {
     fetchFromFirestore("/documents", undefined, true, true).then(
@@ -73,6 +92,14 @@ export function Contents() {
       }
     );
   }, []);
+
+  if (!collectionList) {
+    return (
+      <div className="Contents">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <>

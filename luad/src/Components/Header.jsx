@@ -65,7 +65,7 @@ function HeaderScreen_Info() {
 
 export function Header() {
   const [screenState, setScreenState] = useState("default");
-  const [expand, setExpand] = useState("");
+  const [expand, setExpand] = useState("not");
 
   return (
     <>
