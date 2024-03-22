@@ -441,6 +441,7 @@ body button svg {
 .DocumentPage {
   display: flex;
   flex-direction: column;
+  max-width: 100vw;
 }
 @media (min-width: 1024px) {
   .DocumentPage {
