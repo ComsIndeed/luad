@@ -78,6 +78,9 @@ body.light-theme .HomepageNavigation {
 body.light-theme .Navigation {
   background-color: hsl(220.94, 100%, 100%);
 }
+body.light-theme .Homepage .HomepageNavigation {
+  filter: drop-shadow(0px 1em 1em hsl(240, 100%, 95%));
+}
 body.dark-theme {
   background-color: hsl(240, 100%, 5%);
 }
@@ -93,6 +96,9 @@ body.dark-theme .HomepageNavigation {
 }
 body.dark-theme .Navigation {
   background-color: hsl(263.16, 100%, 24%);
+}
+body.dark-theme .Homepage .HomepageNavigation {
+  filter: drop-shadow(0px 1em 1em hsl(240, 100%, 5%));
 }
 body .MediaWrapper {
   width: 100vw;
@@ -177,18 +183,15 @@ body button svg {
 .Homepage .Header .HeaderScreen_Main .Header-icon {
   position: absolute;
   top: 5%;
+  transition: opacity 1s;
+}
+.Homepage .Header .HeaderScreen_Main.expand .Header-icon {
+  opacity: 0;
 }
 .Homepage .Header .HeaderScreen_Main h1.Header-title {
-  font-family: "Chunkfive";
-  color: gold;
-  font-weight: 500;
-  letter-spacing: -0.11em;
-  -webkit-text-stroke: 0.025em black;
-}
-.Homepage .Header .HeaderScreen_Main h1 {
   color: white;
 }
-.Homepage .Header .HeaderScreen_Main h1 .Header-title {
+.Homepage .Header .HeaderScreen_Main h1.Header-title-luad, .Homepage .Header .HeaderScreen_Main .Header-title .Header-title-luad {
   font-family: "Chunkfive";
   color: gold;
   font-weight: 500;
@@ -199,6 +202,9 @@ body button svg {
   color: white;
 }
 @media (min-width: 1024px) {
+  .Homepage .Header .HeaderScreen_Main {
+    min-height: 10em;
+  }
   .Homepage .Header .HeaderScreen_Main .Header-icon {
     width: 10em;
     height: 10em;
@@ -214,23 +220,36 @@ body button svg {
   }
 }
 @media (min-width: 768px) and (max-width: 1024px) {
+  .Homepage .Header .HeaderScreen_Main {
+    min-height: 10em;
+  }
   .Homepage .Header .HeaderScreen_Main .Header-icon {
-    width: 7em;
-    height: 7em;
+    width: 10em;
+    height: 10em;
   }
   .Homepage .Header .HeaderScreen_Main .Header-title {
     font-size: 2em;
+  }
+  .Homepage .Header .HeaderScreen_Main .Header-title.Header-title-luad {
+    font-size: 3em;
   }
   .Homepage .Header .HeaderScreen_Main .Header-subtitle {
     font-size: 0.7;
   }
 }
 @media (max-width: 768px) {
+  .Homepage .Header .HeaderScreen_Main {
+    min-height: 12em;
+  }
   .Homepage .Header .HeaderScreen_Main .Header-icon {
-    width: 8em;
-    height: 8em;
+    top: 9%;
+    width: 11em;
+    height: 11em;
   }
   .Homepage .Header .HeaderScreen_Main .Header-title {
+    font-size: 2em;
+  }
+  .Homepage .Header .HeaderScreen_Main .Header-title.Header-title-luad {
     font-size: 3em;
   }
   .Homepage .Header .HeaderScreen_Main .Header-subtitle {
@@ -244,17 +263,17 @@ body button svg {
 }
 .Homepage .Header .HeaderScreen_Main.expand {
   width: 100%;
-  min-height: 85vh;
+  min-height: 80vh;
   padding: 2em 0em;
 }
 @media (max-width: 768px) {
   .Homepage .Header .HeaderScreen_Main.expand {
-    min-height: 95vh;
+    min-height: 75dvh;
   }
 }
 @media (min-width: 768px) and (max-width: 1024px) {
   .Homepage .Header .HeaderScreen_Main.expand {
-    min-height: 80vh;
+    min-height: 75dvh;
   }
 }
 .Homepage .Header .ThemeToggleButton {
@@ -273,14 +292,6 @@ body button svg {
   padding: 0% 5%;
   width: 90%;
   z-index: 3;
-}
-.Homepage .HomepageNavigation::after {
-  position: absolute;
-  top: 3em;
-  width: 100%;
-  height: 3em;
-  content: "";
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0) 60%, hsl(240, 100%, 95%) 100%);
 }
 .Homepage .HomepageNavigation .NavigationLink {
   display: inline-block;

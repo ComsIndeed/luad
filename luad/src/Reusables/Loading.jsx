@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Pot from "../Assets/pot.png"; // Assuming Pot is your image import
+import Pot from "../Assets/pot.png";
+import "animate.css";
 
 export function Loading() {
   const [x, setX] = useState(1);
@@ -21,7 +22,7 @@ export function Loading() {
   }, []);
 
   return (
-    <div className="Loading">
+    <div className="Loading animate__animated animate__fadeIn">
       <img className="Pot" src={Pot} alt="Loading Icon" width={250} />
       <h1>Loading{".".repeat(x)}</h1>
     </div>

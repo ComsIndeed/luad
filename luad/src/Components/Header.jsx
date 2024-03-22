@@ -4,28 +4,28 @@ import LUADIcon from "../Assets/luad.webp";
 import "animate.css";
 
 function HeaderScreen_Main({ setScreenState, screenState, expand, setExpand }) {
+  useEffect(() => {
+    if (expand === "expand") {
+      setTimeout(() => {}, 1200);
+    }
+  }, []);
+
   return (
     <>
       <div className={`HeaderScreen_Main ${expand} `}>
         <ThemeToggle />
-        {expand === "not" && (
-          <img
-            className="Header-icon animate__animated animate__fadeIn"
-            src={LUADIcon}
-            alt="Luad Icon"
-          />
-        )}
+        <img className="Header-icon " src={LUADIcon} alt="Luad Icon" />
         {screenState === "default" && (
           <>
-            <h1 className="Header-title animate__animated animate__fadeIn">
+            <h1 className="Header-title Header-title-luad animate__animated animate__fadeIn">
               LUAD
             </h1>
           </>
         )}
         {screenState === "info" && (
           <>
-            <h1 className="animate__animated animate__fadeIn">
-              Welcome to <span className="Header-title">LUAD</span>
+            <h1 className="Header-title animate__animated animate__fadeIn">
+              Welcome to <span className="Header-title-luad">LUAD</span>
             </h1>
           </>
         )}

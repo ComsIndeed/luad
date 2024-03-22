@@ -36,7 +36,7 @@
     @media ( max-width: 768px)
       @content
 @mixin temporaryOutline($color: red)
-  outline: 1px solid $color
+  outline: 3px solid $color
 @mixin hoverInteractive()
   transition: transform 0.1s
   &:hover
@@ -141,6 +141,10 @@ body
       background-color: $bg-light
     .Navigation
       background-color: $accent-light
+    .Homepage
+      .HomepageNavigation
+        filter: drop-shadow(0px 1em 1em $bg-light)
+
   &.dark-theme
     background-color: $bg-dark
     *
@@ -152,6 +156,9 @@ body
       background-color: $bg-dark
     .Navigation
       background-color: $accent-dark
+    .Homepage
+      .HomepageNavigation
+        filter: drop-shadow(0px 1em 1em $bg-dark)
 
   & .MediaWrapper
     width: 100vw
@@ -200,23 +207,21 @@ body
       .Header-icon
         position: absolute
         top: 5%
+        transition: opacity 1s
+      &.expand .Header-icon
+        opacity: 0
       h1.Header-title
+        color: white
+      h1.Header-title-luad, .Header-title .Header-title-luad
         font-family: "Chunkfive"
         color: gold
         font-weight: 500
         letter-spacing: -0.11em
         -webkit-text-stroke: 0.025em black
-      h1
-        color: white
-        .Header-title
-          font-family: "Chunkfive"
-          color: gold
-          font-weight: 500
-          letter-spacing: -0.11em
-          -webkit-text-stroke: 0.025em black
       .Header-subtitle
         color: white
       @include forScreens($d)
+        min-height: 10em
         .Header-icon
           width: 10em
           height: 10em
@@ -227,18 +232,25 @@ body
         .Header-subtitle
           font-size: 1em
       @include forScreens($t)
+        min-height: 10em
         .Header-icon
-          width: 7em
-          height: 7em
+          width: 10em
+          height: 10em
         .Header-title
           font-size: 2em
+        .Header-title.Header-title-luad
+          font-size: 3em
         .Header-subtitle
           font-size: 0.7
       @include forScreens($p)
+        min-height: 12em
         .Header-icon
-          width: 8em
-          height: 8em
+          top: 9%
+          width: 11em
+          height: 11em
         .Header-title
+          font-size: 2em
+        .Header-title.Header-title-luad
           font-size: 3em
         .Header-subtitle
           font-size: 0.75em
@@ -249,12 +261,12 @@ body
 
     .HeaderScreen_Main.expand
       width: 100%
-      min-height: 85vh
+      min-height: 80vh
       padding: 2em 0em
       @include forScreens($p)
-        min-height: 95vh
+        min-height: 75dvh
       @include forScreens($t)
-        min-height: 80vh
+        min-height: 75dvh
 
     .ThemeToggleButton
       background-color: rgba(255,255,255,0.25)
@@ -274,13 +286,6 @@ body
     padding: 0% 5%
     width: 90%
     z-index: 3
-    &::after
-      position: absolute
-      top: calc(3em)
-      width: 100%
-      height: 3em
-      content: ""
-      background: linear-gradient(0deg, rgba(255,255,255,0) 60%, $bg-light 100%)
 
     .NavigationLink
       display: inline-block
@@ -325,6 +330,14 @@ body
         grid-template-columns: 1fr 1fr 1fr
       @include forScreens($p)
         grid-template-columns: 1fr
+      // &::before
+      //   z-index: 6
+      //   position: sticky
+      //   top: calc(10em)
+      //   width: 100%
+      //   height: 3em
+      //   content: ""
+      //   @include temporaryOutline(lime)
 
       .ContentCard
         aspect-ratio: 4/3
