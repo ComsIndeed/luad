@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react";
 import { useScreenSize } from "../Library/customHooks";
 import { NavigationLink, NavigationButton } from "../Reusables/Clickables";
 import { paths } from "../Configuration/paths";
+import "animate.css";
 
 // PAGINATION BUTTONS SAVE
 {
@@ -123,7 +124,7 @@ export function HomepageNavigation({ isAdmin }) {
 
   return (
     <>
-      <div className="HomepageNavigation">
+      <div className="HomepageNavigation animate__animated animate__fadeIn">
         {isDesktop && <ForDesktops isAdmin={isAdmin} />}
         {isTablet && <ForTablets isAdmin={isAdmin} />}
         {isPhone && <ForPhones isAdmin={isAdmin} />}

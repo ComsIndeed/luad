@@ -5,6 +5,7 @@ import { Loading } from "../Reusables/Loading";
 import { Link } from "react-router-dom";
 import { paths } from "../Configuration/paths";
 import notFoundImage from "../Assets/notFound.jpg";
+import "animate.css";
 
 function SuspendedDisplay({ children }) {
   return (
@@ -17,7 +18,10 @@ function SuspendedDisplay({ children }) {
 function ContentCard({ entry }) {
   return (
     <>
-      <Link to={paths.posts + entry.id} className="ContentCard">
+      <Link
+        to={paths.posts + entry.id}
+        className="ContentCard animate__animated animate__fadeIn "
+      >
         <img
           className="ContentCard-thumbnail"
           width={280}

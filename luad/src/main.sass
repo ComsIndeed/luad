@@ -180,83 +180,50 @@ body
     @include center
     @include anOverlay(rgba(41, 0, 67, 0.75), 0.5em)
     background-image: url("./Assets/header.webp")
-    padding: 1em 0em
     width: 100%
     border-radius: 0.5em
 
-    transition: min-height 1s
-    min-height: 40vh
-    @include forScreens($p)
-      min-height: 45vh
-    @include forScreens($t)
-      min-height: 40vh
-    &.info
-      min-height: 85vh
-      @include forScreens($p)
-        min-height: 95vh
-      @include forScreens($t)
-        min-height: 80vh
+    // min-height: 40vh
+    // @include forScreens($p)
+    //   min-height: 45vh
+    // @include forScreens($t)
+    //   min-height: 40vh
 
-    .HeaderScreen_Info
-      @include center()
-      position: relative
-      @include temporaryOutline(red)
-      height: max-content
-      // transition: min-height 1s
-      min-width: 100%
-      // min-height: 85vh
-      // @include forScreens($p)
-      //   min-height: 95vh
-      // @include forScreens($t)
-      //   min-height: 80vh
-      .Header-title
-        transition: top 1s ease
-        position: absolute
-        min-width: max-content
-        color: white
-        font-size: 3em
-        @include forScreens($t)
-          font-size: 3em
-        @include forScreens($p)
-          font-size: 2em
-        &.center
-          top: 50%
-        &.top
-          top: 5%
-        .Header-title-LUAD
-          font-family: "Chunkfive"
-          background: linear-gradient(0deg, rgba(214,200,68,1) 0%, rgba(252,255,108,1) 57%, rgba(255,254,125,1) 100%)
-          -webkit-background-clip: text
-          -webkit-text-fill-color: transparent
-          font-weight: 500
-          letter-spacing: -0.07em
-          padding: 0.07em
-          -webkit-text-stroke: 0.025em black
-      .options
-        .ItemCard
-          background-color: hsla(0, 0, 25%, 30%)
-          padding: 2em
-          margin: 0.1em
-          backdrop-filter: blur(1em)
-          *
-            color: whitesmoke
     .HeaderScreen_Main
       @include center()
+      transition: min-height 1s ease, padding 1s ease
+      position: relative
       color: white
-      .Header-title
+      width: 100%
+      min-height: 6em
+      padding: 10em 0em 2em 0em
+      .Header-icon
+        position: absolute
+        top: 5%
+      h1.Header-title
         font-family: "Chunkfive"
         color: gold
         font-weight: 500
         letter-spacing: -0.11em
         -webkit-text-stroke: 0.025em black
+      h1
+        color: white
+        .Header-title
+          font-family: "Chunkfive"
+          color: gold
+          font-weight: 500
+          letter-spacing: -0.11em
+          -webkit-text-stroke: 0.025em black
       .Header-subtitle
         color: white
       @include forScreens($d)
         .Header-icon
           width: 10em
           height: 10em
-        .Header-title
+        h1.Header-title
           font-size: 3em
+        h1 .Header-title
+          font-size: 1em
         .Header-subtitle
           font-size: 1em
       @include forScreens($t)
@@ -280,6 +247,15 @@ body
         bottom: 2em
         right: 2em
 
+    .HeaderScreen_Main.expand
+      width: 100%
+      min-height: 85vh
+      padding: 2em 0em
+      @include forScreens($p)
+        min-height: 95vh
+      @include forScreens($t)
+        min-height: 80vh
+
     .ThemeToggleButton
       background-color: rgba(255,255,255,0.25)
       padding: 0.5em
@@ -298,6 +274,13 @@ body
     padding: 0% 5%
     width: 90%
     z-index: 3
+    &::after
+      position: absolute
+      top: calc(3em)
+      width: 100%
+      height: 3em
+      content: ""
+      background: linear-gradient(0deg, rgba(255,255,255,0) 60%, $bg-light 100%)
 
     .NavigationLink
       display: inline-block
@@ -342,6 +325,7 @@ body
         grid-template-columns: 1fr 1fr 1fr
       @include forScreens($p)
         grid-template-columns: 1fr
+
       .ContentCard
         aspect-ratio: 4/3
         position: relative
@@ -350,6 +334,9 @@ body
         overflow: hidden
         border-radius: 0.5em
         transition: transform 0.2s ease-in-out
+        &:active, &:focus, &::selection
+          -webkit-tap-highlight-color: transparent
+          color: red
         .ContentCard-thumbnail
           transform: scale(1.075)
           transition: transform 0.1s linear
@@ -371,7 +358,7 @@ body
           width: 100%
           height: 100%
           background-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 75%)
-          opacity: 0.5
+          opacity: 0.65
           transition: opacity 0.2s ease-in-out
         &:hover
           transform: scale(1.025)
@@ -416,6 +403,7 @@ body
 
   h1, h2, h3
     margin: 0.5em 0em
+    display: block
     @include forScreens($t)
       align-self: center
       font-size: 2.5em
