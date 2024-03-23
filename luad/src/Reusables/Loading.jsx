@@ -23,7 +23,7 @@ export function Loading() {
 
   return (
     <div className="Loading animate__animated animate__fadeIn">
-      <img className="Pot" src={Pot} alt="Loading Icon" width={250} />
+      <img className="Pot" src={Pot} alt="Loading Icon" width={250} height={250} />
       <h1>Loading{".".repeat(x)}</h1>
     </div>
   );
