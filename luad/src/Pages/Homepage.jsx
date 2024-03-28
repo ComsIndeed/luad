@@ -16,9 +16,6 @@ export function Homepage({ isAdmin }) {
           selectedCategory={selectedCategory}
         />
         <Contents selectedCategory={selectedCategory} />
-
-        {/* Pagination is yet to be done. Just rework it at this point.
-        <Pagination /> */}
       </div>
     </>
   );

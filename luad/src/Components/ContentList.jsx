@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { paths } from "../Configuration/paths";
 import notFoundImage from "../Assets/notFound.jpg";
 import "animate.css";
+import { Icon } from "@iconify/react";
 
 function SuspendedDisplay({ children }) {
   return (
@@ -42,16 +43,17 @@ function ContentCard({ entry }) {
       >
         <img
           className="ContentCard-thumbnail"
-          width={280}
-          height={210}
+          width={360}
+          height={270}
           src={currentHeaderImage || notFoundImage}
           alt={`Thumbnail for the article: "${entry.head.title}"`}
         />
         <div className="ContentCard-text">
+          <span className="ContentCard-author">
+            <Icon className="ContentCard-author-icon" icon="mdi:user" />
+            <p className="ContentCard-author-text">{entry.head.author}</p>
+          </span>
           <h3 className="ContentCard-title"> {entry.head.title} </h3>
-          <p className="ContentCard-author">
-            {"By: "} {entry.head.author}
-          </p>
           <p className="ContentCard-body animate__animated animate__fadeInUp">
             {entry.body.substr(0, 194)}...
           </p>

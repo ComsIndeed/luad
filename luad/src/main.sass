@@ -13,18 +13,18 @@
 @mixin max()
   height: 100%
   width: 100%
-@mixin anOverlay($color, $border-radius: 0em)
-  position: relative
-  &::after
-    content: ""
-    width: 100%
-    height: 100%
-    background-color: $color
-    position: absolute
-    z-index: 1
-    border-radius: $border-radius
-  *
-    z-index: 2
+// @mixin anOverlay($color, $border-radius: 0em)
+//   position: relative
+//   &::after
+//     content: ""
+//     width: 100%
+//     height: 100%
+//     background-color: $color
+//     position: absolute
+//     z-index: 1
+//     border-radius: $border-radius
+//   *
+//     z-index: 2
 @mixin forScreens($min)
   @if $min == 1024px
     @media (min-width: 1024px)
@@ -201,21 +201,30 @@ body
   .Header
     @include bg
     @include center
-    @include anOverlay(rgba(41, 0, 67, 0.75), 0.5em)
     background-image: url("./Assets/header.webp")
     background-size: 125%
     animation: panningAnimation 250s infinite linear
     width: 100%
     border-radius: 0.5em
+    position: relative
 
-    // min-height: 40vh
-    // @include forScreens($p)
-    //   min-height: 45vh
-    // @include forScreens($t)
-    //   min-height: 40vh
+    &::before
+      content: ""
+      position: absolute
+      top: 0%
+      width: 100%
+      height: 100%
+      background: linear-gradient(180deg, rgba(33, 0, 80, 0.75) 0%, #2e005f 100%)
+      filter: opacity(60%)
+      z-index: 1
+      transition: filter 1s
+
+    &:not(.default)::before
+      filter: opacity(90%)
 
     .HeaderScreen_Main
       @include center()
+      z-index: 2
       transition: min-height 1s ease, padding 1s ease
       position: relative
       color: white
@@ -362,56 +371,73 @@ body
       @include forScreens($d)
         grid-template-columns: 1fr 1fr 1fr
       @include forScreens($t)
-        grid-template-columns: 1fr 1fr 1fr
+        grid-template-columns: 1fr 1fr
       @include forScreens($p)
         grid-template-columns: 1fr
       .ContentCard
-        aspect-ratio: 1/1
-        width: 25vw
         position: relative
-        display: flex
-        flex-direction: column
         overflow: hidden
+        min-width: 22.5em
         border-radius: 0.5em
-        transition: transform 0.2s ease-in-out
-        filter: drop-shadow(5px 5px 0.25em #0000004d)
-        &:active, &:focus, &::selection
-          -webkit-tap-highlight-color: transparent
-          color: red
-        .ContentCard-thumbnail
-          width: 100%
-          object-fit: cover
-          transform: scale(1.075)
-          transition: transform 0.1s linear
-        .ContentCard-text
-          position: absolute
-          bottom: 0%
-          z-index: 2
-          padding: 0.5em 1em
-          transition: margin-bottom 0.2s ease-in-out
-        .ContentCard-title, .ContentCard-author
-          color: white
-          display: block
-        &:after
-          z-index: 1
+        box-shadow: 3px 4px 0.75em 0em rgba(0,0,0,0.57)
+        &::after
           content: ""
           position: absolute
-          top: 0
-          left: 0
+          top: 0%
+          left: 0%
           width: 100%
           height: 100%
-          background-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 75%)
-          opacity: 0.65
-          transition: opacity 0.2s ease-in-out
+          background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(0,0,0,1) 75%)
+          transform: translateY(0%)
+          transition: transform 0.35s, filter 0.35s
+          filter: opacity(50%)
+          z-index: 2
+        &::before
+          content: ""
+          position: absolute
+          left: 0%
+          top: 100%
+          width: 100%
+          height: 100%
+          background: hsla(0, 0%, 0%, 100%)
+          transform: translateY(0%)
+          transition: transform 0.35s, filter 0.35s
+          filter: opacity(50%)
+          z-index: 2
+        .ContentCard-thumbnail
+          transform: translateY(0em) scale(1.00625)
+          transition: transform 0.35s
+          z-index: 1
+        .ContentCard-text
+          transition: top 0.45s
+          z-index: 3
+          position: absolute
+          top: 75%
+          left: 5%
+          display: flex
+          flex-direction: column
+          .ContentCard-author
+            .ContentCard-author-text
+              margin-left: 0.5em
+          .ContentCard-body
+            margin-top: 0.5em
+            filter: opacity(0%)
+            transition: filter 0.25s ease
+          *
+            color: white
         &:hover
-          transform: scale(1.025)
+          &::after
+            transform: translateY(-25%)
+            filter: opacity(75%)
+          &::before
+            transform: translateY(-25%)
+            filter: opacity(75%)
           .ContentCard-thumbnail
-            transform: scale(1)
+            transform: translateY(-1em)
           .ContentCard-text
-            margin-bottom: 0.3em
-          // .ContentCard-title, .ContentCard-author
-          &:after
-            opacity: 0.55
+            top: 50%
+            .ContentCard-body
+              filter: opacity(100%)
 
 .Loading
   @include center()

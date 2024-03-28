@@ -30,7 +30,8 @@ function HeaderScreen_Main({ setScreenState, screenState, expand, setExpand }) {
           </>
         )}
         <p className="Header-subtitle">
-          The Potterian's Talents, one click at a time
+          The Potterian's Talents, one click at a time <br /> <br />
+          {screenState === "info" && "THIS PAGE IS UNDER DEVELOPMENT"}
         </p>
         <button
           id="LearnMoreButton"
