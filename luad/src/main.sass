@@ -123,6 +123,24 @@ $d: 1024px
 .BackButton, .BackButton *
   text-decoration: none
 
+.SearchBar
+  display: flex
+  align-items: center
+  background-color: white
+  padding: 0em 0.5em
+  &:focus-within
+    outline: 1px solid black
+    background-color: #c8d0ff
+    .SearchBar-Input::placeholder
+
+  .SearchBar-Icon
+  .SearchBar-Input
+    border: none
+    padding: 1em
+    background: none
+    &:focus
+      outline: none
+
 // Global
 body
   margin: 0
@@ -376,7 +394,9 @@ body
       .ContentCard
         position: relative
         overflow: hidden
-        min-width: 22.5em
+        min-width: 17.5em
+        @include forScreens($d)
+          min-width: 22.5em
         border-radius: 0.5em
         box-shadow: 3px 4px 0.75em 0em rgba(0,0,0,0.57)
         &::after

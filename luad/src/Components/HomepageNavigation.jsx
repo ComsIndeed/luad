@@ -6,17 +6,24 @@ import { paths } from "../Configuration/paths";
 import "animate.css";
 import { Content } from "../Configuration/config";
 
-// PAGINATION BUTTONS SAVE
-{
-  /* <div className="PaginationButtons">
-<button>
-  <Icon icon="mingcute:left-fill" />
-</button>
-<p> 255/255 </p>
-<button>
-  <Icon icon="mingcute:right-fill" />
-</button>
-</div> */
+function SearchBar() {
+  return (
+    <div className="SearchBar">
+      <Icon
+        icon="material-symbols:search"
+        width="1.5em"
+        height="1.5em"
+        className="SearchBar-Icon"
+      />
+      <input
+        type="search"
+        name="Search"
+        placeholder="Search"
+        className="SearchBar-Input"
+        id="HomepageNavigation-SearchBar"
+      />
+    </div>
+  );
 }
 
 function Buttons({ isAdmin }) {
@@ -58,13 +65,7 @@ function ForDesktops({ isAdmin }) {
       </div>
 
       <div className="right">
-        <input
-          type="search"
-          name="Search"
-          placeholder="Search"
-          className="Phone"
-          id="HomepageNavigation-SearchBar"
-        />
+        <SearchBar />
       </div>
     </>
   );
@@ -76,13 +77,7 @@ function ForTablets({ isAdmin }) {
       <div className="top">
         <Buttons isAdmin={isAdmin} />
 
-        <input
-          type="search"
-          name="Search"
-          placeholder="Search"
-          className="Phone"
-          id="HomepageNavigation-SearchBar"
-        />
+        <SearchBar />
       </div>
       <div className="bottom">
         <div className="center">
@@ -105,13 +100,7 @@ function ForPhones({ isAdmin }) {
       <div className="top">
         <Buttons isAdmin={isAdmin} />
 
-        <input
-          type="search"
-          name="Search"
-          placeholder="Search"
-          className="Phone"
-          id="HomepageNavigation-SearchBar"
-        />
+        <SearchBar />
       </div>
       <div className="bottom">
         <div className="center">

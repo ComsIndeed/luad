@@ -60,6 +60,25 @@
   text-decoration: none;
 }
 
+.SearchBar {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 0em 0.5em;
+}
+.SearchBar:focus-within {
+  outline: 1px solid black;
+  background-color: #c8d0ff;
+}
+.SearchBar .SearchBar-Input {
+  border: none;
+  padding: 1em;
+  background: none;
+}
+.SearchBar .SearchBar-Input:focus {
+  outline: none;
+}
+
 body {
   margin: 0;
   overflow-y: scroll;
@@ -430,9 +449,14 @@ body button svg {
 .Homepage .Contents .ContentGrid .ContentCard {
   position: relative;
   overflow: hidden;
-  min-width: 22.5em;
+  min-width: 17.5em;
   border-radius: 0.5em;
   box-shadow: 3px 4px 0.75em 0em rgba(0, 0, 0, 0.57);
+}
+@media (min-width: 1024px) {
+  .Homepage .Contents .ContentGrid .ContentCard {
+    min-width: 22.5em;
+  }
 }
 .Homepage .Contents .ContentGrid .ContentCard::after {
   content: "";

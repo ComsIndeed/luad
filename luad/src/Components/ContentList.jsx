@@ -7,6 +7,7 @@ import { paths } from "../Configuration/paths";
 import notFoundImage from "../Assets/notFound.jpg";
 import "animate.css";
 import { Icon } from "@iconify/react";
+import { useScreenSize } from "../Library/customHooks";
 
 function SuspendedDisplay({ children }) {
   return (
@@ -35,6 +36,8 @@ function ContentCard({ entry }) {
     }
   }, [entry]);
 
+  const { isDesktop } = useScreenSize();
+
   return (
     <>
       <Link
@@ -43,8 +46,8 @@ function ContentCard({ entry }) {
       >
         <img
           className="ContentCard-thumbnail"
-          width={360}
-          height={270}
+          width={isDesktop ? 360 : 280}
+          height={isDesktop ? 270 : 210}
           src={currentHeaderImage || notFoundImage}
           alt={`Thumbnail for the article: "${entry.head.title}"`}
         />
