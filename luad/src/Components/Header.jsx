@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ThemeToggle from "../Reusables/ThemeToggle";
 import LUADIcon from "../Assets/luad.webp";
+import HeaderImage from "../Assets/header.webp";
+import HeaderImageSmall from "../Assets/header-small.webp";
 import "animate.css";
 
 function HeaderScreen_Main({ setScreenState, screenState, expand, setExpand }) {
@@ -67,11 +69,22 @@ function HeaderScreen_Info() {
 export function Header() {
   const [screenState, setScreenState] = useState("default");
   const [expand, setExpand] = useState("not");
+  const [displayedHeaderImage, setDisplayedHeaderImage] =
+    useState(HeaderImageSmall);
+
+  useEffect(() => {
+    let HeaderImageElementLarge = new Image();
+    HeaderImageElementLarge.src = HeaderImage;
+    HeaderImageElementLarge.onload = (e) => {
+      setDisplayedHeaderImage(HeaderImage);
+    };
+  }, []);
 
   return (
     <>
       <div
         className={"Header animate__animated animate__fadeIn " + screenState}
+        style={{ backgroundImage: `url(${displayedHeaderImage})` }}
       >
         <HeaderScreen_Main
           screenState={screenState}

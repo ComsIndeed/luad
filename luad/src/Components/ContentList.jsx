@@ -55,7 +55,8 @@ function ContentCard({ entry }) {
           </span>
           <h3 className="ContentCard-title"> {entry.head.title} </h3>
           <p className="ContentCard-body animate__animated animate__fadeInUp">
-            {entry.body.substr(0, 194)}...
+            {entry.body.replaceAll("#", "").replaceAll("*", "").substr(0, 194)}
+            ...
           </p>
         </div>
       </Link>

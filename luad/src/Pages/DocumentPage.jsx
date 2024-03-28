@@ -33,6 +33,10 @@ export function DocumentPage() {
   }, []);
 
   useEffect(() => {
+    console.log({ text });
+  }, [text]);
+
+  useEffect(() => {
     fetchFromFirestore("documents", id, true).then((fetchedDocument) => {
       setCurrentDocument(fetchedDocument);
       setText(fetchedDocument.body);
@@ -62,8 +66,28 @@ export function DocumentPage() {
         <Markdown
           children={text}
           className="animate__animated animate__fadeIn"
+          // options={{
+          //   overrides: {
+          //     p: {
+          //       component: NewlineToBreakComponent,
+          //     },
+          //   },
+          // }}
         />
       </div>
     </>
   );
 }
+
+// Custom component to convert \n to <br />
+const NewlineToBreakComponent = ({ children }) => {
+  // Extract text content from children
+  const textContent = React.Children.toArray(children).join("");
+
+  return textContent.split("\n").map((line, index) => (
+    <React.Fragment key={index}>
+      {line}
+      {index < textContent.length - 1 && <br />}
+    </React.Fragment>
+  ));
+};
