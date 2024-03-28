@@ -65,6 +65,7 @@
   align-items: center;
   background-color: white;
   padding: 0em 0.5em;
+  border-radius: 0.5em;
 }
 .SearchBar:focus-within {
   outline: 1px solid black;
