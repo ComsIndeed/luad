@@ -55,6 +55,18 @@
       $index: $index + 1
       transition: $propertyValue
 
+@keyframes panningAnimation
+  0%
+    background-position: 100% 90%
+  25%
+    background-position: 5% 75%
+  50%
+    background-position: 95% 95%
+  75%
+    background-position: 5% 75%
+  100%
+    background-position: 100% 90%
+
 $bezier: cubic-bezier(0.16, 0.01, 0.81, 0.29)
 
 // Say proper
@@ -118,7 +130,7 @@ body
   max-width: 100vw
   margin-bottom: 5em
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif
-  @include colorShift(background-color)
+  @include colorShift([background-color, color])
 
   h1, h2, h3, p, label, button, a, svg, input, textarea, svg, a
     @include colorShift([color, background-color])
@@ -143,7 +155,9 @@ body
       background-color: $accent-light
     .Homepage
       .HomepageNavigation
-        filter: drop-shadow(0px 1em 1em $bg-light)
+        filter: drop-shadow(0px 1em 1em rgba($bg-light, 0.5))
+      .Contents
+        background-color: lighten($bg-light, 3%)
 
   &.dark-theme
     background-color: $bg-dark
@@ -151,14 +165,16 @@ body
       color: $color-dark
     textarea, input:not([type="file"]), button
       color: $color-dark
-      background-color: lighten($bg-dark, 5%)
+      background-color: lighten($bg-dark, 10%)
     .HomepageNavigation
       background-color: $bg-dark
     .Navigation
       background-color: $accent-dark
     .Homepage
       .HomepageNavigation
-        filter: drop-shadow(0px 1em 1em $bg-dark)
+        filter: drop-shadow(0px 1em 1em rgba($bg-dark, 0.5))
+      .Contents
+        background-color: darken($bg-dark, 2.75%)
 
   & .MediaWrapper
     width: 100vw
@@ -187,6 +203,8 @@ body
     @include center
     @include anOverlay(rgba(41, 0, 67, 0.75), 0.5em)
     background-image: url("./Assets/header.webp")
+    background-size: 125%
+    animation: panningAnimation 250s infinite linear
     width: 100%
     border-radius: 0.5em
 
@@ -286,7 +304,7 @@ body
       right: 2.5%
 
   .HomepageNavigation
-    @include colorShift(background-color)
+    @include colorShift([color, background-color, filter])
     position: -webkit-sticky
     position: sticky
     top: 0
@@ -296,10 +314,13 @@ body
     width: 90%
     z-index: 3
 
-    .NavigationLink
+    .NavigationLink, .NavigationButton
       display: inline-block
       width: min-content
       @include hoverInteractive
+
+    .NavigationButton
+      background: none
 
     @include forScreens($p)
       @include center()
@@ -327,39 +348,39 @@ body
         place-self: center end
 
   .Contents
-    // max-width: 90vw
-    background-color: rgba(255, 255, 255, 0.025)
-    margin-bottom: 2em
+    @include colorShift([background-color, color])
+    padding: 2em 0em
+    border-radius: 1em
+    min-width: 90vw
+    display: flex
+    flex-direction: column
+    align-items: center
     .ContentGrid
       display: grid
+      width: min-content
       gap: 0.75em
       @include forScreens($d)
-        grid-template-columns: 1fr 1fr 1fr 1fr
+        grid-template-columns: 1fr 1fr 1fr
       @include forScreens($t)
         grid-template-columns: 1fr 1fr 1fr
       @include forScreens($p)
         grid-template-columns: 1fr
-      // &::before
-      //   z-index: 6
-      //   position: sticky
-      //   top: calc(10em)
-      //   width: 100%
-      //   height: 3em
-      //   content: ""
-      //   @include temporaryOutline(lime)
-
       .ContentCard
-        aspect-ratio: 4/3
+        aspect-ratio: 1/1
+        width: 25vw
         position: relative
         display: flex
         flex-direction: column
         overflow: hidden
         border-radius: 0.5em
         transition: transform 0.2s ease-in-out
+        filter: drop-shadow(5px 5px 0.25em #0000004d)
         &:active, &:focus, &::selection
           -webkit-tap-highlight-color: transparent
           color: red
         .ContentCard-thumbnail
+          width: 100%
+          object-fit: cover
           transform: scale(1.075)
           transition: transform 0.1s linear
         .ContentCard-text

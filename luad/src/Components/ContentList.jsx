@@ -52,22 +52,36 @@ function ContentCard({ entry }) {
           <p className="ContentCard-author">
             {"By: "} {entry.head.author}
           </p>
+          <p className="ContentCard-body animate__animated animate__fadeInUp">
+            {entry.body.substr(0, 194)}...
+          </p>
         </div>
       </Link>
     </>
   );
 }
 
-function ContentGrid({ entries }) {
+function ContentGrid({ entries, selectedCategory }) {
   return (
     <>
       <div className="ContentGrid">
         {entries.length === 0 && <h2>Lookin' empty here..</h2>}
         {entries.length > 0 &&
           entries.map((fetchedDocument) => {
-            return (
-              <ContentCard key={fetchedDocument.id} entry={fetchedDocument} />
-            );
+            if (selectedCategory === "all") {
+              return (
+                <ContentCard key={fetchedDocument.id} entry={fetchedDocument} />
+              );
+            }
+            if (
+              fetchedDocument?.head?.meta?.categories?.includes(
+                selectedCategory
+              )
+            ) {
+              return (
+                <ContentCard key={fetchedDocument.id} entry={fetchedDocument} />
+              );
+            }
           })}
       </div>
     </>
@@ -82,7 +96,7 @@ function ContentList({ entries }) {
   );
 }
 
-export function Contents() {
+export function Contents({ selectedCategory }) {
   const [collectionList, setCollectionList] = useState(null);
 
   useEffect(() => {
@@ -104,7 +118,10 @@ export function Contents() {
   return (
     <>
       <div className="Contents">
-        <ContentGrid entries={collectionList} />
+        <ContentGrid
+          entries={collectionList}
+          selectedCategory={selectedCategory}
+        />
       </div>
     </>
   );

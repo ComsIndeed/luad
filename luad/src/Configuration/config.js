@@ -1,5 +1,5 @@
 const Content = {
-  categories: ["featured", "aritcles", "editorials", "literature"],
+  categories: ["featured", "articles", "editorials", "literature"],
 };
 
 export { Content };

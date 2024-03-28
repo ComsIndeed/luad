@@ -96,6 +96,11 @@ export const createSrcSet = async (
 export function useDocumentInterface(database, storage, user = undefined) {
   const [objectEntry, setObjectEntry] = useState(null);
   const [objectEntryList, setObjectEntryList] = useState([]);
+
+  useEffect(() => {
+    console.log("OBJECT ENTRY: ", objectEntry);
+  }, [objectEntry]);
+
   const handlePushEntry = () => {
     if (objectEntry) {
       setObjectEntryList((prev) => {
@@ -119,12 +124,21 @@ export function useDocumentInterface(database, storage, user = undefined) {
         ...objectEntry,
         operation: "POST",
         entryID: v4(),
-        
+
         [name]: value,
       });
     } else {
       setObjectEntry({ ...objectEntry, [name]: value });
     }
+  };
+
+  const setObjectEntryCategory = (categoryInput) => {
+    setObjectEntry((prev) => {
+      return {
+        ...prev,
+        categories: categoryInput,
+      };
+    });
   };
 
   const handleFileInputChange = (event) => {
@@ -484,6 +498,7 @@ export function useDocumentInterface(database, storage, user = undefined) {
     getEntryByID,
     editEntry,
     updateFirestoreDocument,
+    setObjectEntryCategory,
     //
     // createNewDocumentItem, // Not needed
   };

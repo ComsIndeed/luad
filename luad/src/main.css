@@ -1,3 +1,20 @@
+@keyframes panningAnimation {
+  0% {
+    background-position: 100% 90%;
+  }
+  25% {
+    background-position: 5% 75%;
+  }
+  50% {
+    background-position: 95% 95%;
+  }
+  75% {
+    background-position: 5% 75%;
+  }
+  100% {
+    background-position: 100% 90%;
+  }
+}
 @font-face {
   font-family: "Chunkfive";
   src: url("./Assets/fonts/chunkfive/Chunk.ttf");
@@ -49,6 +66,7 @@ body {
   max-width: 100vw;
   margin-bottom: 5em;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29), color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29);
 }
 body h1, body h2, body h3, body p, body label, body button, body a, body svg, body input, body textarea, body svg, body a {
   transition: color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29), background-color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29);
@@ -79,7 +97,10 @@ body.light-theme .Navigation {
   background-color: hsl(220.94, 100%, 100%);
 }
 body.light-theme .Homepage .HomepageNavigation {
-  filter: drop-shadow(0px 1em 1em hsl(240, 100%, 95%));
+  filter: drop-shadow(0px 1em 1em rgba(230, 230, 255, 0.5));
+}
+body.light-theme .Homepage .Contents {
+  background-color: #f5f5ff;
 }
 body.dark-theme {
   background-color: hsl(240, 100%, 5%);
@@ -89,7 +110,7 @@ body.dark-theme * {
 }
 body.dark-theme textarea, body.dark-theme input:not([type=file]), body.dark-theme button {
   color: #e0e0e0;
-  background-color: #000033;
+  background-color: #00004d;
 }
 body.dark-theme .HomepageNavigation {
   background-color: hsl(240, 100%, 5%);
@@ -98,7 +119,10 @@ body.dark-theme .Navigation {
   background-color: hsl(263.16, 100%, 24%);
 }
 body.dark-theme .Homepage .HomepageNavigation {
-  filter: drop-shadow(0px 1em 1em hsl(240, 100%, 5%));
+  filter: drop-shadow(0px 1em 1em rgba(0, 0, 26, 0.5));
+}
+body.dark-theme .Homepage .Contents {
+  background-color: #00000b;
 }
 body .MediaWrapper {
   width: 100vw;
@@ -145,6 +169,8 @@ body button svg {
   justify-content: center;
   position: relative;
   background-image: url("./Assets/header.webp");
+  background-size: 125%;
+  animation: panningAnimation 250s infinite linear;
   width: 100%;
   border-radius: 0.5em;
 }
@@ -294,6 +320,8 @@ body button svg {
   right: 2.5%;
 }
 .Homepage .HomepageNavigation {
+  transition: color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29), background-color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29);
+  transition: color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29), background-color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29), filter 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29);
   position: sticky;
   top: 0;
   min-height: 3em;
@@ -302,17 +330,20 @@ body button svg {
   width: 90%;
   z-index: 3;
 }
-.Homepage .HomepageNavigation .NavigationLink {
+.Homepage .HomepageNavigation .NavigationLink, .Homepage .HomepageNavigation .NavigationButton {
   display: inline-block;
   width: -moz-min-content;
   width: min-content;
   transition: transform 0.1s;
 }
-.Homepage .HomepageNavigation .NavigationLink:hover {
+.Homepage .HomepageNavigation .NavigationLink:hover, .Homepage .HomepageNavigation .NavigationButton:hover {
   transform: scale(1.0125);
 }
-.Homepage .HomepageNavigation .NavigationLink:active {
+.Homepage .HomepageNavigation .NavigationLink:active, .Homepage .HomepageNavigation .NavigationButton:active {
   transform: scale(0.975);
+}
+.Homepage .HomepageNavigation .NavigationButton {
+  background: none;
 }
 @media (max-width: 768px) {
   .Homepage .HomepageNavigation {
@@ -365,16 +396,23 @@ body button svg {
   }
 }
 .Homepage .Contents {
-  background-color: rgba(255, 255, 255, 0.025);
-  margin-bottom: 2em;
+  transition: background-color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29), color 0.25s cubic-bezier(0.16, 0.01, 0.81, 0.29);
+  padding: 2em 0em;
+  border-radius: 1em;
+  min-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .Homepage .Contents .ContentGrid {
   display: grid;
+  width: -moz-min-content;
+  width: min-content;
   gap: 0.75em;
 }
 @media (min-width: 1024px) {
   .Homepage .Contents .ContentGrid {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -388,13 +426,15 @@ body button svg {
   }
 }
 .Homepage .Contents .ContentGrid .ContentCard {
-  aspect-ratio: 4/3;
+  aspect-ratio: 1/1;
+  width: 25vw;
   position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border-radius: 0.5em;
   transition: transform 0.2s ease-in-out;
+  filter: drop-shadow(5px 5px 0.25em rgba(0, 0, 0, 0.3019607843));
 }
 .Homepage .Contents .ContentGrid .ContentCard::-moz-selection {
   -webkit-tap-highlight-color: transparent;
@@ -405,6 +445,9 @@ body button svg {
   color: red;
 }
 .Homepage .Contents .ContentGrid .ContentCard .ContentCard-thumbnail {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
   transform: scale(1.075);
   transition: transform 0.1s linear;
 }

@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header } from "../Components/Header";
 import { HomepageNavigation } from "../Components/HomepageNavigation";
 import { Contents } from "../Components/ContentList";
-import Pagination from "../Components/Pagination";
 
 export function Homepage({ isAdmin }) {
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
   return (
     <>
       <div className="Homepage">
         <Header />
-        <HomepageNavigation isAdmin={isAdmin} />
-        <Contents />
+        <HomepageNavigation
+          isAdmin={isAdmin}
+          setSelectedCategory={selectedCategory}
+          selectedCategory={selectedCategory}
+        />
+        <Contents selectedCategory={selectedCategory} />
 
         {/* Pagination is yet to be done. Just rework it at this point.
         <Pagination /> */}

@@ -74,7 +74,9 @@ function CreateView({ CMS }) {
           onChange={CMS.handleInputChange}
           value={CMS.objectEntry?.body || ""}
         />
-        <CategorySelection />
+
+        <CategorySelection CMS={CMS} />
+
         <input
           type="file"
           name="headerImage"
@@ -92,7 +94,27 @@ function CreateView({ CMS }) {
   );
 }
 
-function CategorySelection() {
+function CategorySelection({ CMS }) {
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  const handleCategorySelection = (e) => {
+    if (e.target.checked) {
+      if (!selectedCategories.includes(e.target.name)) {
+        setSelectedCategories((prev) => {
+          return [...prev, e.target.name];
+        });
+      }
+    } else if (!e.target.checked) {
+      setSelectedCategories((prev) => {
+        return prev.filter((item) => item != e.target.name);
+      });
+    }
+  };
+
+  useEffect(() => {
+    CMS.setObjectEntryCategory(selectedCategories);
+  }, [selectedCategories]);
+
   return (
     <>
       <form>
@@ -104,9 +126,7 @@ function CategorySelection() {
                 type="checkbox"
                 name={categoryItem}
                 id={categoryItem + "Selection"}
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
+                onChange={handleCategorySelection}
               />
               <label htmlFor={categoryItem}>
                 {categoryItem[0].toUpperCase() + categoryItem.slice(1)}

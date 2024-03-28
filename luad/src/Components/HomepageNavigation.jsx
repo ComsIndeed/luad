@@ -4,6 +4,7 @@ import { useScreenSize } from "../Library/customHooks";
 import { NavigationLink, NavigationButton } from "../Reusables/Clickables";
 import { paths } from "../Configuration/paths";
 import "animate.css";
+import { Content } from "../Configuration/config";
 
 // PAGINATION BUTTONS SAVE
 {
@@ -46,11 +47,14 @@ function ForDesktops({ isAdmin }) {
       </div>
 
       <div className="center">
-        <NavigationLink>All</NavigationLink>
-        <NavigationLink>Featured</NavigationLink>
-        <NavigationLink>Articles</NavigationLink>
-        <NavigationLink>Editorials</NavigationLink>
-        <NavigationLink>Literature</NavigationLink>
+        <NavigationButton>All</NavigationButton>
+        {Content.categories.map((item) => {
+          return (
+            <NavigationButton>
+              {item[0].toUpperCase() + item.slice(1)}
+            </NavigationButton>
+          );
+        })}
       </div>
 
       <div className="right">
@@ -82,11 +86,14 @@ function ForTablets({ isAdmin }) {
       </div>
       <div className="bottom">
         <div className="center">
-          <NavigationLink>All</NavigationLink>
-          <NavigationLink>Featured</NavigationLink>
-          <NavigationLink>Articles</NavigationLink>
-          <NavigationLink>Editorials</NavigationLink>
-          <NavigationLink>Literature</NavigationLink>
+          <NavigationButton>All</NavigationButton>
+          {Content.categories.map((item) => {
+            return (
+              <NavigationButton>
+                {item[0].toUpperCase() + item.slice(1)}{" "}
+              </NavigationButton>
+            );
+          })}
         </div>
       </div>
     </>
@@ -108,11 +115,14 @@ function ForPhones({ isAdmin }) {
       </div>
       <div className="bottom">
         <div className="center">
-          <NavigationLink>All</NavigationLink>
-          <NavigationLink>Featured</NavigationLink>
-          <NavigationLink>Articles</NavigationLink>
-          <NavigationLink>Editorials</NavigationLink>
-          <NavigationLink>Literature</NavigationLink>
+          <NavigationButton>All</NavigationButton>
+          {Content.categories.map((item) => {
+            return (
+              <NavigationButton>
+                {item[0].toUpperCase() + item.slice(1)}{" "}
+              </NavigationButton>
+            );
+          })}
         </div>
       </div>
     </>
