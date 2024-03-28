@@ -50,7 +50,7 @@ function ForDesktops({ isAdmin }) {
         <NavigationButton>All</NavigationButton>
         {Content.categories.map((item) => {
           return (
-            <NavigationButton>
+            <NavigationButton key={item}>
               {item[0].toUpperCase() + item.slice(1)}
             </NavigationButton>
           );

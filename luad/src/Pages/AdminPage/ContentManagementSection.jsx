@@ -309,6 +309,43 @@ function FirestoreListItem({
     }
   }, [srcSet]);
 
+  const handleCheckboxChange = (e) => {
+    if (e.target.checked) {
+      if (!changes?.categories.includes(e.target.name)) {
+        if (!changes?.categories.length > 0) {
+          setChanges((prev) => {
+            return {
+              ...prev,
+              categories: [],
+            };
+          });
+        }
+        setChanges((prev) => {
+          return {
+            ...prev,
+            categories: [...prev?.categories, e.target.name],
+          };
+        });
+      }
+    }
+    if (!e.target.checked) {
+      setChanges((prev) => {
+        if (!changes?.categories.length > 0) {
+          setChanges((prev) => {
+            return {
+              ...prev,
+              categories: [],
+            };
+          });
+        }
+        return {
+          ...prev,
+          categories: prev?.categories.filter((item) => item != e.target.name),
+        };
+      });
+    }
+  };
+
   return (
     <>
       <div className="FirestoreListItem">
@@ -367,16 +404,45 @@ function FirestoreListItem({
               onChange={handleEditInputChange}
               defaultValue={firestoreDocument?.body}
             />{" "}
+            {Content.categories.map((categoryItem) => {
+              return (
+                <React.Fragment key={categoryItem}>
+                  <input
+                    type="checkbox"
+                    name={categoryItem}
+                    id={categoryItem + "Selection"}
+                    defaultChecked={firestoreDocument?.head?.meta?.category?.includes(
+                      categoryItem
+                    )}
+                    onChange={handleCheckboxChange}
+                  />
+                  <label htmlFor={categoryItem}>
+                    {categoryItem[0].toUpperCase() + categoryItem.slice(1)}
+                  </label>{" "}
+                  <br />
+                </React.Fragment>
+              );
+            })}
             <br />
             <button
               onClick={() => {
                 CMS.updateFirestoreDocument(firestoreDocument?.id, changes);
+                setShowEditPanel(false);
               }}
               disabled={!isReady}
             >
               Update document
             </button>{" "}
-            <button>Discard changes</button>
+            <button
+              onClick={() => {
+                alert(
+                  "Cancelling edits is yet to be available. Pakiremind nalang po ako kung nakalimutan ko po na ayusin haha"
+                );
+                setShowEditPanel(false);
+              }}
+            >
+              Discard changes
+            </button>
           </div>
         )}
       </div>

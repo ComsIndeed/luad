@@ -450,28 +450,6 @@ export function useDocumentInterface(database, storage, user = undefined) {
           }
         );
       });
-
-      // !
-      // ! If theres header images:
-
-      // !    Delete old set
-      // !    Delete old set
-      // !    Delete old set
-      // !    Delete old set
-      // !    Delete old set
-      // !    Delete old set
-      // !    Delete old set
-      // !    Delete old set
-      // !    Delete old set
-      // !    Delete old set
-      // !    Delete old set
-
-      // !    Upload set to storage
-      // !    Retrieve URLs
-      // !    Insert URLs to changes
-      // !
-      // ! Update document with changes
-      // !
     } else {
       delete finalChanges.head.headerImage;
       console.log("NO HEADER IMAGE: ", removeNullUndefined(finalChanges));
