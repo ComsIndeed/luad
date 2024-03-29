@@ -26,6 +26,34 @@ function SearchBar() {
   );
 }
 
+function CategorySelection({ setSelectedCategory, selectedCategory }) {
+  return (
+    <div className="categorySelection">
+      <NavigationButton
+        className={selectedCategory === "all" && "selected"}
+        onClick={() => {
+          setSelectedCategory("all");
+        }}
+      >
+        All
+      </NavigationButton>
+      {Content.categories.map((item) => {
+        return (
+          <NavigationButton
+            className={selectedCategory === item && "selected"}
+            key={item}
+            onClick={() => {
+              setSelectedCategory(item);
+            }}
+          >
+            {item[0].toUpperCase() + item.slice(1)}{" "}
+          </NavigationButton>
+        );
+      })}
+    </div>
+  );
+}
+
 function Buttons({ isAdmin }) {
   return (
     <>
@@ -46,7 +74,7 @@ function Buttons({ isAdmin }) {
   );
 }
 
-function ForDesktops({ isAdmin }) {
+function ForDesktops({ isAdmin, setSelectedCategory, selectedCategory }) {
   return (
     <>
       <div className="left">
@@ -54,14 +82,10 @@ function ForDesktops({ isAdmin }) {
       </div>
 
       <div className="center">
-        <NavigationButton>All</NavigationButton>
-        {Content.categories.map((item) => {
-          return (
-            <NavigationButton key={item}>
-              {item[0].toUpperCase() + item.slice(1)}
-            </NavigationButton>
-          );
-        })}
+        <CategorySelection
+          setSelectedCategory={setSelectedCategory}
+          selectedCategory={selectedCategory}
+        />
       </div>
 
       <div className="right">
@@ -71,7 +95,7 @@ function ForDesktops({ isAdmin }) {
   );
 }
 
-function ForTablets({ isAdmin }) {
+function ForTablets({ isAdmin, setSelectedCategory, selectedCategory }) {
   return (
     <>
       <div className="top">
@@ -81,20 +105,16 @@ function ForTablets({ isAdmin }) {
       </div>
       <div className="bottom">
         <div className="center">
-          <NavigationButton>All</NavigationButton>
-          {Content.categories.map((item) => {
-            return (
-              <NavigationButton>
-                {item[0].toUpperCase() + item.slice(1)}{" "}
-              </NavigationButton>
-            );
-          })}
+          <CategorySelection
+            setSelectedCategory={setSelectedCategory}
+            selectedCategory={selectedCategory}
+          />
         </div>
       </div>
     </>
   );
 }
-function ForPhones({ isAdmin }) {
+function ForPhones({ isAdmin, setSelectedCategory, selectedCategory }) {
   return (
     <>
       <div className="top">
@@ -104,29 +124,47 @@ function ForPhones({ isAdmin }) {
       </div>
       <div className="bottom">
         <div className="center">
-          <NavigationButton>All</NavigationButton>
-          {Content.categories.map((item) => {
-            return (
-              <NavigationButton>
-                {item[0].toUpperCase() + item.slice(1)}{" "}
-              </NavigationButton>
-            );
-          })}
+          <CategorySelection
+            setSelectedCategory={setSelectedCategory}
+            selectedCategory={selectedCategory}
+          />
         </div>
       </div>
     </>
   );
 }
 
-export function HomepageNavigation({ isAdmin }) {
+export function HomepageNavigation({
+  isAdmin,
+  setSelectedCategory,
+  selectedCategory,
+}) {
   const { isDesktop, isTablet, isPhone } = useScreenSize();
 
   return (
     <>
       <div className="HomepageNavigation animate__animated animate__fadeIn">
-        {isDesktop && <ForDesktops isAdmin={isAdmin} />}
-        {isTablet && <ForTablets isAdmin={isAdmin} />}
-        {isPhone && <ForPhones isAdmin={isAdmin} />}
+        {isDesktop && (
+          <ForDesktops
+            isAdmin={isAdmin}
+            setSelectedCategory={setSelectedCategory}
+            selectedCategory={selectedCategory}
+          />
+        )}
+        {isTablet && (
+          <ForTablets
+            isAdmin={isAdmin}
+            setSelectedCategory={setSelectedCategory}
+            selectedCategory={selectedCategory}
+          />
+        )}
+        {isPhone && (
+          <ForPhones
+            isAdmin={isAdmin}
+            setSelectedCategory={setSelectedCategory}
+            selectedCategory={selectedCategory}
+          />
+        )}
       </div>
     </>
   );

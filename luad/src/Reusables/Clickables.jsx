@@ -11,10 +11,10 @@ export function NavigationLink({ children, to }) {
   );
 }
 
-export function NavigationButton({ children, onClick }) {
+export function NavigationButton({ children, onClick, className = "" }) {
   return (
     <>
-      <button className="NavigationButton" onClick={onClick}>
+      <button className={"NavigationButton " + className} onClick={onClick}>
         {children}
       </button>
     </>

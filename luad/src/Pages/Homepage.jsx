@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../Components/Header";
 import { HomepageNavigation } from "../Components/HomepageNavigation";
-import { Contents } from "../Components/ContentList";
+import { ContentList } from "../Components/ContentList";
 
 export function Homepage({ isAdmin }) {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -12,10 +12,10 @@ export function Homepage({ isAdmin }) {
         <Header />
         <HomepageNavigation
           isAdmin={isAdmin}
-          setSelectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
           selectedCategory={selectedCategory}
         />
-        <Contents selectedCategory={selectedCategory} />
+        <ContentList selectedCategory={selectedCategory} />
       </div>
     </>
   );

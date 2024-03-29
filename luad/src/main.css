@@ -367,6 +367,29 @@ body button svg {
 .Homepage .HomepageNavigation .NavigationButton {
   background: none;
 }
+.Homepage .HomepageNavigation .NavigationButton.false, .Homepage .HomepageNavigation .NavigationButton.selected {
+  font-size: 1.075em;
+  position: relative;
+  opacity: 0.75;
+  transition: opacity 0.25s;
+}
+.Homepage .HomepageNavigation .NavigationButton.false::after, .Homepage .HomepageNavigation .NavigationButton.selected::after {
+  content: "";
+  position: absolute;
+  bottom: -5%;
+  left: 0%;
+  width: 100%;
+  height: 0.15em;
+  background: blue;
+  border-radius: 1em;
+  transition: height 0.25s;
+}
+.Homepage .HomepageNavigation .NavigationButton.false.selected, .Homepage .HomepageNavigation .NavigationButton.selected.selected {
+  opacity: 1;
+}
+.Homepage .HomepageNavigation .NavigationButton.false.selected::after, .Homepage .HomepageNavigation .NavigationButton.selected.selected::after {
+  height: 0.35em;
+}
 @media (max-width: 768px) {
   .Homepage .HomepageNavigation {
     display: flex;
@@ -428,8 +451,6 @@ body button svg {
 }
 .Homepage .Contents .ContentGrid {
   display: grid;
-  width: -moz-min-content;
-  width: min-content;
   gap: 0.75em;
 }
 @media (min-width: 1024px) {

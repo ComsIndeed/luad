@@ -4,18 +4,10 @@ import { fetchFromFirestore } from "../Library/firestore";
 import { Loading } from "../Reusables/Loading";
 import { Link } from "react-router-dom";
 import { paths } from "../Configuration/paths";
-import notFoundImage from "../Assets/notFound.jpg";
+import notFoundImage from "../Assets/notFound.webp";
 import "animate.css";
 import { Icon } from "@iconify/react";
 import { useScreenSize } from "../Library/customHooks";
-
-function SuspendedDisplay({ children }) {
-  return (
-    <>
-      <Suspense fallback={<Loading />}>{children}</Suspense>
-    </>
-  );
-}
 
 function ContentCard({ entry }) {
   const [currentHeaderImage, setCurrentHeaderImage] = useState(() => {
@@ -71,42 +63,44 @@ function ContentCard({ entry }) {
   );
 }
 
-function ContentGrid({ entries, selectedCategory }) {
+function ContentDisplay({ entries, selectedCategory }) {
+  const [isEmpty, setIsEmpty] = useState(false);
+
+  useEffect(() => {
+    if (
+      selectedCategory != "all" &&
+      entries?.filter((item) =>
+        item?.head?.meta?.category.includes(selectedCategory)
+      ).length === 0
+    ) {
+      setIsEmpty(true);
+    } else {
+      setIsEmpty(false);
+    }
+  }, [selectedCategory, entries]);
+
   return (
     <>
+      {isEmpty && <h2>Lookin' empty here..</h2>}
       <div className="ContentGrid">
-        {entries.length === 0 && <h2>Lookin' empty here..</h2>}
         {entries.length > 0 &&
           entries.map((fetchedDocument) => {
-            if (selectedCategory === "all") {
-              return (
-                <ContentCard key={fetchedDocument.id} entry={fetchedDocument} />
-              );
-            }
             if (
-              fetchedDocument?.head?.meta?.categories?.includes(
-                selectedCategory
-              )
+              selectedCategory === "all" ||
+              fetchedDocument?.head?.meta?.category?.includes(selectedCategory)
             ) {
               return (
                 <ContentCard key={fetchedDocument.id} entry={fetchedDocument} />
               );
             }
+            return null; // Render nothing if the entry doesn't match the selected category
           })}
       </div>
     </>
   );
 }
 
-function ContentList({ entries }) {
-  return (
-    <>
-      <div className="ContentList"></div>
-    </>
-  );
-}
-
-export function Contents({ selectedCategory }) {
+export function ContentList({ selectedCategory }) {
   const [collectionList, setCollectionList] = useState(null);
 
   useEffect(() => {
@@ -128,7 +122,7 @@ export function Contents({ selectedCategory }) {
   return (
     <>
       <div className="Contents">
-        <ContentGrid
+        <ContentDisplay
           entries={collectionList}
           selectedCategory={selectedCategory}
         />
