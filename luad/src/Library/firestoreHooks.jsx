@@ -169,7 +169,9 @@ export function useDocumentInterface(database, storage, user = undefined) {
   const createNewDocumentItem = (
     entry,
     srcSet = undefined,
-    keepUndefined = true
+    keepUndefined = true,
+    keepCreationDate = false,
+    includeCreationDate = true
   ) => {
     // Destructure entry and srcSet with default empty objects
     const {
@@ -202,15 +204,36 @@ export function useDocumentInterface(database, storage, user = undefined) {
         )
       );
 
-    return {
+    // Function to convert rawDate to [YYYY, MM, DD, HHMM] format
+    const formatDate = (rawDate) => {
+      const year = rawDate.getFullYear();
+      const month = String(rawDate.getMonth() + 1).padStart(2, "0");
+      const day = String(rawDate.getDate()).padStart(2, "0");
+      const hours = String(rawDate.getHours()).padStart(2, "0");
+      const minutes = String(rawDate.getMinutes()).padStart(2, "0");
+      return [year, month, day, hours + minutes];
+    };
+
+    // Set creationDate to the current date if it's not provided or keepCreationDate is false
+    const formattedCreationDate =
+      !creationDate || !keepCreationDate
+        ? formatDate(new Date())
+        : creationDate;
+
+    // Set lastModified to the current date
+    const formattedLastModified = formatDate(new Date());
+
+    const result = {
       head: {
         // Include properties only if they are defined
         ...(title && { title }),
         ...(author && { author }),
-        ...(creationDate && { creationDate }),
-        ...(creationDateRaw && { creationDateRaw }),
-        ...(lastModified && { lastModified }),
-        ...(lastModifiedRaw && { lastModifiedRaw }),
+        ...(includeCreationDate && { creationDate: formattedCreationDate }),
+        ...(includeCreationDate && {
+          creationDateRaw: creationDateRaw ? creationDateRaw : new Date(),
+        }),
+        lastModified: formattedLastModified,
+        lastModifiedRaw: lastModifiedRaw ? lastModifiedRaw : new Date(),
         headerImage: {
           // Include properties only if they are defined
           ...(large && { large }),
@@ -238,10 +261,12 @@ export function useDocumentInterface(database, storage, user = undefined) {
         head: filterUndefined({
           title,
           author,
-          creationDate,
-          creationDateRaw,
-          lastModified,
-          lastModifiedRaw,
+          ...(includeCreationDate && { creationDate: formattedCreationDate }),
+          ...(includeCreationDate && {
+            creationDateRaw: creationDateRaw ? creationDateRaw : new Date(),
+          }),
+          lastModified: formattedLastModified,
+          lastModifiedRaw: lastModifiedRaw ? lastModifiedRaw : new Date(),
           headerImage: {
             large,
             medium,
@@ -255,71 +280,14 @@ export function useDocumentInterface(database, storage, user = undefined) {
         body: body,
       }),
     };
+
+    if (!includeCreationDate) {
+      delete result.head.creationDate;
+      delete result.head.creationDateRaw;
+    }
+
+    return result;
   };
-
-  // const updateDocumentItem = (existingItem, updatedValues) => {
-  //   if (!existingItem || typeof existingItem !== "object" || !updatedValues) {
-  //     return existingItem;
-  //   }
-
-  //   // Merge updated values with existing item
-  //   const updatedItem = { ...existingItem, ...updatedValues };
-
-  //   // Remove undefined and null properties from the merged item
-  //   for (const key in updatedItem) {
-  //     if (updatedItem.hasOwnProperty(key)) {
-  //       if (updatedItem[key] === undefined || updatedItem[key] === null) {
-  //         delete updatedItem[key];
-  //       } else if (typeof updatedItem[key] === "object") {
-  //         // Recursively remove undefined and null properties from nested objects
-  //         updatedItem[key] = removeNullUndefined(updatedItem[key]);
-  //       }
-  //     }
-  //   }
-
-  //   return updatedItem;
-  // };
-
-  // const createDraftItemFromDocument = (documentItem) => {
-  //   const { head, body } = documentItem;
-  //   const {
-  //     title,
-  //     author,
-  //     creationDate,
-  //     creationDateRaw,
-  //     lastModified,
-  //     lastModifiedRaw,
-  //     headerImage,
-  //     meta,
-  //   } = head;
-
-  //   const srcSet = {
-  //     large: headerImage?.large ?? null,
-  //     medium: headerImage?.medium ?? null,
-  //     small: headerImage?.small ?? null,
-  //     largeRef: {
-  //       fullPath: headerImage?.largeFullPath ?? null,
-  //     },
-  //     mediumRef: {
-  //       fullPath: headerImage?.mediumFullPath ?? null,
-  //     },
-  //     smallRef: {
-  //       fullPath: headerImage?.smallFullPath ?? null,
-  //     },
-  //   };
-
-  //   return {
-  //     title,
-  //     author,
-  //     creationDate,
-  //     creationDateRaw,
-  //     lastModified,
-  //     lastModifiedRaw,
-  //     ...srcSet,
-  //     category: meta?.category ?? [],
-  //     body,
-  //   };
-  // };
 
   const uploadEntries = async (entryList = objectEntryList) => {
     let documentEntries = [];
@@ -331,7 +299,7 @@ export function useDocumentInterface(database, storage, user = undefined) {
         entry?.title
       );
 
-      return createNewDocumentItem(entry, imageUrl);
+      return createNewDocumentItem(entry, imageUrl, true, false);
     });
 
     // Wait for all document creation promises to resolve
@@ -421,7 +389,7 @@ export function useDocumentInterface(database, storage, user = undefined) {
     path = "/documents",
     fileName = undefined
   ) => {
-    let finalChanges = createNewDocumentItem(changes, undefined, false);
+    let finalChanges = createNewDocumentItem(changes, undefined, false, true);
     if (changes?.headerImage) {
       deleteHeaderImages(documentID).then(() => {
         uploadBlobsToFirestoreStorage(changes?.headerImage, undefined).then(
@@ -437,7 +405,10 @@ export function useDocumentInterface(database, storage, user = undefined) {
               largeFullPath: headerImageObject.largeRef.fullPath,
             };
             finalChanges.head.headerImage = headerImageOutput;
-            console.log("RECEIVED IMAGES: ", removeNullUndefined(finalChanges));
+            console.log(
+              "UPLOADED DOCUMENT: ",
+              removeNullUndefined(finalChanges)
+            );
             setDoc(
               doc(db, path, documentID),
               removeNullUndefined(finalChanges),
@@ -452,7 +423,7 @@ export function useDocumentInterface(database, storage, user = undefined) {
       });
     } else {
       delete finalChanges.head.headerImage;
-      console.log("NO HEADER IMAGE: ", removeNullUndefined(finalChanges));
+      console.log("UPLOADED DOCUMENT: ", removeNullUndefined(finalChanges));
       setDoc(doc(db, path, documentID), removeNullUndefined(finalChanges), {
         merge: true,
       });
