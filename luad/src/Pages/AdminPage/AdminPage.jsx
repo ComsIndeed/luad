@@ -1,5 +1,8 @@
 import ContentManagement from "./ContentManagementSection";
 import Dashboard from "./Dashboard";
+import React from "react";
+
+// React.lazy()
 
 export default function AdminPage({ isAdmin }) {
   return (

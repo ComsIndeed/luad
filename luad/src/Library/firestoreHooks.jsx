@@ -11,6 +11,21 @@ import { v4 } from "uuid";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
+const removeCreationDate = (documentObject) => {
+  const { head, ...rest } = documentObject;
+
+  // Create a copy of the head object without creationDate and creationDateRaw properties
+  const updatedHead = { ...head };
+  delete updatedHead.creationDate;
+  delete updatedHead.creationDateRaw;
+
+  // Return a new object with the updated head and other properties
+  return {
+    head: updatedHead,
+    ...rest,
+  };
+};
+
 function resize(size, file, output = "base64") {
   return new Promise((resolve) => {
     switch (size) {
@@ -407,11 +422,11 @@ export function useDocumentInterface(database, storage, user = undefined) {
             finalChanges.head.headerImage = headerImageOutput;
             console.log(
               "UPLOADED DOCUMENT: ",
-              removeNullUndefined(finalChanges)
+              removeNullUndefined(removeCreationDate(finalChanges))
             );
             setDoc(
               doc(db, path, documentID),
-              removeNullUndefined(finalChanges),
+              removeNullUndefined(removeCreationDate(finalChanges)),
               {
                 merge: true,
               }
@@ -423,10 +438,17 @@ export function useDocumentInterface(database, storage, user = undefined) {
       });
     } else {
       delete finalChanges.head.headerImage;
-      console.log("UPLOADED DOCUMENT: ", removeNullUndefined(finalChanges));
-      setDoc(doc(db, path, documentID), removeNullUndefined(finalChanges), {
-        merge: true,
-      });
+      console.log(
+        "UPLOADED DOCUMENT: ",
+        removeNullUndefined(removeCreationDate(finalChanges))
+      );
+      setDoc(
+        doc(db, path, documentID),
+        removeNullUndefined(removeCreationDate(finalChanges)),
+        {
+          merge: true,
+        }
+      );
     }
   };
 

@@ -275,7 +275,9 @@ function FirestoreListItem({
   setFirestoreCollection,
 }) {
   const [showEditPanel, setShowEditPanel] = useState(false);
-  const [changes, setChanges] = useState(null);
+  const [changes, setChanges] = useState({
+    categories: [...firestoreDocument?.head?.meta?.category],
+  });
   const [srcSet, setSrcSet] = useState(null);
   const [isReady, setIsReady] = useState(true);
 
@@ -298,6 +300,14 @@ function FirestoreListItem({
     }
   };
 
+  // const [x, setX] = useState(0);
+  // useEffect(() => {
+  //   if (x > 0) {
+  //     console.log(changes);
+  //   }
+  //   setX((prev) => prev + 1);
+  // }, [changes]);
+
   useEffect(() => {
     if (srcSet) {
       setChanges((prev) => {
@@ -310,16 +320,19 @@ function FirestoreListItem({
   }, [srcSet]);
 
   const handleCheckboxChange = (e) => {
+    if (!changes?.categories.length > 0) {
+      setChanges((prev) => {
+        return {
+          ...prev,
+          categories: [],
+        };
+      });
+    }
+
+    // TODO: Initialvalue of category list must have the initially listed categories before updating changes
+
     if (e.target.checked) {
       if (!changes?.categories.includes(e.target.name)) {
-        if (!changes?.categories.length > 0) {
-          setChanges((prev) => {
-            return {
-              ...prev,
-              categories: [],
-            };
-          });
-        }
         setChanges((prev) => {
           return {
             ...prev,
@@ -330,14 +343,6 @@ function FirestoreListItem({
     }
     if (!e.target.checked) {
       setChanges((prev) => {
-        if (!changes?.categories.length > 0) {
-          setChanges((prev) => {
-            return {
-              ...prev,
-              categories: [],
-            };
-          });
-        }
         return {
           ...prev,
           categories: prev?.categories.filter((item) => item != e.target.name),
@@ -432,6 +437,13 @@ function FirestoreListItem({
               disabled={!isReady}
             >
               Update document
+            </button>{" "}
+            <button
+              onClick={() => {
+                console.log(changes);
+              }}
+            >
+              Log changes
             </button>{" "}
             <button
               onClick={() => {
