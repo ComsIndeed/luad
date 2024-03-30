@@ -11,7 +11,11 @@ import { v4 } from "uuid";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
-const removeCreationDate = (documentObject) => {
+const removeCreationDate = (documentObject, cancel = false) => {
+  if (cancel) {
+    return documentObject;
+  }
+
   const { head, ...rest } = documentObject;
 
   // Create a copy of the head object without creationDate and creationDateRaw properties
@@ -248,7 +252,7 @@ export function useDocumentInterface(database, storage, user = undefined) {
           creationDateRaw: creationDateRaw ? creationDateRaw : new Date(),
         }),
         lastModified: formattedLastModified,
-        lastModifiedRaw: lastModifiedRaw ? lastModifiedRaw : new Date(),
+        lastModifiedRaw: new Date(),
         headerImage: {
           // Include properties only if they are defined
           ...(large && { large }),
@@ -314,6 +318,10 @@ export function useDocumentInterface(database, storage, user = undefined) {
         entry?.title
       );
 
+      console.log(
+        "UPLOADING: ",
+        createNewDocumentItem(entry, imageUrl, true, false)
+      );
       return createNewDocumentItem(entry, imageUrl, true, false);
     });
 
@@ -404,52 +412,74 @@ export function useDocumentInterface(database, storage, user = undefined) {
     path = "/documents",
     fileName = undefined
   ) => {
-    let finalChanges = createNewDocumentItem(changes, undefined, false, true);
-    if (changes?.headerImage) {
-      deleteHeaderImages(documentID).then(() => {
-        uploadBlobsToFirestoreStorage(changes?.headerImage, undefined).then(
-          (headerImageObject) => {
-            const headerImageOutput = {
-              tiny: headerImageObject.tiny,
-              small: headerImageObject.small,
-              medium: headerImageObject.medium,
-              large: headerImageObject.large,
-              tinyFullPath: headerImageObject.tinyRef.fullPath,
-              smallFullPath: headerImageObject.smallRef.fullPath,
-              mediumFullPath: headerImageObject.mediumRef.fullPath,
-              largeFullPath: headerImageObject.largeRef.fullPath,
-            };
-            finalChanges.head.headerImage = headerImageOutput;
-            console.log(
-              "UPLOADED DOCUMENT: ",
-              removeNullUndefined(removeCreationDate(finalChanges))
-            );
-            setDoc(
-              doc(db, path, documentID),
-              removeNullUndefined(removeCreationDate(finalChanges)),
-              {
-                merge: true,
-              }
-            ).then((e) => {
-              console.log(e);
-            });
+    fetchFromFirestore(path, documentID, true).then((documentData) => {
+      if (!documentData) {
+        console.error("Document not found.");
+      }
+
+      let cancelRemoveCreationDate = false;
+      if (!documentData?.head?.creationDateRaw) {
+        cancelRemoveCreationDate = true;
+      }
+
+      let finalChanges = createNewDocumentItem(changes, undefined, false);
+
+      if (changes?.headerImage) {
+        deleteHeaderImages(documentID).then(() => {
+          uploadBlobsToFirestoreStorage(changes?.headerImage, undefined).then(
+            (headerImageObject) => {
+              const headerImageOutput = {
+                tiny: headerImageObject.tiny,
+                small: headerImageObject.small,
+                medium: headerImageObject.medium,
+                large: headerImageObject.large,
+                tinyFullPath: headerImageObject.tinyRef.fullPath,
+                smallFullPath: headerImageObject.smallRef.fullPath,
+                mediumFullPath: headerImageObject.mediumRef.fullPath,
+                largeFullPath: headerImageObject.largeRef.fullPath,
+              };
+              finalChanges.head.headerImage = headerImageOutput;
+              console.log(
+                "UPLOADED DOCUMENT: ",
+                removeNullUndefined(
+                  removeCreationDate(finalChanges, cancelRemoveCreationDate)
+                )
+              );
+              console.log("FETCHED DATA: ", documentData);
+              setDoc(
+                doc(db, path, documentID),
+                removeNullUndefined(
+                  removeCreationDate(finalChanges, cancelRemoveCreationDate)
+                ),
+                {
+                  merge: true,
+                }
+              ).then((e) => {
+                console.log(e);
+              });
+            }
+          );
+        });
+      } else {
+        delete finalChanges.head.headerImage;
+        console.log(
+          "UPLOADED DOCUMENT: ",
+          removeNullUndefined(
+            removeCreationDate(finalChanges, cancelRemoveCreationDate)
+          )
+        );
+        console.log("FETCHED DATA: ", documentData);
+        setDoc(
+          doc(db, path, documentID),
+          removeNullUndefined(
+            removeCreationDate(finalChanges, cancelRemoveCreationDate)
+          ),
+          {
+            merge: true,
           }
         );
-      });
-    } else {
-      delete finalChanges.head.headerImage;
-      console.log(
-        "UPLOADED DOCUMENT: ",
-        removeNullUndefined(removeCreationDate(finalChanges))
-      );
-      setDoc(
-        doc(db, path, documentID),
-        removeNullUndefined(removeCreationDate(finalChanges)),
-        {
-          merge: true,
-        }
-      );
-    }
+      }
+    });
   };
 
   const updateDraftHeaderImage = (event, entryID) => {

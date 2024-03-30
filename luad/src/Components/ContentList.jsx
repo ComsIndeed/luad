@@ -8,6 +8,42 @@ import notFoundImage from "../Assets/notFound.webp";
 import "animate.css";
 import { Icon } from "@iconify/react";
 import { useScreenSize } from "../Library/customHooks";
+import { Timestamp } from "firebase/firestore";
+
+function formatTimeElapsed(date) {
+  let originalDate = date;
+
+  // Convert Firestore Timestamp to JavaScript Date if needed
+  if (date instanceof Timestamp) {
+    originalDate = date.toDate();
+  }
+
+  const now = new Date();
+  const elapsedMilliseconds = now - originalDate;
+  const elapsedSeconds = elapsedMilliseconds / 1000;
+  const elapsedMinutes = elapsedSeconds / 60;
+  const elapsedHours = elapsedMinutes / 60;
+  const elapsedDays = elapsedHours / 24;
+  const elapsedWeeks = elapsedDays / 7;
+  const elapsedMonths = elapsedDays / 30.44; // Average days in a month
+  const elapsedYears = elapsedDays / 365.25; // Average days in a year
+
+  if (elapsedYears >= 1) {
+    return `${Math.floor(elapsedYears)}y`;
+  } else if (elapsedMonths >= 1) {
+    return `${Math.floor(elapsedMonths)}m`;
+  } else if (elapsedWeeks >= 1) {
+    return `${Math.floor(elapsedWeeks)}w`;
+  } else if (elapsedDays >= 1) {
+    return `${Math.floor(elapsedDays)}d`;
+  } else if (elapsedHours >= 1) {
+    return `${Math.floor(elapsedHours)}h`;
+  } else if (elapsedMinutes >= 1) {
+    return `${Math.floor(elapsedMinutes)}m`;
+  } else {
+    return `${Math.floor(elapsedSeconds)}s`;
+  }
+}
 
 function ContentCard({ entry }) {
   const [currentHeaderImage, setCurrentHeaderImage] = useState(() => {
@@ -47,14 +83,19 @@ function ContentCard({ entry }) {
           <span className="ContentCard-author">
             <Icon className="ContentCard-author-icon" icon="mdi:user" />
             <p className="ContentCard-author-text">{entry.head.author}</p>
+            {entry?.head?.creationDateRaw && (
+              <>
+                <p> • {formatTimeElapsed(entry?.head?.creationDateRaw)}</p>
+              </>
+            )}
           </span>
           <h3 className="ContentCard-title"> {entry.head.title} </h3>
           <p className="ContentCard-body animate__animated animate__fadeInUp">
-            {entry.body
-              .replaceAll("#", "")
-              .replaceAll("*", "")
-              .replaceAll("<br />", " ")
-              .substr(0, 194)}
+            {entry?.body
+              ?.replaceAll("#", "")
+              ?.replaceAll("*", "")
+              ?.replaceAll("<br />", " ")
+              ?.substr(0, 194)}
             ...
           </p>
         </div>

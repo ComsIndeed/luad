@@ -7,10 +7,17 @@ import Navigation from "./Components/Navigation";
 import { ThemeProvider } from "./Configuration/ThemeContext";
 import { useScreenSize } from "./Library/customHooks";
 import NotFound from "./Pages/NotFound";
-import AccountPage from "./Pages/AccountPage";
 import AdminPage from "./Pages/AdminPage/AdminPage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./Library/firebase";
+import { Loading } from "./Reusables/Loading";
+
+const AccountPage = React.lazy(() => import("./Pages/AccountPage"));
+// const x = React.lazy(() => import("./x"));
+// const x = React.lazy(() => import("./x"));
+// const x = React.lazy(() => import("./x"));
+// const x = React.lazy(() => import("./x"));
+// const x = React.lazy(() => import("./x"));
 
 export default function App() {
   let location = useLocation();
@@ -45,7 +52,14 @@ export default function App() {
               element={<Homepage isAdmin={isAdmin} />}
             />
             <Route path={paths.documentPage} element={<DocumentPage />} />
-            <Route path={paths.accountPage} element={<AccountPage />} />
+            <Route
+              path={paths.accountPage}
+              element={
+                <React.Suspense fallback={<Loading />}>
+                  <AccountPage />
+                </React.Suspense>
+              }
+            />
             <Route
               path={paths.adminPage}
               element={<AdminPage isAdmin={isAdmin} />}

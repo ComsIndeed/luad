@@ -33,8 +33,12 @@ export function DocumentPage() {
   }, []);
 
   useEffect(() => {
-    console.log({ text });
-  }, [text]);
+    console.log(JSON.stringify(text, null, 2));
+    console.log(currentDocument?.head?.creationDateRaw);
+    console.log(
+      Object.prototype.toString.call(currentDocument?.head?.creationDateRaw)
+    );
+  }, [text, currentDocument]);
 
   useEffect(() => {
     fetchFromFirestore("documents", id, true).then((fetchedDocument) => {
@@ -66,13 +70,6 @@ export function DocumentPage() {
         <Markdown
           children={text}
           className="animate__animated animate__fadeIn"
-          // options={{
-          //   overrides: {
-          //     p: {
-          //       component: NewlineToBreakComponent,
-          //     },
-          //   },
-          // }}
         />
       </div>
     </>
