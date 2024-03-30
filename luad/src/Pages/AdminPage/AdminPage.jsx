@@ -1,8 +1,9 @@
-import ContentManagement from "./ContentManagementSection";
 import Dashboard from "./Dashboard";
 import React from "react";
 
-// React.lazy()
+const ContentManagement = React.lazy(() =>
+  import("./ContentManagementSection")
+);
 
 export default function AdminPage({ isAdmin }) {
   return (
@@ -11,7 +12,9 @@ export default function AdminPage({ isAdmin }) {
         {isAdmin ? (
           <>
             <Dashboard />
-            <ContentManagement />
+            <React.Suspense>
+              <ContentManagement />
+            </React.Suspense>
           </>
         ) : (
           <h1>Error: Not enough permissions.</h1>
