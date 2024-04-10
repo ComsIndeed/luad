@@ -141,16 +141,20 @@ function ContentDisplay({ entries, selectedCategory }) {
   );
 }
 
+import { searchByMatchPercentage } from "../Library/searchLib";
 function QueriedList({ entries, selectedCategory, searchBarValue }) {
   const [isEmpty, setIsEmpty] = useState(false);
   const [resultedList, setResultedList] = useState([]);
 
-  // useEffect(() => {
-  //   if (selectedCategory === "all") {
-  //     setResultedList(entries.filter(entry => ))
-  //   } else {
-  //   }
-  // }, [selectedCategory, entries, searchBarValue]);
+  // ! YOU INSTALLED A LIBRARY FOR MATCHING, CHECK BROWSING HISTORY
+
+  useEffect(() => {
+    if (selectedCategory === "all") {
+      console.log(searchBarValue);
+      setResultedList(searchByMatchPercentage(entries, searchBarValue));
+    } else {
+    }
+  }, [selectedCategory, entries, searchBarValue]);
 
   return (
     <>
