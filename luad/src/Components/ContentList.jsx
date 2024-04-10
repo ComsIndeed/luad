@@ -141,7 +141,30 @@ function ContentDisplay({ entries, selectedCategory }) {
   );
 }
 
-export function ContentList({ selectedCategory }) {
+function QueriedList({ entries, selectedCategory, searchBarValue }) {
+  const [isEmpty, setIsEmpty] = useState(false);
+  const [resultedList, setResultedList] = useState([]);
+
+  // useEffect(() => {
+  //   if (selectedCategory === "all") {
+  //     setResultedList(entries.filter(entry => ))
+  //   } else {
+  //   }
+  // }, [selectedCategory, entries, searchBarValue]);
+
+  return (
+    <>
+      {isEmpty && <h2>Lookin' empty here..</h2>}
+      <div className="ContentGrid">
+        {resultedList.map((entry) => {
+          return <ContentCard entry={entry} />;
+        })}
+      </div>
+    </>
+  );
+}
+
+export function ContentList({ selectedCategory, searchBarValue }) {
   const [collectionList, setCollectionList] = useState(null);
 
   useEffect(() => {
@@ -163,10 +186,18 @@ export function ContentList({ selectedCategory }) {
   return (
     <>
       <div className="Contents">
-        <ContentDisplay
-          entries={collectionList}
-          selectedCategory={selectedCategory}
-        />
+        {searchBarValue === "" ? (
+          <ContentDisplay
+            entries={collectionList}
+            selectedCategory={selectedCategory}
+          />
+        ) : (
+          <QueriedList
+            entries={collectionList}
+            searchBarValue={searchBarValue}
+            selectedCategory={selectedCategory}
+          />
+        )}
       </div>
     </>
   );

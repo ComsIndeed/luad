@@ -26,6 +26,7 @@ import { ContentList } from "../Components/ContentList";
 
 export function Homepage({ isAdmin }) {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchBarValue, setSearchBarValue] = useState("");
 
   return (
     <>
@@ -35,8 +36,13 @@ export function Homepage({ isAdmin }) {
           isAdmin={isAdmin}
           setSelectedCategory={setSelectedCategory}
           selectedCategory={selectedCategory}
+          setSearchBarValue={setSearchBarValue}
+          searchBarValue={searchBarValue}
         />
-        <ContentList selectedCategory={selectedCategory} />
+        <ContentList
+          selectedCategory={selectedCategory}
+          searchBarValue={searchBarValue}
+        />
       </div>
     </>
   );

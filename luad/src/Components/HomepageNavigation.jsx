@@ -6,7 +6,7 @@ import { paths } from "../Configuration/paths";
 import "animate.css";
 import { Content } from "../Configuration/config";
 
-function SearchBar() {
+function SearchBar({ setSearchBarValue }) {
   return (
     <div className="SearchBar">
       <Icon
@@ -21,6 +21,9 @@ function SearchBar() {
         placeholder="Search"
         className="SearchBar-Input"
         id="HomepageNavigation-SearchBar"
+        onChange={(e) => {
+          setSearchBarValue(e.target.value);
+        }}
       />
     </div>
   );
@@ -74,7 +77,13 @@ function Buttons({ isAdmin }) {
   );
 }
 
-function ForDesktops({ isAdmin, setSelectedCategory, selectedCategory }) {
+function ForDesktops({
+  isAdmin,
+  setSelectedCategory,
+  selectedCategory,
+  setSearchBarValue,
+  searchBarValue,
+}) {
   return (
     <>
       <div className="left">
@@ -89,19 +98,31 @@ function ForDesktops({ isAdmin, setSelectedCategory, selectedCategory }) {
       </div>
 
       <div className="right">
-        <SearchBar />
+        <SearchBar
+          setSearchBarValue={setSearchBarValue}
+          searchBarValue={searchBarValue}
+        />
       </div>
     </>
   );
 }
 
-function ForTablets({ isAdmin, setSelectedCategory, selectedCategory }) {
+function ForTablets({
+  isAdmin,
+  setSelectedCategory,
+  selectedCategory,
+  setSearchBarValue,
+  searchBarValue,
+}) {
   return (
     <>
       <div className="top">
         <Buttons isAdmin={isAdmin} />
 
-        <SearchBar />
+        <SearchBar
+          setSearchBarValue={setSearchBarValue}
+          searchBarValue={searchBarValue}
+        />
       </div>
       <div className="bottom">
         <div className="center">
@@ -114,13 +135,22 @@ function ForTablets({ isAdmin, setSelectedCategory, selectedCategory }) {
     </>
   );
 }
-function ForPhones({ isAdmin, setSelectedCategory, selectedCategory }) {
+function ForPhones({
+  isAdmin,
+  setSelectedCategory,
+  selectedCategory,
+  setSearchBarValue,
+  searchBarValue,
+}) {
   return (
     <>
       <div className="top">
         <Buttons isAdmin={isAdmin} />
 
-        <SearchBar />
+        <SearchBar
+          setSearchBarValue={setSearchBarValue}
+          searchBarValue={searchBarValue}
+        />
       </div>
       <div className="bottom">
         <div className="center">
@@ -138,6 +168,8 @@ export function HomepageNavigation({
   isAdmin,
   setSelectedCategory,
   selectedCategory,
+  searchBarValue,
+  setSearchBarValue,
 }) {
   const { isDesktop, isTablet, isPhone } = useScreenSize();
 
@@ -149,6 +181,8 @@ export function HomepageNavigation({
             isAdmin={isAdmin}
             setSelectedCategory={setSelectedCategory}
             selectedCategory={selectedCategory}
+            searchBarValue={searchBarValue}
+            setSearchBarValue={setSearchBarValue}
           />
         )}
         {isTablet && (
@@ -156,6 +190,8 @@ export function HomepageNavigation({
             isAdmin={isAdmin}
             setSelectedCategory={setSelectedCategory}
             selectedCategory={selectedCategory}
+            searchBarValue={searchBarValue}
+            setSearchBarValue={setSearchBarValue}
           />
         )}
         {isPhone && (
@@ -163,6 +199,8 @@ export function HomepageNavigation({
             isAdmin={isAdmin}
             setSelectedCategory={setSelectedCategory}
             selectedCategory={selectedCategory}
+            searchBarValue={searchBarValue}
+            setSearchBarValue={setSearchBarValue}
           />
         )}
       </div>
