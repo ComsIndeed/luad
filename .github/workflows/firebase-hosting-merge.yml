@@ -11,7 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: cd luad && npm ci && npm run build
+      - run: cd luad && npm ci
+      - uses: gha-utilities/sass-build@v0.6.0
+        with:
+          source: ./luad/src/main.sass
+          destination: ./luad/src/main.css
+      - run: cd luad && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
