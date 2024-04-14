@@ -104,6 +104,7 @@ function ContentCard({ entry }) {
   );
 }
 
+// ! Handles categories, must not display when theres search queries
 function ContentDisplay({ entries, selectedCategory }) {
   const [isEmpty, setIsEmpty] = useState(false);
 
@@ -141,6 +142,7 @@ function ContentDisplay({ entries, selectedCategory }) {
   );
 }
 
+// ! Handles search queries and will handle categories if theres a search, only displays when theres a search
 import { sortByMatch } from "../Library/searchLib";
 function QueriedList({ entries, selectedCategory, searchBarValue }) {
   const [isEmpty, setIsEmpty] = useState(false);
@@ -151,17 +153,27 @@ function QueriedList({ entries, selectedCategory, searchBarValue }) {
     if (selectedCategory === "all") {
       const sortedList = sortByMatch(entries, searchBarValue);
       setResultedList(sortedList);
-    } else {
+    }
+    // ! If with category
+    else {
+      console.log("ENTRIES: ", entries);
+      const filteredEntries = entries.filter((entry) => {
+        return entry?.head?.meta?.category?.includes(selectedCategory);
+      });
+      console.log("FILTERED ENTRIES: ", filteredEntries);
+      const sortedList = sortByMatch(filteredEntries, searchBarValue);
+      setResultedList(sortedList);
     }
   }, [selectedCategory, entries, searchBarValue]);
 
   return (
     <>
-      {isEmpty && <h2>Lookin' empty here..</h2>}
+      {resultedList.length === 0 && <h2>Lookin' empty here..</h2>}
       <div className="ContentGrid">
-        {resultedList.map((entry) => {
-          return <ContentCard entry={entry} key={entry?.id} />;
-        })}
+        {resultedList.length > 0 &&
+          resultedList.map((entry) => {
+            return <ContentCard entry={entry} key={entry?.id} />;
+          })}
       </div>
     </>
   );
