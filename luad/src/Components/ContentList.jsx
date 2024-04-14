@@ -77,19 +77,19 @@ function ContentCard({ entry }) {
           width={isDesktop ? 360 : 280}
           height={isDesktop ? 270 : 210}
           src={currentHeaderImage || notFoundImage}
-          alt={`Thumbnail for the article: "${entry.head.title}"`}
+          alt={`Thumbnail for the article: "${entry?.head?.title}"`}
         />
         <div className="ContentCard-text">
           <span className="ContentCard-author">
             <Icon className="ContentCard-author-icon" icon="mdi:user" />
-            <p className="ContentCard-author-text">{entry.head.author}</p>
+            <p className="ContentCard-author-text">{entry?.head?.author}</p>
             {entry?.head?.creationDateRaw && (
               <>
                 <p> • {formatTimeElapsed(entry?.head?.creationDateRaw)}</p>
               </>
             )}
           </span>
-          <h3 className="ContentCard-title"> {entry.head.title} </h3>
+          <h3 className="ContentCard-title"> {entry?.head?.title} </h3>
           <p className="ContentCard-body animate__animated animate__fadeInUp">
             {entry?.body
               ?.replaceAll("#", "")
@@ -141,17 +141,16 @@ function ContentDisplay({ entries, selectedCategory }) {
   );
 }
 
-import { searchByMatchPercentage } from "../Library/searchLib";
+import { sortByMatch } from "../Library/searchLib";
 function QueriedList({ entries, selectedCategory, searchBarValue }) {
   const [isEmpty, setIsEmpty] = useState(false);
   const [resultedList, setResultedList] = useState([]);
 
-  // ! YOU INSTALLED A LIBRARY FOR MATCHING, CHECK BROWSING HISTORY
-
   useEffect(() => {
+    // ! If no category
     if (selectedCategory === "all") {
-      console.log(searchBarValue);
-      setResultedList(searchByMatchPercentage(entries, searchBarValue));
+      const sortedList = sortByMatch(entries, searchBarValue);
+      setResultedList(sortedList);
     } else {
     }
   }, [selectedCategory, entries, searchBarValue]);
@@ -161,7 +160,7 @@ function QueriedList({ entries, selectedCategory, searchBarValue }) {
       {isEmpty && <h2>Lookin' empty here..</h2>}
       <div className="ContentGrid">
         {resultedList.map((entry) => {
-          return <ContentCard entry={entry} />;
+          return <ContentCard entry={entry} key={entry?.id} />;
         })}
       </div>
     </>

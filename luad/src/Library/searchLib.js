@@ -1,21 +1,43 @@
-function flattenObject(obj, prefix = "") {
-  let flattened = {};
-  for (let key in obj) {
-    if (typeof obj[key] === "object" && obj[key] !== null) {
-      Object.assign(flattened, flattenObject(obj[key], `${prefix}${key}_`));
-    } else {
-      flattened[`${prefix}${key}`] = obj[key];
-    }
-  }
-  return flattened;
+import { matchSorter } from "match-sorter";
+
+function createQueryItemString(documentItem) {
+  return `<ID>${documentItem?.id}</ID> ${documentItem?.head?.author || ""}${
+    documentItem?.head?.author || ""
+  }${documentItem?.head?.author || ""}${documentItem?.head?.author || ""}${
+    documentItem?.head?.author || ""
+  } ${documentItem?.head?.title || ""}${documentItem?.head?.title || ""}${
+    documentItem?.head?.title || ""
+  }${documentItem?.body || ""}`;
+}
+
+function documentListToQueryList(documentList) {
+  return documentList.map((document) => {
+    return createQueryItemString(document);
+  });
+}
+
+function extractIdFromQueryItem(queryItem) {
+  const regex = /<ID>(.*?)<\/ID>/;
+  const match = queryItem.match(regex);
+  return match ? match[1] : null;
 }
 
 export function sortByMatch(documentList, query) {
-  let sortedList = [];
+  const queryList = documentListToQueryList(documentList);
 
-  const flattenedObjectList = documentList.forEach((document) => {
-    return flattenObject(document);
+  const matchedQueries = matchSorter(queryList, query, {
+    keepDiacritics: true,
   });
 
-  return sortedList;
+  const matchedDocumentIds = matchedQueries.map((matchedQueryItem) => {
+    return extractIdFromQueryItem(matchedQueryItem);
+  });
+
+  const matchedDocuments = matchedDocumentIds.map((documentID) => {
+    return documentList.find((documentItem) => {
+      return documentID === documentItem.id;
+    });
+  });
+
+  return matchedDocuments;
 }
